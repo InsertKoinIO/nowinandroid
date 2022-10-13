@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches:
-      - main
+      - koin
   pull_request:
 concurrency:
   group: build-${{ github.ref }}
@@ -33,5 +33,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
+      - name: Check spotless
+        run: ./gradlew spotlessCheck --init-script gradle/init.gradle.kts --no-configuration-cache --stacktrace
+
+      - name: Check lint
+        run: ./gradlew lintDemoDebug --stacktrace
+
       - name: Build all build type and flavor permutations
-        run: ./gradlew clean app:assembleDebug --stacktrace
+        run: ./gradlew assemble --stacktrace
