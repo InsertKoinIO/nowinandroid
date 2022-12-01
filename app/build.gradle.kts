@@ -114,6 +114,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.window.manager)
     implementation(libs.androidx.profileinstaller)
+    implementation(libs.koin.workmanager)
 
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.svg)
