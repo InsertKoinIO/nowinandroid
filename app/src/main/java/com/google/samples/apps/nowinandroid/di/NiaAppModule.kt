@@ -18,11 +18,12 @@ package com.google.samples.apps.nowinandroid.di
 
 import com.google.samples.apps.nowinandroid.MainActivityViewModel
 import com.google.samples.apps.nowinandroid.core.data.di.dataModule
+import com.google.samples.apps.nowinandroid.sync.di.syncKoinModule
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 // Main Koin Module
 val niaAppModule = module {
-    includes(jankStatsModule, dataModule)
+    includes(jankStatsModule, dataModule,syncKoinModule)
     viewModelOf(::MainActivityViewModel)
 }

@@ -40,7 +40,7 @@ class NiaApplication : Application(), ImageLoaderFactory {
         startKoin {
             androidLogger()
             androidContext(this@NiaApplication)
-//            workManagerFactory()
+            workManagerFactory()
             modules(niaAppModule)
         }
 
