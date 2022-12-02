@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("nowinandroid.android.library")
-    id("nowinandroid.android.library.jacoco")
-    id("nowinandroid.android.hilt")
-}
 
-android {
-    namespace = "com.google.samples.apps.nowinandroid.core.common"
-}
+package com.google.samples.apps.nowinandroid.core.database
 
-dependencies {
-    implementation(libs.koin.android)
-    implementation(libs.kotlinx.coroutines.android)
-    testImplementation(project(":core:testing"))
+import org.koin.dsl.module
+
+val daosKoinModule = module {
+    single { get<NiaDatabase>().authorDao() }
+    single { get<NiaDatabase>().topicDao() }
+    single { get<NiaDatabase>().newsResourceDao() }
 }

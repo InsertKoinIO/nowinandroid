@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("nowinandroid.android.library")
-    id("nowinandroid.android.library.jacoco")
-    id("nowinandroid.android.hilt")
-}
 
-android {
-    namespace = "com.google.samples.apps.nowinandroid.core.common"
-}
+package com.google.samples.apps.nowinandroid.core.database
 
-dependencies {
-    implementation(libs.koin.android)
-    implementation(libs.kotlinx.coroutines.android)
-    testImplementation(project(":core:testing"))
+import androidx.room.Room
+import org.koin.android.ext.koin.androidContext
+import org.koin.dsl.module
+
+val databaseKoinModule = module {
+    single {
+        Room.databaseBuilder(
+            androidContext(),
+            NiaDatabase::class.java,
+            "nia-database"
+        ).build()
+    }
 }

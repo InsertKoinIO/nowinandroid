@@ -13,18 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("nowinandroid.android.library")
-    id("nowinandroid.android.library.jacoco")
-    id("nowinandroid.android.hilt")
-}
 
-android {
-    namespace = "com.google.samples.apps.nowinandroid.core.common"
-}
+package com.google.samples.apps.nowinandroid.core.network.di
 
-dependencies {
-    implementation(libs.koin.android)
-    implementation(libs.kotlinx.coroutines.android)
-    testImplementation(project(":core:testing"))
+import kotlinx.coroutines.Dispatchers
+import org.koin.dsl.module
+
+val dispatchersKoinModule = module {
+    single { Dispatchers.IO }
 }

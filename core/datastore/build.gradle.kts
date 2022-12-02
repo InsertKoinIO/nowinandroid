@@ -61,6 +61,7 @@ dependencies {
     testImplementation(project(":core:testing"))
     testImplementation(project(":core:datastore-test"))
 
+    implementation(libs.koin.android)
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.androidx.dataStore.core)
