@@ -34,7 +34,6 @@ import com.google.samples.apps.nowinandroid.core.datastore.ChangeListVersions
 import com.google.samples.apps.nowinandroid.core.model.data.NewsResource
 import com.google.samples.apps.nowinandroid.core.network.NiaNetworkDataSource
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkNewsResource
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -42,7 +41,7 @@ import kotlinx.coroutines.flow.map
  * Disk storage backed implementation of the [NewsRepository].
  * Reads are exclusively from local storage to support offline access.
  */
-class OfflineFirstNewsRepository @Inject constructor(
+class OfflineFirstNewsRepository(
     private val newsResourceDao: NewsResourceDao,
     private val authorDao: AuthorDao,
     private val topicDao: TopicDao,

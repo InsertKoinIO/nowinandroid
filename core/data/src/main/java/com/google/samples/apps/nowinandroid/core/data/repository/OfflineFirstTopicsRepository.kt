@@ -26,7 +26,6 @@ import com.google.samples.apps.nowinandroid.core.datastore.ChangeListVersions
 import com.google.samples.apps.nowinandroid.core.model.data.Topic
 import com.google.samples.apps.nowinandroid.core.network.NiaNetworkDataSource
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkTopic
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -34,7 +33,7 @@ import kotlinx.coroutines.flow.map
  * Disk storage backed implementation of the [TopicsRepository].
  * Reads are exclusively from local storage to support offline access.
  */
-class OfflineFirstTopicsRepository @Inject constructor(
+class OfflineFirstTopicsRepository(
     private val topicDao: TopicDao,
     private val network: NiaNetworkDataSource,
 ) : TopicsRepository {

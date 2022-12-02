@@ -19,10 +19,7 @@ package com.google.samples.apps.nowinandroid.core.data.repository.fake
 import com.google.samples.apps.nowinandroid.core.data.Synchronizer
 import com.google.samples.apps.nowinandroid.core.data.repository.AuthorsRepository
 import com.google.samples.apps.nowinandroid.core.model.data.Author
-import com.google.samples.apps.nowinandroid.core.network.Dispatcher
-import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.IO
 import com.google.samples.apps.nowinandroid.core.network.fake.FakeNiaNetworkDataSource
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -35,8 +32,8 @@ import kotlinx.coroutines.flow.map
  * This allows us to run the app with fake data, without needing an internet connection or working
  * backend.
  */
-class FakeAuthorsRepository @Inject constructor(
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+class FakeAuthorsRepository(
+    private val ioDispatcher: CoroutineDispatcher,
     private val datasource: FakeNiaNetworkDataSource
 ) : AuthorsRepository {
 

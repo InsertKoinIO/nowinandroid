@@ -26,7 +26,6 @@ import com.google.samples.apps.nowinandroid.core.datastore.ChangeListVersions
 import com.google.samples.apps.nowinandroid.core.model.data.Author
 import com.google.samples.apps.nowinandroid.core.network.NiaNetworkDataSource
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkAuthor
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -34,7 +33,7 @@ import kotlinx.coroutines.flow.map
  * Disk storage backed implementation of the [AuthorsRepository].
  * Reads are exclusively from local storage to support offline access.
  */
-class OfflineFirstAuthorsRepository @Inject constructor(
+class OfflineFirstAuthorsRepository(
     private val authorDao: AuthorDao,
     private val network: NiaNetworkDataSource,
 ) : AuthorsRepository {

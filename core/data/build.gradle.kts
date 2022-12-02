@@ -16,7 +16,7 @@
 plugins {
     id("nowinandroid.android.library")
     id("nowinandroid.android.library.jacoco")
-    id("nowinandroid.android.hilt")
+//    id("nowinandroid.android.hilt")
     id("kotlinx-serialization")
 }
 

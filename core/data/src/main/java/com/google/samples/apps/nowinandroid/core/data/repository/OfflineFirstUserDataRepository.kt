@@ -20,10 +20,9 @@ import com.google.samples.apps.nowinandroid.core.datastore.NiaPreferencesDataSou
 import com.google.samples.apps.nowinandroid.core.model.data.DarkThemeConfig
 import com.google.samples.apps.nowinandroid.core.model.data.ThemeBrand
 import com.google.samples.apps.nowinandroid.core.model.data.UserData
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
-class OfflineFirstUserDataRepository @Inject constructor(
+class OfflineFirstUserDataRepository(
     private val niaPreferencesDataSource: NiaPreferencesDataSource
 ) : UserDataRepository {
 
