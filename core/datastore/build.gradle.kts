@@ -24,7 +24,7 @@ import com.google.protobuf.gradle.protoc
 plugins {
     id("nowinandroid.android.library")
     id("nowinandroid.android.library.jacoco")
-    id("nowinandroid.android.hilt")
+//    id("nowinandroid.android.hilt")
     alias(libs.plugins.protobuf)
 }
 
