@@ -21,7 +21,6 @@ import com.google.samples.apps.nowinandroid.core.data.repository.UserDataReposit
 import com.google.samples.apps.nowinandroid.core.domain.TopicSortField.NAME
 import com.google.samples.apps.nowinandroid.core.domain.TopicSortField.NONE
 import com.google.samples.apps.nowinandroid.core.domain.model.FollowableTopic
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -29,7 +28,7 @@ import kotlinx.coroutines.flow.map
 /**
  * A use case which obtains a list of topics with their followed state.
  */
-class GetFollowableTopicsStreamUseCase @Inject constructor(
+class GetFollowableTopicsStreamUseCase(
     private val topicsRepository: TopicsRepository,
     private val userDataRepository: UserDataRepository
 ) {

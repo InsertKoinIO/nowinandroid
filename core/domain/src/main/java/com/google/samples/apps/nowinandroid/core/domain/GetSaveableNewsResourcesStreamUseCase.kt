@@ -20,7 +20,6 @@ import com.google.samples.apps.nowinandroid.core.data.repository.NewsRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.UserDataRepository
 import com.google.samples.apps.nowinandroid.core.domain.model.SaveableNewsResource
 import com.google.samples.apps.nowinandroid.core.model.data.NewsResource
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNot
@@ -30,7 +29,7 @@ import kotlinx.coroutines.flow.map
  * A use case responsible for obtaining news resources with their associated bookmarked (also known
  * as "saved") state.
  */
-class GetSaveableNewsResourcesStreamUseCase @Inject constructor(
+class GetSaveableNewsResourcesStreamUseCase(
     private val newsRepository: NewsRepository,
     userDataRepository: UserDataRepository
 ) {
