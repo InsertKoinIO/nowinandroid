@@ -54,6 +54,5 @@ class SyncInitializer : Initializer<Sync> {
         return Sync
     }
 
-    override fun dependencies(): List<Class<out Initializer<*>>> =
-        listOf(WorkManagerInitializer::class.java)
+    override fun dependencies(): List<Class<out Initializer<*>>> = listOf()
 }
