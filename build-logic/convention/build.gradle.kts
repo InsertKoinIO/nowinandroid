@@ -64,10 +64,10 @@ gradlePlugin {
             id = "nowinandroid.android.test"
             implementationClass = "AndroidTestConventionPlugin"
         }
-        register("androidHilt") {
-            id = "nowinandroid.android.hilt"
-            implementationClass = "AndroidHiltConventionPlugin"
-        }
+//        register("androidHilt") {
+//            id = "nowinandroid.android.hilt"
+//            implementationClass = "AndroidHiltConventionPlugin"
+//        }
         register("firebase-perf") {
             id = "nowinandroid.firebase-perf"
             implementationClass = "FirebasePerfConventionPlugin"
