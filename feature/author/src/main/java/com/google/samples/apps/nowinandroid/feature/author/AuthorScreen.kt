@@ -44,7 +44,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -61,13 +60,14 @@ import com.google.samples.apps.nowinandroid.core.model.data.previewNewsResources
 import com.google.samples.apps.nowinandroid.core.ui.DevicePreviews
 import com.google.samples.apps.nowinandroid.core.ui.TrackScrollJank
 import com.google.samples.apps.nowinandroid.core.ui.newsResourceCardItems
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 internal fun AuthorRoute(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: AuthorViewModel = hiltViewModel(),
+    viewModel: AuthorViewModel = koinViewModel(),
 ) {
     val authorUiState: AuthorUiState by viewModel.authorUiState.collectAsStateWithLifecycle()
     val newsUiState: NewsUiState by viewModel.newsUiState.collectAsStateWithLifecycle()

@@ -16,33 +16,37 @@
 
 package com.google.samples.apps.nowinandroid.core.datastore.test
 
-import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
-import com.google.samples.apps.nowinandroid.core.datastore.UserPreferences
 import com.google.samples.apps.nowinandroid.core.datastore.UserPreferencesSerializer
-import com.google.samples.apps.nowinandroid.core.datastore.di.DataStoreModule
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.components.SingletonComponent
-import dagger.hilt.testing.TestInstallIn
-import javax.inject.Singleton
 import org.junit.rules.TemporaryFolder
 
-@Module
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [DataStoreModule::class]
-)
-object TestDataStoreModule {
-
-    @Provides
-    @Singleton
-    fun providesUserPreferencesDataStore(
-        userPreferencesSerializer: UserPreferencesSerializer,
-        tmpFolder: TemporaryFolder
-    ): DataStore<UserPreferences> =
-        tmpFolder.testUserPreferencesDataStore(userPreferencesSerializer)
-}
+//import androidx.datastore.core.DataStore
+//import androidx.datastore.core.DataStoreFactory
+//import com.google.samples.apps.nowinandroid.core.datastore.UserPreferences
+//import com.google.samples.apps.nowinandroid.core.datastore.UserPreferencesSerializer
+//import com.google.samples.apps.nowinandroid.core.datastore.di.DataStoreModule
+//import dagger.Module
+//import dagger.Provides
+//import dagger.hilt.components.SingletonComponent
+//import dagger.hilt.testing.TestInstallIn
+//import javax.inject.Singleton
+//import org.junit.rules.TemporaryFolder
+//
+//@Module
+//@TestInstallIn(
+//    components = [SingletonComponent::class],
+//    replaces = [DataStoreModule::class]
+//)
+//object TestDataStoreModule {
+//
+//    @Provides
+//    @Singleton
+//    fun providesUserPreferencesDataStore(
+//        userPreferencesSerializer: UserPreferencesSerializer,
+//        tmpFolder: TemporaryFolder
+//    ): DataStore<UserPreferences> =
+//        tmpFolder.testUserPreferencesDataStore(userPreferencesSerializer)
+//}
 
 fun TemporaryFolder.testUserPreferencesDataStore(
     userPreferencesSerializer: UserPreferencesSerializer = UserPreferencesSerializer()

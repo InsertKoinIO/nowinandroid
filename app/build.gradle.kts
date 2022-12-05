@@ -19,7 +19,7 @@ plugins {
     id("nowinandroid.android.application")
     id("nowinandroid.android.application.compose")
     id("nowinandroid.android.application.jacoco")
-    id("nowinandroid.android.hilt")
+//    id("nowinandroid.android.hilt")
     id("jacoco")
     id("nowinandroid.firebase-perf")
 }
@@ -110,7 +110,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.compose.runtime.tracing)
     implementation(libs.androidx.compose.material3.windowSizeClass)
-    implementation(libs.androidx.hilt.navigation.compose)
+//    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.window.manager)
     implementation(libs.androidx.profileinstaller)

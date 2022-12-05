@@ -15,7 +15,7 @@
  */
 plugins {
     id("nowinandroid.android.library")
-    id("nowinandroid.android.hilt")
+//    id("nowinandroid.android.hilt")
 }
 
 android {

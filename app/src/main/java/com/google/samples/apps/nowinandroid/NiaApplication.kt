@@ -22,7 +22,6 @@ import coil.ImageLoaderFactory
 import coil.decode.SvgDecoder
 import com.google.samples.apps.nowinandroid.di.niaAppModule
 import com.google.samples.apps.nowinandroid.sync.initializers.Sync
-import dagger.hilt.android.HiltAndroidApp
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
@@ -31,7 +30,6 @@ import org.koin.core.context.startKoin
 /**
  * [Application] class for NiA
  */
-@HiltAndroidApp
 class NiaApplication : Application(), ImageLoaderFactory {
     override fun onCreate() {
         super.onCreate()

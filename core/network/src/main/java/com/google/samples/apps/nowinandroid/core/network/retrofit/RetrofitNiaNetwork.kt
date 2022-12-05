@@ -23,8 +23,6 @@ import com.google.samples.apps.nowinandroid.core.network.model.NetworkChangeList
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkNewsResource
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkTopic
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -83,8 +81,7 @@ private data class NetworkResponse<T>(
 /**
  * [Retrofit] backed [NiaNetworkDataSource]
  */
-@Singleton
-class RetrofitNiaNetwork @Inject constructor(
+class RetrofitNiaNetwork(
     networkJson: Json
 ) : NiaNetworkDataSource {
 
