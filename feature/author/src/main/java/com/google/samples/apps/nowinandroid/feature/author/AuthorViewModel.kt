@@ -39,8 +39,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class AuthorViewModel @Inject constructor(
+class AuthorViewModel(
     savedStateHandle: SavedStateHandle,
     stringDecoder: StringDecoder,
     private val userDataRepository: UserDataRepository,

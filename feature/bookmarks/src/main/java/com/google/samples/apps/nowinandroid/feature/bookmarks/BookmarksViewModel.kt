@@ -33,8 +33,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class BookmarksViewModel @Inject constructor(
+class BookmarksViewModel(
     private val userDataRepository: UserDataRepository,
     getSaveableNewsResourcesStream: GetSaveableNewsResourcesStreamUseCase
 ) : ViewModel() {

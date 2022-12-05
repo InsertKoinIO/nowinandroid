@@ -14,21 +14,14 @@
  *   limitations under the License.
  */
 
-package com.google.samples.apps.nowinandroid.di
+package com.google.samples.apps.nowinandroid.feature.bookmarks.di
 
-import android.app.Activity
-import android.util.Log
-import androidx.metrics.performance.JankStats
+import com.google.samples.apps.nowinandroid.core.data.di.dataKoinModule
+import com.google.samples.apps.nowinandroid.feature.bookmarks.BookmarksViewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
-val jankStatsKoinModule = module {
-    factory { (activity: Activity) -> JankStats.createAndTrack(activity.window, createOnFrameListener()) }
-}
-
-private fun createOnFrameListener() = JankStats.OnFrameListener { frameData ->
-    // Make sure to only log janky frames.
-    if (frameData.isJank) {
-        // We're currently logging this but would better report it to a backend.
-        Log.v("NiA Jank", frameData.toString())
-    }
+val bookMarksKoinModule = module {
+    includes(dataKoinModule)
+    viewModelOf(::BookmarksViewModel)
 }

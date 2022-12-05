@@ -38,8 +38,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class ForYouViewModel @Inject constructor(
+class ForYouViewModel(
     syncStatusMonitor: SyncStatusMonitor,
     private val userDataRepository: UserDataRepository,
     private val getSaveableNewsResourcesStream: GetSaveableNewsResourcesStreamUseCase,

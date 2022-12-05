@@ -24,5 +24,6 @@ android {
 }
 
 dependencies {
+    implementation(libs.koin.android)
     implementation(libs.kotlinx.datetime)
 }

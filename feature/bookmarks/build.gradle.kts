@@ -25,4 +25,5 @@ android {
 
 dependencies {
     implementation(libs.androidx.compose.material3.windowSizeClass)
+    implementation(libs.koin.android)
 }

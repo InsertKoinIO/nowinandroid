@@ -35,8 +35,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class InterestsViewModel @Inject constructor(
+class InterestsViewModel(
     val userDataRepository: UserDataRepository,
     getFollowableTopicsStream: GetFollowableTopicsStreamUseCase,
     getSortedFollowableAuthorsStream: GetSortedFollowableAuthorsStreamUseCase
