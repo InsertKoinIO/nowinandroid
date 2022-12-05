@@ -17,11 +17,12 @@
 package com.google.samples.apps.nowinandroid.feature.bookmarks.di
 
 import com.google.samples.apps.nowinandroid.core.data.di.dataKoinModule
+import com.google.samples.apps.nowinandroid.core.domain.domainKoinModule
 import com.google.samples.apps.nowinandroid.feature.bookmarks.BookmarksViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 val bookMarksKoinModule = module {
-    includes(dataKoinModule)
+    includes(domainKoinModule, dataKoinModule)
     viewModelOf(::BookmarksViewModel)
 }

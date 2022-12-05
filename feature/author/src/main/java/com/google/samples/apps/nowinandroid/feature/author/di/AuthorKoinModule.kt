@@ -17,11 +17,12 @@
 package com.google.samples.apps.nowinandroid.feature.author.di
 
 import com.google.samples.apps.nowinandroid.core.data.di.dataKoinModule
+import com.google.samples.apps.nowinandroid.core.domain.domainKoinModule
 import com.google.samples.apps.nowinandroid.feature.author.AuthorViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 val authorKoinModule = module {
-    includes(dataKoinModule)
+    includes(domainKoinModule, dataKoinModule)
     viewModelOf(::AuthorViewModel)
 }
