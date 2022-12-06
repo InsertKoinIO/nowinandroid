@@ -17,14 +17,13 @@
 package com.google.samples.apps.nowinandroid.di
 
 import com.google.samples.apps.nowinandroid.MainActivityViewModel
-import com.google.samples.apps.nowinandroid.core.data.di.dataKoinModule
 import com.google.samples.apps.nowinandroid.feature.author.di.authorKoinModule
 import com.google.samples.apps.nowinandroid.feature.bookmarks.di.bookMarksKoinModule
 import com.google.samples.apps.nowinandroid.feature.foryou.di.forYouKoinModule
 import com.google.samples.apps.nowinandroid.feature.interests.di.interestsKoinModule
 import com.google.samples.apps.nowinandroid.feature.settings.di.settingsKoinModule
 import com.google.samples.apps.nowinandroid.feature.topic.di.topicKoinModule
-import com.google.samples.apps.nowinandroid.sync.di.syncKoinModule
+import com.google.samples.apps.nowinandroid.sync.di.syncWorkerKoinModule
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -32,8 +31,7 @@ import org.koin.dsl.module
 val niaAppModule = module {
     includes(
         jankStatsKoinModule,
-        dataKoinModule,
-        syncKoinModule,
+        syncWorkerKoinModule,
         topicKoinModule,
         authorKoinModule,
         interestsKoinModule,

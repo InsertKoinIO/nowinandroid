@@ -16,7 +16,9 @@
 
 package com.google.samples.apps.nowinandroid.sync.di
 
+import com.google.samples.apps.nowinandroid.core.data.di.dataKoinModule
 import com.google.samples.apps.nowinandroid.core.data.util.SyncStatusMonitor
+import com.google.samples.apps.nowinandroid.core.network.di.dispatchersKoinModule
 import com.google.samples.apps.nowinandroid.sync.status.WorkManagerSyncStatusMonitor
 import com.google.samples.apps.nowinandroid.sync.workers.SyncWorker
 import org.koin.androidx.workmanager.dsl.workerOf
@@ -24,7 +26,8 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-val syncKoinModule = module {
+val syncWorkerKoinModule = module {
+    includes(dataKoinModule, dispatchersKoinModule)
     singleOf(::WorkManagerSyncStatusMonitor) { bind<SyncStatusMonitor>() }
     workerOf(::SyncWorker)
 }

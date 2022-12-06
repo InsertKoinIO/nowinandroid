@@ -21,7 +21,4 @@ plugins {
 android {
     namespace = "com.google.samples.apps.nowinandroid.feature.interests"
 }
-dependencies {
-    implementation(libs.koin.android)
-}
 

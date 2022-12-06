@@ -23,7 +23,4 @@ android {
     namespace = "com.google.samples.apps.nowinandroid.feature.settings"
 }
 
-dependencies {
-    implementation(libs.koin.android)
-}
 
