@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
     /**
      * Lazily inject [JankStats], which is used to track jank throughout the app.
      */
-    val lazyStats: JankStats by inject{ parametersOf(this) }
+    val lazyStats: JankStats by inject { parametersOf(this) }
 
     val networkMonitor: NetworkMonitor by inject()
 
