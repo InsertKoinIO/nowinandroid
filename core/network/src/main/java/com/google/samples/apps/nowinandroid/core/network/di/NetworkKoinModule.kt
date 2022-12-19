@@ -16,21 +16,11 @@
 
 package com.google.samples.apps.nowinandroid.core.network.di
 
-import com.google.samples.apps.nowinandroid.core.network.NiaNetworkDataSource
-import com.google.samples.apps.nowinandroid.core.network.fake.FakeAssetManager
-import com.google.samples.apps.nowinandroid.core.network.fake.FakeNiaNetworkDataSource
-import com.google.samples.apps.nowinandroid.core.network.retrofit.RetrofitNiaNetwork
 import kotlinx.serialization.json.Json
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.module.dsl.bind
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val networkKoinModule = module {
-    includes(dispatchersKoinModule)
+    includes(networkFlavoredKoinModule)
 
-    singleOf(::RetrofitNiaNetwork)
-    singleOf(::FakeNiaNetworkDataSource) { bind<NiaNetworkDataSource>()}
     single { Json { ignoreUnknownKeys = true } }
-    single { FakeAssetManager(androidContext().assets::open) }
 }

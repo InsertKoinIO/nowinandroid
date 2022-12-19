@@ -33,7 +33,6 @@ val dataStoreKoinModule = module {
     includes(dispatchersKoinModule)
 
     singleOf(::UserPreferencesSerializer)
-    singleOf(::NiaPreferencesDataSource)
     single {
         DataStoreFactory.create(
             serializer = get<UserPreferencesSerializer>(),
@@ -45,4 +44,5 @@ val dataStoreKoinModule = module {
             androidContext().dataStoreFile("user_preferences.pb")
         }
     }
+    singleOf(::NiaPreferencesDataSource)
 }

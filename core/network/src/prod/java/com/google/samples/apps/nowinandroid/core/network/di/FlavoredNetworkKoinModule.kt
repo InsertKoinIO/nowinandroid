@@ -1,3 +1,12 @@
+package com.google.samples.apps.nowinandroid.core.network.di
+
+import com.google.samples.apps.nowinandroid.core.network.NiaNetworkDataSource
+import com.google.samples.apps.nowinandroid.core.network.retrofit.RetrofitNiaNetwork
+import kotlinx.serialization.json.Json
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
+
 /*
  * Copyright 2022 The Android Open Source Project
  *
@@ -14,14 +23,8 @@
  * limitations under the License.
  */
 
-package com.google.samples.apps.nowinandroid.core.database
 
-import org.koin.dsl.module
-
-val daosKoinModule = module {
-    includes(databaseKoinModule)
-
-    single { get<NiaDatabase>().authorDao() }
-    single { get<NiaDatabase>().topicDao() }
-    single { get<NiaDatabase>().newsResourceDao() }
+val networkFlavoredKoinModule = module {
+    singleOf(::RetrofitNiaNetwork) { bind<NiaNetworkDataSource>()}
 }
+

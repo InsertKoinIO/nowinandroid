@@ -29,13 +29,14 @@ import com.google.samples.apps.nowinandroid.core.data.util.NetworkMonitor
 import com.google.samples.apps.nowinandroid.core.database.daosKoinModule
 import com.google.samples.apps.nowinandroid.core.database.databaseKoinModule
 import com.google.samples.apps.nowinandroid.core.datastore.di.dataStoreKoinModule
+import com.google.samples.apps.nowinandroid.core.network.di.dispatchersKoinModule
 import com.google.samples.apps.nowinandroid.core.network.di.networkKoinModule
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val dataKoinModule = module {
-    includes(daosKoinModule, databaseKoinModule, dataStoreKoinModule, networkKoinModule)
+    includes(daosKoinModule, dataStoreKoinModule, networkKoinModule, dispatchersKoinModule)
 
     singleOf(::OfflineFirstTopicsRepository) { bind<TopicsRepository>() }
     singleOf(::OfflineFirstAuthorsRepository) { bind<AuthorsRepository>() }
