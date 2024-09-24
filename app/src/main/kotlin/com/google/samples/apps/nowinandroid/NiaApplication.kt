@@ -35,8 +35,14 @@ class NiaApplication : Application(), ImageLoaderFactory {
     @Inject
     lateinit var profileVerifierLogger: ProfileVerifierLogger
 
+    companion object {
+        var startTime: Long = 0
+    }
+
     override fun onCreate() {
         super.onCreate()
+        startTime = System.currentTimeMillis()
+
         // Initialize Sync; the system responsible for keeping data in the app up to date.
         Sync.initialize(context = this)
         profileVerifierLogger()

@@ -39,6 +39,7 @@ import com.google.samples.apps.nowinandroid.MainActivityUiState.Loading
 import com.google.samples.apps.nowinandroid.MainActivityUiState.Success
 import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsHelper
 import com.google.samples.apps.nowinandroid.core.analytics.LocalAnalyticsHelper
+import com.google.samples.apps.nowinandroid.core.data.logMeasure
 import com.google.samples.apps.nowinandroid.core.data.repository.UserNewsResourceRepository
 import com.google.samples.apps.nowinandroid.core.data.util.NetworkMonitor
 import com.google.samples.apps.nowinandroid.core.data.util.TimeZoneMonitor
@@ -76,6 +77,15 @@ class MainActivity : ComponentActivity() {
     lateinit var userNewsResourceRepository: UserNewsResourceRepository
 
     private val viewModel: MainActivityViewModel by viewModels()
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            val endTime = System.currentTimeMillis()
+            val startupTime = endTime - NiaApplication.startTime
+            logMeasure("App startup time - $startupTime ms")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
