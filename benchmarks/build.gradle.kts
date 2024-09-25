@@ -26,6 +26,7 @@ android {
     defaultConfig {
         minSdk = 28
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"
 
         buildConfigField("String", "APP_BUILD_TYPE_SUFFIX", "\"\"")
     }

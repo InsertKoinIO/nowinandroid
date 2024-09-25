@@ -86,7 +86,7 @@ import androidx.tracing.trace
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus.Denied
 import com.google.accompanist.permissions.rememberPermissionState
-import com.google.samples.apps.nowinandroid.core.data.measurePerfs
+import com.google.samples.apps.nowinandroid.core.data.measureTime
 import com.google.samples.apps.nowinandroid.core.designsystem.component.DynamicAsyncImage
 import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaButton
 import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaIconToggleButton
@@ -110,7 +110,7 @@ import com.google.samples.apps.nowinandroid.core.ui.newsFeed
 internal fun ForYouScreen(
     onTopicClick: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: ForYouViewModel = measurePerfs { hiltViewModel() },
+    viewModel: ForYouViewModel = measureTime("ForYouViewModel") { hiltViewModel() },
 ) {
     val onboardingUiState by viewModel.onboardingUiState.collectAsStateWithLifecycle()
     val feedState by viewModel.feedState.collectAsStateWithLifecycle()

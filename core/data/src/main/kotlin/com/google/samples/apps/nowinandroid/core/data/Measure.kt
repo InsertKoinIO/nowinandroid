@@ -17,15 +17,25 @@
 package com.google.samples.apps.nowinandroid.core.data
 
 import android.util.Log
+import com.google.samples.apps.nowinandroid.core.data.Benchmark.measurePerformances
 import kotlin.time.measureTimedValue
 
-inline fun <reified T> measurePerfs(code : () -> T) : T{
-    val result = measureTimedValue(code)
-    val timeInMs = result.duration.inWholeMicroseconds / 1000.0
-    logMeasure("call: ${T::class.qualifiedName} -> $timeInMs ms")
-    return result.value
+/**
+ * To activate benchmarks monitoring
+ */
+object Benchmark {
+    var measurePerformances = true
 }
 
-fun logMeasure(msg : String){
-    Log.i("[MEASURE]",msg)
+inline fun <reified T> measureTime(tag : String, code : () -> T) : T{
+    return if (measurePerformances) {
+        val result = measureTimedValue(code)
+        val timeInMs = result.duration.inWholeMicroseconds / 1000.0
+        logBenchmark(tag,timeInMs)
+        result.value
+    } else code()
+}
+
+fun logBenchmark(tag : String, time : Double){
+    Log.i("[Benchmark]","$tag : $time ms")
 }
