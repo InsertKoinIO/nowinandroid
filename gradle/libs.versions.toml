@@ -57,7 +57,7 @@ secrets = "2.0.1"
 truth = "1.4.2"
 turbine = "1.1.0"
 # Koin
-koin = "4.0.0"
+koin = "4.0.1-Beta1"
 
 [bundles]
 androidx-compose-ui-test = ["androidx-compose-ui-test", "androidx-compose-ui-testManifest"]

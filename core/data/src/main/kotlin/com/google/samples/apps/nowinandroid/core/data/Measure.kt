@@ -17,23 +17,24 @@
 package com.google.samples.apps.nowinandroid.core.data
 
 import android.util.Log
-import com.google.samples.apps.nowinandroid.core.data.Benchmark.measurePerformances
 import kotlin.time.measureTimedValue
 
 /**
  * To activate benchmarks monitoring
  */
-object Benchmark {
-    var measurePerformances = true
-}
 
 inline fun <reified T> measureTime(tag : String, code : () -> T) : T{
-    return if (measurePerformances) {
-        val result = measureTimedValue(code)
-        val timeInMs = result.duration.inWholeMicroseconds / 1000.0
-        logBenchmark(tag,timeInMs)
-        result.value
-    } else code()
+    val result = measureTimedValue(code)
+    val timeInMs = result.duration.inWholeMicroseconds / 1000.0
+    logBenchmark(tag,timeInMs)
+    return result.value
+}
+
+inline fun <reified T> measureTimeLazy(tag : String, code : () -> Lazy<T>) : Lazy<T>{
+    val result = measureTimedValue(code)
+    val timeInMs = result.duration.inWholeMicroseconds / 1000.0
+    logBenchmark(tag,timeInMs)
+    return result.value
 }
 
 fun logBenchmark(tag : String, time : Double){

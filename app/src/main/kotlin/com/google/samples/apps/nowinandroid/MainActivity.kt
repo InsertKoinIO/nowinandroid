@@ -39,6 +39,7 @@ import com.google.samples.apps.nowinandroid.MainActivityUiState.Success
 import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsHelper
 import com.google.samples.apps.nowinandroid.core.analytics.LocalAnalyticsHelper
 import com.google.samples.apps.nowinandroid.core.data.logBenchmark
+import com.google.samples.apps.nowinandroid.core.data.measureTimeLazy
 import com.google.samples.apps.nowinandroid.core.data.repository.UserNewsResourceRepository
 import com.google.samples.apps.nowinandroid.core.data.util.NetworkMonitor
 import com.google.samples.apps.nowinandroid.core.data.util.TimeZoneMonitor
@@ -73,7 +74,7 @@ class MainActivity : ComponentActivity() {
 
     val userNewsResourceRepository: UserNewsResourceRepository by inject()
 
-    private val viewModel: MainActivityViewModel by viewModel()
+    private val viewModel: MainActivityViewModel by measureTimeLazy("MainActivityViewModel") { viewModel() }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)

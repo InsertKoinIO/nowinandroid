@@ -20,41 +20,33 @@ import android.app.Application
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import com.google.samples.apps.nowinandroid.di.appModule
-import com.google.samples.apps.nowinandroid.di.jankStatsKoinModule
 import com.google.samples.apps.nowinandroid.sync.initializers.Sync
 import com.google.samples.apps.nowinandroid.util.ProfileVerifierLogger
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
-import org.koin.androix.startup.KoinStartup.onKoinStartup
+import org.koin.androix.startup.KoinStartup
 import org.koin.core.annotation.KoinExperimentalAPI
-import org.koin.core.logger.Level.DEBUG
-import org.koin.java.KoinJavaComponent.inject
-import javax.inject.Inject
+import org.koin.dsl.KoinAppDeclaration
 
 /**
  * [Application] class for NiA
  */
 //@HiltAndroidApp
 @OptIn(KoinExperimentalAPI::class)
-class NiaApplication : Application(), ImageLoaderFactory {
+class NiaApplication : Application(), ImageLoaderFactory, KoinStartup {
 
+    override fun onKoinStartup(): KoinAppDeclaration = {
+        androidContext(this@NiaApplication)
+        modules(appModule)
+        workManagerFactory()
+    }
 
     val imageLoader: ImageLoader by inject()
     val profileVerifierLogger: ProfileVerifierLogger by inject()
 
     companion object {
         var startTime: Long = 0
-    }
-
-    init {
-        onKoinStartup {
-            androidContext(this@NiaApplication)
-//            androidLogger(DEBUG)
-            modules(appModule)
-            workManagerFactory()
-        }
     }
 
     override fun onCreate() {
