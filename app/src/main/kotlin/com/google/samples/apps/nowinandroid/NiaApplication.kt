@@ -19,6 +19,8 @@ package com.google.samples.apps.nowinandroid
 import android.app.Application
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.google.samples.apps.nowinandroid.core.data.logBenchmark
+import com.google.samples.apps.nowinandroid.core.data.startLog
 import com.google.samples.apps.nowinandroid.di.appModule
 import com.google.samples.apps.nowinandroid.sync.initializers.Sync
 import com.google.samples.apps.nowinandroid.util.ProfileVerifierLogger
@@ -51,6 +53,7 @@ class NiaApplication : Application(), ImageLoaderFactory, KoinStartup {
 
     override fun onCreate() {
         super.onCreate()
+        startLog()
         startTime = System.currentTimeMillis()
 
         // Initialize Sync; the system responsible for keeping data in the app up to date.

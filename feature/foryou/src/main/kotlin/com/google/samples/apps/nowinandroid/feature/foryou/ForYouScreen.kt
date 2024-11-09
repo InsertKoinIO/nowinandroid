@@ -110,7 +110,7 @@ import org.koin.compose.viewmodel.koinViewModel
 internal fun ForYouScreen(
     onTopicClick: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: ForYouViewModel = measureTime("ForYouViewModel") { koinViewModel() },
+    viewModel: ForYouViewModel = LocalContext.current.measureTime("ForYouViewModel") { koinViewModel() },
 ) {
     val onboardingUiState by viewModel.onboardingUiState.collectAsStateWithLifecycle()
     val feedState by viewModel.feedState.collectAsStateWithLifecycle()
