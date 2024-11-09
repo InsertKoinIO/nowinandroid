@@ -5,7 +5,7 @@ APK_PATH="./build/outputs/apk/demo/release/app-demo-release.apk"
 PACKAGE_NAME="com.google.samples.apps.nowinandroid.demo"
 MAIN_ACTIVITY="com.google.samples.apps.nowinandroid.MainActivity"
 OUTPUT_FILE="benchmark_log.txt"
-NUM_LOOPS=10  # Number of times to loop
+NUM_LOOPS=25  # Number of times to loop
 WAIT_TIME=5   # Time to wait in seconds between each loop iteration
 
 # Step 1: Clean and assemble the APK
