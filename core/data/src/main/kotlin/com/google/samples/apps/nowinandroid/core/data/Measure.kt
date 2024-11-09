@@ -20,8 +20,10 @@ import android.content.Context
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.FileOutputStream
 import java.io.FileWriter
 import kotlin.time.measureTimedValue
 
@@ -53,22 +55,22 @@ fun Context.logBenchmark(tag : String, time : Double){
     writeToFile("$tag=$time")
 }
 
-private val ioJob = CoroutineScope(Dispatchers.IO)
 private const val fileName = "benchmark_log.txt"
-private var logFile :File? = null
+private var logFile: File? = null
+private val ioScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
 private fun Context.writeToFile(content: String) {
-    val ctx = if (logFile == null) runCatching { applicationContext?.filesDir }.getOrNull() else null
-    ioJob.launch {
-        try {
-            if (logFile == null && ctx != null) logFile = File(ctx, fileName)
-            logFile?.let { file ->
-                FileWriter(file, true).use { writer ->
-                    writer.appendLine(content)
-                }
+    val contextFilesDir = runCatching { applicationContext?.filesDir }.getOrNull()
+    if (logFile == null && contextFilesDir != null) {
+        logFile = File(contextFilesDir, fileName)
+    }
+    logFile?.let { file ->
+        ioScope.launch {
+            try {
+                FileOutputStream(file, true).use { it.write((content + "\n").toByteArray()) }
+            } catch (e: Exception) {
+                Log.e("[Benchmark]", "Error writing to log file: ${e.message}", e)
             }
-        } catch (e: Exception) {
-            Log.e("[Benchmark]", "Error writing to log file: ${e.message}")
-            e.printStackTrace()
         }
     }
 }
