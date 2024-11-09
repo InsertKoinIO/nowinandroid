@@ -110,7 +110,7 @@ import com.google.samples.apps.nowinandroid.core.ui.newsFeed
 internal fun ForYouScreen(
     onTopicClick: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: ForYouViewModel = measureTime("ForYouViewModel") { hiltViewModel() },
+    viewModel: ForYouViewModel = LocalContext.current.measureTime("ForYouViewModel") { hiltViewModel() },
 ) {
     val onboardingUiState by viewModel.onboardingUiState.collectAsStateWithLifecycle()
     val feedState by viewModel.feedState.collectAsStateWithLifecycle()
