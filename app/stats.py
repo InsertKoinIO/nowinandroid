@@ -12,9 +12,7 @@ def process_file(file_path):
     all_component_times = defaultdict(list)
 
     # Iterate over each session and process
-    for session_index, session in enumerate(sessions):
-        component_times = defaultdict(list)
-        
+    for session in sessions:
         # Split the session into lines and parse each line
         lines = session.strip().split("\n")
         for line in lines:
@@ -22,21 +20,15 @@ def process_file(file_path):
             if match:
                 component = match.group(1)
                 time = float(match.group(2))
-                component_times[component].append(time)
                 all_component_times[component].append(time)  # Collect times across all sessions
-        
-        # Calculate averages for each component in the current session
-        print(f"Session {session_index + 1} Averages:")
-        for component, times in component_times.items():
-            average_time = sum(times) / len(times)
-            print(f"{component}: {average_time:.3f} ms")
-        print()  # Blank line for separating sessions
 
-    # Calculate overall averages across all sessions
-    print("Overall Averages Across All Sessions:")
+    # Calculate overall min, max, and average across all sessions
+    print("Overall Statistics Across All Sessions:")
     for component, times in all_component_times.items():
         overall_average = sum(times) / len(times)
-        print(f"{component}: {overall_average:.3f} ms")
+        overall_min = min(times)
+        overall_max = max(times)
+        print(f"{component}: Avg = {overall_average:.3f} ms, Min = {overall_min:.3f} ms, Max = {overall_max:.3f} ms")
 
 # Example usage
 file_path = "benchmark_log.txt"  # Replace with the path to your file
