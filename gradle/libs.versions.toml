@@ -42,11 +42,11 @@ hilt = "2.56"
 hiltExt = "1.2.0"
 jacoco = "0.8.12"
 junit4 = "4.13.2"
-kotlin = "2.1.10"
+kotlin = "2.1.21"
 kotlinxCoroutines = "1.10.1"
 kotlinxDatetime = "0.6.1"
 kotlinxSerializationJson = "1.8.0"
-ksp = "2.1.10-1.0.31"
+ksp = "2.1.21-2.0.2"
 moduleGraph = "2.7.1"
 okhttp = "4.12.0"
 protobuf = "4.29.2"
@@ -58,6 +58,8 @@ roborazzi = "1.39.0"
 room = "2.7.2"
 truth = "1.4.4"
 turbine = "1.2.0"
+koin = "4.1.1"
+koin-annotations = "2.2.0-RC2"
 
 [bundles]
 androidx-compose-ui-test = ["androidx-compose-ui-test", "androidx-compose-ui-testManifest"]
@@ -149,6 +151,15 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+
+# Koin
+koin-core = {group = "io.insert-koin", name = "koin-core", version.ref = "koin"}
+koin-android = {group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
+koin-compose-viewmodel = {group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin"}
+# Koin Annotations
+koin-annotations = {module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations"}
+koin-ksp-compiler = {module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-annotations"}
+
 
 # Dependencies of the included build-logic
 android-gradleApiPlugin = { group = "com.android.tools.build", name = "gradle-api", version.ref = "androidGradlePlugin" }

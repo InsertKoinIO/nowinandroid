@@ -22,10 +22,15 @@ import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy.Builder
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.google.samples.apps.nowinandroid.di.NiaKoinApplication
 import com.google.samples.apps.nowinandroid.sync.initializers.Sync
 import com.google.samples.apps.nowinandroid.util.ProfileVerifierLogger
 import dagger.hilt.android.HiltAndroidApp
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.logger.Level
 import javax.inject.Inject
+import org.koin.ksp.generated.*
 
 /**
  * [Application] class for NiA
@@ -42,6 +47,11 @@ class NiaApplication : Application(), ImageLoaderFactory {
         super.onCreate()
 
         setStrictModePolicy()
+
+        NiaKoinApplication.startKoin {
+            androidLogger(Level.DEBUG)
+            androidContext(this@NiaApplication)
+        }
 
         // Initialize Sync; the system responsible for keeping data in the app up to date.
         Sync.initialize(context = this)

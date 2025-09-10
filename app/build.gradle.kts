@@ -108,6 +108,15 @@ dependencies {
 
     kspTest(libs.hilt.compiler)
 
+    implementation(libs.koin.core)
+    implementation(libs.koin.compose.viewmodel)
+    api(libs.koin.annotations){
+        exclude(
+            "io.insert-koin","koin-jsr330"
+        )
+    }
+    ksp(libs.koin.ksp.compiler)
+
     testImplementation(projects.core.dataTest)
     testImplementation(projects.core.datastoreTest)
     testImplementation(libs.hilt.android.testing)
