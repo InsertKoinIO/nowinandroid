@@ -50,16 +50,23 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
+import org.koin.android.scope.AndroidScopeComponent
+import org.koin.androidx.scope.activityScope
+import org.koin.core.parameter.parametersOf
+import org.koin.core.scope.Scope
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), AndroidScopeComponent {
+
+    // Koin scope
+    override val scope : Scope by activityScope()
 
     /**
      * Lazily inject [JankStats], which is used to track jank throughout the app.
      */
-    @Inject
-    lateinit var lazyStats: dagger.Lazy<JankStats>
+    private val lazyStats : JankStats by inject()
 
     @Inject
     lateinit var networkMonitor: NetworkMonitor
@@ -158,12 +165,12 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        lazyStats.get().isTrackingEnabled = true
+        lazyStats.isTrackingEnabled = true
     }
 
     override fun onPause() {
         super.onPause()
-        lazyStats.get().isTrackingEnabled = false
+        lazyStats.isTrackingEnabled = false
     }
 }
 
