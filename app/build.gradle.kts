@@ -110,11 +110,7 @@ dependencies {
 
     implementation(libs.koin.core)
     implementation(libs.koin.compose.viewmodel)
-    implementation(libs.koin.annotations){
-        exclude(
-            "io.insert-koin","koin-jsr330"
-        )
-    }
+    implementation(libs.koin.annotations)
     ksp(libs.koin.ksp.compiler)
 
     testImplementation(projects.core.dataTest)

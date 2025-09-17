@@ -28,11 +28,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import org.koin.android.annotation.KoinViewModel
-import javax.inject.Inject
 
-@KoinViewModel
-class MainActivityViewModel @Inject constructor(
+class MainActivityViewModel(
     userDataRepository: UserDataRepository,
 ) : ViewModel() {
     val uiState: StateFlow<MainActivityUiState> = userDataRepository.userData.map {

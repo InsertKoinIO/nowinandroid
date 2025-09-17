@@ -16,7 +16,9 @@
 
 package com.google.samples.apps.nowinandroid.di
 
-import org.koin.core.annotation.ComponentScan
+import com.google.samples.apps.nowinandroid.MainActivityViewModel
+import com.google.samples.apps.nowinandroid.core.data.repository.UserDataRepository
+import org.koin.android.annotation.KoinViewModel
 import org.koin.core.annotation.Configuration
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
@@ -24,10 +26,12 @@ import org.koin.core.scope.Scope
 
 @Module
 @Configuration
-@ComponentScan("com.google.samples.apps.nowinandroid")
 class AppModule {
 
     @Single
     fun bridgeUserDataRepository(scope : Scope) = scope.daggerBridge<DaggerBridge>().getUserDataRepository()
 
+    // keep here to avoid ComponentScan scanning too much in other components
+    @KoinViewModel
+    fun mainActivityViewModel(userDataRepository: UserDataRepository) = MainActivityViewModel(userDataRepository)
 }
