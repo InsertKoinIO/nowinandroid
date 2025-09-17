@@ -26,16 +26,27 @@ import com.google.samples.apps.nowinandroid.core.data.repository.RecentSearchRep
 import com.google.samples.apps.nowinandroid.core.data.repository.SearchContentsRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.TopicsRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.UserDataRepository
-import com.google.samples.apps.nowinandroid.core.data.util.ConnectivityManagerNetworkMonitor
 import com.google.samples.apps.nowinandroid.core.data.util.NetworkMonitor
-import com.google.samples.apps.nowinandroid.core.data.util.TimeZoneBroadcastMonitor
 import com.google.samples.apps.nowinandroid.core.data.util.TimeZoneMonitor
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.koin.core.component.KoinComponent
 
 @Module
+@InstallIn(SingletonComponent::class)
+object DataBridgeModule : KoinComponent {
+
+    @Provides
+    fun providesNetworkMonitor() : NetworkMonitor = getKoin().get()
+
+    @Provides
+    fun providesTimeZoneMonitor() : TimeZoneMonitor = getKoin().get()
+}
+
+@Module(includes = [DataBridgeModule::class])
 @InstallIn(SingletonComponent::class)
 abstract class DataModule {
 
@@ -64,11 +75,11 @@ abstract class DataModule {
         searchContentsRepository: DefaultSearchContentsRepository,
     ): SearchContentsRepository
 
-    @Binds
-    internal abstract fun bindsNetworkMonitor(
-        networkMonitor: ConnectivityManagerNetworkMonitor,
-    ): NetworkMonitor
+//    @Binds
+//    internal abstract fun bindsNetworkMonitor(
+//        networkMonitor: ConnectivityManagerNetworkMonitor,
+//    ): NetworkMonitor
 
-    @Binds
-    internal abstract fun binds(impl: TimeZoneBroadcastMonitor): TimeZoneMonitor
+//    @Binds
+//    internal abstract fun binds(impl: TimeZoneBroadcastMonitor): TimeZoneMonitor
 }

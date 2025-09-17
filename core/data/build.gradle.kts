@@ -27,6 +27,8 @@ android {
 
 dependencies {
     api(projects.core.common)
+    ksp(libs.koin.ksp.compiler)
+
     api(projects.core.database)
     api(projects.core.datastore)
     api(projects.core.network)
@@ -38,4 +40,9 @@ dependencies {
     testImplementation(libs.kotlinx.serialization.json)
     testImplementation(projects.core.datastoreTest)
     testImplementation(projects.core.testing)
+}
+
+ksp {
+    arg("KOIN_CONFIG_CHECK","true")
+    arg("KOIN_LOG_TIMES","true")
 }

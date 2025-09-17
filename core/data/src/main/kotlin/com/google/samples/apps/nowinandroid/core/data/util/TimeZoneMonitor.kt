@@ -23,10 +23,7 @@ import android.content.IntentFilter
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import androidx.tracing.trace
-import com.google.samples.apps.nowinandroid.core.network.Dispatcher
-import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.IO
-import com.google.samples.apps.nowinandroid.core.network.di.ApplicationScope
-import dagger.hilt.android.qualifiers.ApplicationContext
+import jakarta.inject.Named
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
@@ -41,7 +38,6 @@ import kotlinx.coroutines.flow.shareIn
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toKotlinTimeZone
 import java.time.ZoneId
-import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
@@ -52,11 +48,12 @@ interface TimeZoneMonitor {
     val currentTimeZone: Flow<TimeZone>
 }
 
+// let's remove @Inject - not needed
 @Singleton
-internal class TimeZoneBroadcastMonitor @Inject constructor(
-    @ApplicationContext private val context: Context,
-    @ApplicationScope appScope: CoroutineScope,
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+internal class TimeZoneBroadcastMonitor(
+    val context: Context,
+    appScope: CoroutineScope,
+    @Named("Dispatcher_IO") private val ioDispatcher: CoroutineDispatcher,
 ) : TimeZoneMonitor {
 
     override val currentTimeZone: SharedFlow<TimeZone> =
