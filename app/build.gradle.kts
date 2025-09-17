@@ -110,7 +110,7 @@ dependencies {
 
     implementation(libs.koin.core)
     implementation(libs.koin.compose.viewmodel)
-    api(libs.koin.annotations){
+    implementation(libs.koin.annotations){
         exclude(
             "io.insert-koin","koin-jsr330"
         )

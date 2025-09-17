@@ -44,14 +44,16 @@ class NiaApplication : Application(), ImageLoaderFactory {
     lateinit var profileVerifierLogger: ProfileVerifierLogger
 
     override fun onCreate() {
-        super.onCreate()
-
-        setStrictModePolicy()
-
+        // Need Koin to start before
         NiaKoinApplication.startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@NiaApplication)
         }
+        // Dagger check here
+        super.onCreate()
+
+        setStrictModePolicy()
+
 
         // Initialize Sync; the system responsible for keeping data in the app up to date.
         Sync.initialize(context = this)
