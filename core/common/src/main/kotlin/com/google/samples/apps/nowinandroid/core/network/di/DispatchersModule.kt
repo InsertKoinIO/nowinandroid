@@ -24,16 +24,18 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import org.koin.core.component.KoinComponent
+import org.koin.core.qualifier.named
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DispatchersModule {
+object DispatchersModule : KoinComponent {
+
     @Provides
     @Dispatcher(IO)
-    fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
+    fun providesIODispatcher(): CoroutineDispatcher = getKoin().get(named("Dispatcher_IO"))
 
     @Provides
     @Dispatcher(Default)
-    fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+    fun providesDefaultDispatcher(): CoroutineDispatcher = getKoin().get(named("Dispatcher_Default"))
 }

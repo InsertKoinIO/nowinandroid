@@ -20,6 +20,18 @@ plugins {
 
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.koin.core)
+    implementation(libs.koin.annotations){
+        exclude(
+            "io.insert-koin","koin-jsr330"
+        )
+    }
+    ksp(libs.koin.ksp.compiler)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
+}
+
+ksp {
+    arg("KOIN_CONFIG_CHECK","true")
+    arg("KOIN_LOG_TIMES","true")
 }

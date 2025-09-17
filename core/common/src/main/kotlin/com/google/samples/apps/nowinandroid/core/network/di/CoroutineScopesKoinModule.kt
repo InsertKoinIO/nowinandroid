@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 The Android Open Source Project
+ * Copyright 2025 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,20 @@
 
 package com.google.samples.apps.nowinandroid.core.network.di
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import org.koin.core.component.KoinComponent
-import javax.inject.Qualifier
-import javax.inject.Singleton
-
-@Retention(AnnotationRetention.RUNTIME)
-@Qualifier
-annotation class ApplicationScope
+import kotlinx.coroutines.SupervisorJob
+import org.koin.core.annotation.Configuration
+import org.koin.core.annotation.Module
+import org.koin.core.annotation.Named
+import org.koin.core.annotation.Single
 
 @Module
-@InstallIn(SingletonComponent::class)
-internal object CoroutineScopesModule : KoinComponent {
+@Configuration
+class CoroutineScopesKoinModule {
 
-    @Provides
-    @Singleton
-    @ApplicationScope
-    fun providesCoroutineScope(): CoroutineScope = getKoin().get()
+    @Single
+    fun providesCoroutineScope(
+        @Named("Dispatcher_Default") dispatcher: CoroutineDispatcher,
+    ): CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 }
