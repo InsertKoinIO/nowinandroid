@@ -109,6 +109,7 @@ dependencies {
     kspTest(libs.hilt.compiler)
 
     implementation(libs.koin.core)
+    implementation(libs.koin.dagger)
     implementation(libs.koin.compose.viewmodel)
     implementation(libs.koin.annotations)
     ksp(libs.koin.ksp.compiler)

@@ -18,18 +18,28 @@ package com.google.samples.apps.nowinandroid.di
 
 import com.google.samples.apps.nowinandroid.MainActivityViewModel
 import com.google.samples.apps.nowinandroid.core.data.repository.UserDataRepository
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import org.koin.android.annotation.KoinViewModel
+import org.koin.android.dagger.dagger
 import org.koin.core.annotation.Configuration
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 import org.koin.core.scope.Scope
+
+@InstallIn(SingletonComponent::class)
+@EntryPoint
+interface DaggerBridge {
+    fun getUserDataRepository(): UserDataRepository
+}
 
 @Module
 @Configuration
 class AppModule {
 
     @Single
-    fun bridgeUserDataRepository(scope : Scope) = scope.daggerBridge<DaggerBridge>().getUserDataRepository()
+    fun bridgeUserDataRepository(scope : Scope) = scope.dagger<DaggerBridge>().getUserDataRepository()
 
     // keep here to avoid ComponentScan scanning too much in other components
     @KoinViewModel
