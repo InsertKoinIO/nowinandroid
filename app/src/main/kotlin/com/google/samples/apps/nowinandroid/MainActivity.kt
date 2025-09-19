@@ -73,8 +73,7 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
 
     private val timeZoneMonitor: TimeZoneMonitor by inject()
 
-    @Inject
-    lateinit var analyticsHelper: AnalyticsHelper
+    private val analyticsHelper: AnalyticsHelper by inject()
 
     @Inject
     lateinit var userNewsResourceRepository: UserNewsResourceRepository

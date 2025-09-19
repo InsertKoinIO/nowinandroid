@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 The Android Open Source Project
+ * Copyright 2025 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,11 @@
 
 package com.google.samples.apps.nowinandroid.core.analytics
 
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Configuration
+import org.koin.core.annotation.Module
 
-//@Module
-//@InstallIn(SingletonComponent::class)
-//internal abstract class AnalyticsModule {
-//    @Binds
-//    abstract fun bindsAnalyticsHelper(analyticsHelperImpl: StubAnalyticsHelper): AnalyticsHelper
-//}
+@Module
+@Configuration
+@ComponentScan
+class AnalyticsKoinModule

@@ -16,7 +16,8 @@
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
     alias(libs.plugins.nowinandroid.android.library.compose)
-    alias(libs.plugins.nowinandroid.hilt)
+    alias(libs.plugins.ksp)
+//    alias(libs.plugins.nowinandroid.hilt)
 }
 
 android {
@@ -25,6 +26,10 @@ android {
 
 dependencies {
     implementation(libs.androidx.compose.runtime)
+    implementation(libs.koin.core)
+    implementation(libs.koin.annotations)
+    implementation(libs.javax.inject)
+    ksp(libs.koin.ksp.compiler)
 
     prodImplementation(platform(libs.firebase.bom))
     prodImplementation(libs.firebase.analytics)

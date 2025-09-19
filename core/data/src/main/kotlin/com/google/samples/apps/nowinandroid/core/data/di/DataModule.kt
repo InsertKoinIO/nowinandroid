@@ -16,6 +16,7 @@
 
 package com.google.samples.apps.nowinandroid.core.data.di
 
+import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsHelper
 import com.google.samples.apps.nowinandroid.core.data.repository.DefaultRecentSearchRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.DefaultSearchContentsRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.NewsRepository
@@ -44,6 +45,9 @@ object DataBridgeModule : KoinComponent {
 
     @Provides
     fun providesTimeZoneMonitor() : TimeZoneMonitor = getKoin().get()
+
+    @Provides
+    fun providesAnalyticsHelper() : AnalyticsHelper = getKoin().get()
 }
 
 @Module(includes = [DataBridgeModule::class])
