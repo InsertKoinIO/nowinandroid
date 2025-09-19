@@ -69,11 +69,9 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
      */
     private val lazyStats : JankStats by inject()
 
-    @Inject
-    lateinit var networkMonitor: NetworkMonitor
+    private val networkMonitor: NetworkMonitor by inject()
 
-    @Inject
-    lateinit var timeZoneMonitor: TimeZoneMonitor
+    private val timeZoneMonitor: TimeZoneMonitor by inject()
 
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
