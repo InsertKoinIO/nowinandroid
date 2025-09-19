@@ -27,6 +27,7 @@ import com.google.samples.apps.nowinandroid.core.data.repository.RecentSearchRep
 import com.google.samples.apps.nowinandroid.core.data.repository.SearchContentsRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.TopicsRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.UserDataRepository
+import com.google.samples.apps.nowinandroid.core.data.repository.UserNewsResourceRepository
 import com.google.samples.apps.nowinandroid.core.data.util.NetworkMonitor
 import com.google.samples.apps.nowinandroid.core.data.util.TimeZoneMonitor
 import dagger.Binds
@@ -48,6 +49,10 @@ object DataBridgeModule : KoinComponent {
 
     @Provides
     fun providesAnalyticsHelper() : AnalyticsHelper = getKoin().get()
+
+    @Provides
+    fun providesUserNewsResourceRepository() : UserNewsResourceRepository = getKoin().get()
+
 }
 
 @Module(includes = [DataBridgeModule::class])

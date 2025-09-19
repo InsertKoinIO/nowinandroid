@@ -24,7 +24,7 @@ import org.koin.core.annotation.Module
 import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
-@Module
+@Module(includes = [DispatchersKoinModule::class])
 @Configuration
 class CoroutineScopesKoinModule {
 

@@ -75,8 +75,7 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
 
     private val analyticsHelper: AnalyticsHelper by inject()
 
-    @Inject
-    lateinit var userNewsResourceRepository: UserNewsResourceRepository
+    private val userNewsResourceRepository: UserNewsResourceRepository by inject()
 
     private val viewModel: MainActivityViewModel by viewModel()
 

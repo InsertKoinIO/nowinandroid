@@ -46,4 +46,5 @@ dependencies {
 ksp {
     arg("KOIN_CONFIG_CHECK","true")
     arg("KOIN_LOG_TIMES","true")
+    arg("KOIN_EXPORT_DEFINITIONS", "false")
 }

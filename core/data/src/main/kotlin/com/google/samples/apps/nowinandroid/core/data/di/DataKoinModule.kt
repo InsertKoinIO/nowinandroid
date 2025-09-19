@@ -16,11 +16,43 @@
 
 package com.google.samples.apps.nowinandroid.core.data.di
 
+import com.google.samples.apps.nowinandroid.core.data.repository.CompositeUserNewsResourceRepository
+import com.google.samples.apps.nowinandroid.core.data.repository.NewsRepository
+import com.google.samples.apps.nowinandroid.core.data.repository.UserDataRepository
+import com.google.samples.apps.nowinandroid.core.data.repository.UserNewsResourceRepository
+import com.google.samples.apps.nowinandroid.core.network.di.CoroutineScopesKoinModule
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import org.koin.android.dagger.dagger
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Configuration
 import org.koin.core.annotation.Module
+import org.koin.core.annotation.Single
+import org.koin.core.scope.Scope
 
-@Module
+// bridge Dagger to Koin for DataKoinModule
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface DataModuleBridge {
+    fun newsRepository(): NewsRepository
+    fun UserDataRepository(): UserDataRepository
+}
+
+@Module(includes = [CoroutineScopesKoinModule::class])
 @Configuration
 @ComponentScan("com.google.samples.apps.nowinandroid.core.data.util")
-class DataKoinModule
+class DataKoinModule {
+
+    @Single
+    fun newsRepository(scope : Scope) : NewsRepository = scope.dagger<DataModuleBridge>().newsRepository()
+
+    @Single
+    fun userDataRepository(scope : Scope): UserDataRepository = scope.dagger<DataModuleBridge>().UserDataRepository()
+
+    @Single
+    fun userNewsResourceRepository(
+        newsRepository: NewsRepository,
+        userDataRepository: UserDataRepository,
+    ): UserNewsResourceRepository = CompositeUserNewsResourceRepository(newsRepository, userDataRepository)
+}
