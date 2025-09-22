@@ -28,6 +28,9 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.domain)
 
+    implementation(libs.koin.compose.viewmodel)
+    ksp(libs.koin.ksp.compiler)
+
     testImplementation(projects.core.testing)
 
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)

@@ -29,8 +29,12 @@ android {
 dependencies {
     implementation(libs.accompanist.permissions)
     implementation(projects.core.data)
-    implementation(projects.core.domain)
+    //TO help bridge
+    api(projects.core.domain)
     implementation(projects.core.notifications)
+
+    implementation(libs.koin.compose.viewmodel)
+    ksp(libs.koin.ksp.compiler)
 
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.robolectric)

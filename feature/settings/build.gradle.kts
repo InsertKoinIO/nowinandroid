@@ -29,6 +29,9 @@ dependencies {
     implementation(libs.google.oss.licenses)
     implementation(projects.core.data)
 
+    implementation(libs.koin.compose.viewmodel)
+    ksp(libs.koin.ksp.compiler)
+
     testImplementation(projects.core.testing)
 
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)

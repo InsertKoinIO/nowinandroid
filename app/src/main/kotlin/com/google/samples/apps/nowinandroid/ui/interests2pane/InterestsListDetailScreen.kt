@@ -60,6 +60,8 @@ import com.google.samples.apps.nowinandroid.feature.topic.TopicViewModel
 import com.google.samples.apps.nowinandroid.feature.topic.navigation.TopicRoute
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 import kotlin.math.max
 
 @Serializable internal object TopicPlaceholderRoute
@@ -205,11 +207,9 @@ internal fun InterestsListDetailScreen(
                                         }
                                     },
                                     onTopicClick = ::onTopicClickShowDetailPane,
-                                    viewModel = hiltViewModel<TopicViewModel, TopicViewModel.Factory>(
+                                    viewModel = koinViewModel<TopicViewModel>(
                                         key = route.id,
-                                    ) { factory ->
-                                        factory.create(route.id)
-                                    },
+                                    ){ parametersOf(route.id) },
                                 )
                             }
                             is TopicPlaceholderRoute -> {

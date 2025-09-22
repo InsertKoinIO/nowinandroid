@@ -27,10 +27,7 @@ import com.google.samples.apps.nowinandroid.core.model.data.Topic
 import com.google.samples.apps.nowinandroid.core.model.data.UserNewsResource
 import com.google.samples.apps.nowinandroid.core.result.Result
 import com.google.samples.apps.nowinandroid.core.result.asResult
-import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -38,13 +35,15 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
+import org.koin.core.annotation.InjectedParam
 
-@HiltViewModel(assistedFactory = TopicViewModel.Factory::class)
-class TopicViewModel @AssistedInject constructor(
+@KoinViewModel
+class TopicViewModel(
     private val userDataRepository: UserDataRepository,
     topicsRepository: TopicsRepository,
     userNewsResourceRepository: UserNewsResourceRepository,
-    @Assisted val topicId: String,
+    @InjectedParam val topicId: String,
 ) : ViewModel() {
     val topicUiState: StateFlow<TopicUiState> = topicUiState(
         topicId = topicId,
@@ -84,13 +83,6 @@ class TopicViewModel @AssistedInject constructor(
         viewModelScope.launch {
             userDataRepository.setNewsResourceViewed(newsResourceId, viewed)
         }
-    }
-
-    @AssistedFactory
-    interface Factory {
-        fun create(
-            topicId: String,
-        ): TopicViewModel
     }
 }
 
