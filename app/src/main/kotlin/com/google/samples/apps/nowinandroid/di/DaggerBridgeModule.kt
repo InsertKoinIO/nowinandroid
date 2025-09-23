@@ -16,6 +16,7 @@
 
 package com.google.samples.apps.nowinandroid.di
 
+import coil.ImageLoader
 import com.google.samples.apps.nowinandroid.core.data.repository.RecentSearchRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.SearchContentsRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.TopicsRepository
@@ -44,6 +45,7 @@ interface DaggerBridge {
     fun recentSearchRepository() : RecentSearchRepository
     fun searchContentsRepository(): SearchContentsRepository
     fun topicsRepository(): TopicsRepository
+    fun imageLoader(): ImageLoader
 }
 
 // only Factory to not keep instance in Koin of Dagger's instance
@@ -74,6 +76,9 @@ class DaggerBridgeModule {
 
     @Factory
     fun topicsRepository(scope : Scope) = daggerBridge(scope).topicsRepository()
+
+    @Factory
+    fun imageLoader(scope : Scope) = daggerBridge(scope).imageLoader()
 
     private fun daggerBridge(scope: Scope): DaggerBridge = scope.dagger<DaggerBridge>()
 }

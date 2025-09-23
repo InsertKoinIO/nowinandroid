@@ -26,10 +26,10 @@ import com.google.samples.apps.nowinandroid.di.NiaKoinApplication
 import com.google.samples.apps.nowinandroid.sync.initializers.Sync
 import com.google.samples.apps.nowinandroid.util.ProfileVerifierLogger
 import dagger.hilt.android.HiltAndroidApp
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.logger.Level
-import javax.inject.Inject
 import org.koin.ksp.generated.*
 
 /**
@@ -37,11 +37,10 @@ import org.koin.ksp.generated.*
  */
 @HiltAndroidApp
 class NiaApplication : Application(), ImageLoaderFactory {
-    @Inject
-    lateinit var imageLoader: dagger.Lazy<ImageLoader>
 
-    @Inject
-    lateinit var profileVerifierLogger: ProfileVerifierLogger
+    private val imageLoader: ImageLoader by inject()
+
+    private val profileVerifierLogger: ProfileVerifierLogger by inject()
 
     override fun onCreate() {
         // Need Koin to start before
@@ -60,7 +59,7 @@ class NiaApplication : Application(), ImageLoaderFactory {
         profileVerifierLogger()
     }
 
-    override fun newImageLoader(): ImageLoader = imageLoader.get()
+    override fun newImageLoader(): ImageLoader = imageLoader
 
     /**
      * Return true if the application is debuggable.

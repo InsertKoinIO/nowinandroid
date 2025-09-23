@@ -24,6 +24,7 @@ import org.koin.core.annotation.Configuration
 import org.koin.core.annotation.Module
 
 @Module(includes = [FeaturesModule::class])
+@ComponentScan("com.google.samples.apps.nowinandroid.util")
 @Configuration
 class AppModule {
 
