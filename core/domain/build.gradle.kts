@@ -26,6 +26,7 @@ android {
 dependencies {
     api(projects.core.data)
     api(projects.core.model)
+    ksp(libs.koin.ksp.compiler)
 
     implementation(libs.javax.inject)
 

@@ -22,9 +22,6 @@ import com.google.samples.apps.nowinandroid.core.data.repository.SearchContentsR
 import com.google.samples.apps.nowinandroid.core.data.repository.TopicsRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.UserDataRepository
 import com.google.samples.apps.nowinandroid.core.data.util.SyncManager
-import com.google.samples.apps.nowinandroid.core.domain.GetFollowableTopicsUseCase
-import com.google.samples.apps.nowinandroid.core.domain.GetRecentSearchQueriesUseCase
-import com.google.samples.apps.nowinandroid.core.domain.GetSearchContentsUseCase
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -39,9 +36,6 @@ import org.koin.core.scope.Scope
 interface DaggerBridge {
     fun userDataRepository(): UserDataRepository
     fun syncManager(): SyncManager
-    fun getFollowableTopicsUseCase() : GetFollowableTopicsUseCase
-    fun getSearchContentsUseCase(): GetSearchContentsUseCase
-    fun recentSearchQueriesUseCase(): GetRecentSearchQueriesUseCase
     fun recentSearchRepository() : RecentSearchRepository
     fun searchContentsRepository(): SearchContentsRepository
     fun topicsRepository(): TopicsRepository
@@ -58,15 +52,6 @@ class DaggerBridgeModule {
 
     @Factory
     fun syncManager(scope : Scope) = daggerBridge(scope).syncManager()
-
-    @Factory
-    fun getFollowableTopicsUseCase(scope : Scope) = daggerBridge(scope).getFollowableTopicsUseCase()
-
-    @Factory
-    fun getSearchContentsUseCase(scope : Scope) = daggerBridge(scope).getSearchContentsUseCase()
-
-    @Factory
-    fun recentSearchQueriesUseCase(scope : Scope) = daggerBridge(scope).recentSearchQueriesUseCase()
 
     @Factory
     fun searchContentsRepository(scope : Scope) = daggerBridge(scope).searchContentsRepository()

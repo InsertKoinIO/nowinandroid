@@ -23,7 +23,7 @@ import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Configuration
 import org.koin.core.annotation.Module
 
-@Module(includes = [FeaturesModule::class])
+@Module(includes = [FeaturesModule::class, DomainModule::class])
 @ComponentScan("com.google.samples.apps.nowinandroid.util")
 @Configuration
 class AppModule {
@@ -36,3 +36,7 @@ class AppModule {
 @Module
 @ComponentScan("com.google.samples.apps.nowinandroid.feature.*")
 class FeaturesModule
+
+@Module
+@ComponentScan("com.google.samples.apps.nowinandroid.core.domain")
+class DomainModule
