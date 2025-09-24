@@ -16,43 +16,80 @@
 
 package com.google.samples.apps.nowinandroid.core.data.di
 
-import com.google.samples.apps.nowinandroid.core.data.repository.CompositeUserNewsResourceRepository
-import com.google.samples.apps.nowinandroid.core.data.repository.NewsRepository
-import com.google.samples.apps.nowinandroid.core.data.repository.UserDataRepository
-import com.google.samples.apps.nowinandroid.core.data.repository.UserNewsResourceRepository
+import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsHelper
+import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsKoinModule
+import com.google.samples.apps.nowinandroid.core.database.dao.NewsResourceDao
+import com.google.samples.apps.nowinandroid.core.database.dao.NewsResourceFtsDao
+import com.google.samples.apps.nowinandroid.core.database.dao.RecentSearchQueryDao
+import com.google.samples.apps.nowinandroid.core.database.dao.TopicDao
+import com.google.samples.apps.nowinandroid.core.database.dao.TopicFtsDao
+import com.google.samples.apps.nowinandroid.core.datastore.NiaPreferencesDataSource
+import com.google.samples.apps.nowinandroid.core.network.NiaNetworkDataSource
 import com.google.samples.apps.nowinandroid.core.network.di.CoroutineScopesKoinModule
+import com.google.samples.apps.nowinandroid.core.notifications.Notifier
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.koin.android.dagger.dagger
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Configuration
+import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
-import org.koin.core.annotation.Single
 import org.koin.core.scope.Scope
 
 // bridge Dagger to Koin for DataKoinModule
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 interface DataModuleBridge {
-    fun newsRepository(): NewsRepository
-    fun UserDataRepository(): UserDataRepository
+    fun recentSearchQueryDao(): RecentSearchQueryDao
+    fun newsResourceDao(): NewsResourceDao
+    fun newsResourceFtsDao(): NewsResourceFtsDao
+    fun topicDao(): TopicDao
+    fun topicFtsDao(): TopicFtsDao
+    fun niaPreferencesDataSource(): NiaPreferencesDataSource
+    fun network(): NiaNetworkDataSource
+    fun notifier(): Notifier
+//    fun analyticsHelper(): AnalyticsHelper
 }
 
-@Module(includes = [CoroutineScopesKoinModule::class])
+@Module(includes = [CoroutineScopesKoinModule::class, AnalyticsKoinModule::class])
 @Configuration
-@ComponentScan("com.google.samples.apps.nowinandroid.core.data.util")
+@ComponentScan("com.google.samples.apps.nowinandroid.core.data")
 class DataKoinModule {
 
-    @Single
-    fun newsRepository(scope : Scope) : NewsRepository = scope.dagger<DataModuleBridge>().newsRepository()
+    @Factory
+    fun recentSearchQueryDao(scope: Scope): RecentSearchQueryDao =
+        scope.dagger<DataModuleBridge>().recentSearchQueryDao()
 
-    @Single
-    fun userDataRepository(scope : Scope): UserDataRepository = scope.dagger<DataModuleBridge>().UserDataRepository()
+    @Factory
+    fun newsResourceDao(scope: Scope): NewsResourceDao =
+        scope.dagger<DataModuleBridge>().newsResourceDao()
 
-    @Single
-    fun userNewsResourceRepository(
-        newsRepository: NewsRepository,
-        userDataRepository: UserDataRepository,
-    ): UserNewsResourceRepository = CompositeUserNewsResourceRepository(newsRepository, userDataRepository)
+    @Factory
+    fun newsResourceFtsDao(scope: Scope): NewsResourceFtsDao =
+        scope.dagger<DataModuleBridge>().newsResourceFtsDao()
+
+    @Factory
+    fun topicDao(scope: Scope): TopicDao =
+        scope.dagger<DataModuleBridge>().topicDao()
+
+    @Factory
+    fun topicFtsDao(scope: Scope): TopicFtsDao =
+        scope.dagger<DataModuleBridge>().topicFtsDao()
+
+    @Factory
+    fun niaPreferencesDataSource(scope: Scope): NiaPreferencesDataSource =
+        scope.dagger<DataModuleBridge>().niaPreferencesDataSource()
+
+    @Factory
+    fun network(scope: Scope): NiaNetworkDataSource =
+        scope.dagger<DataModuleBridge>().network()
+
+    @Factory
+    fun notifier(scope: Scope): Notifier =
+        scope.dagger<DataModuleBridge>().notifier()
+
+//    @Factory
+//    fun analyticsHelper(scope: Scope): AnalyticsHelper =
+//        scope.dagger<DataModuleBridge>().analyticsHelper()
 }

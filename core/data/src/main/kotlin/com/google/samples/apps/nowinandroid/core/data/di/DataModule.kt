@@ -41,54 +41,58 @@ import org.koin.core.component.KoinComponent
 @InstallIn(SingletonComponent::class)
 object DataBridgeModule : KoinComponent {
 
-    @Provides
-    fun providesNetworkMonitor() : NetworkMonitor = getKoin().get()
-
-    @Provides
-    fun providesTimeZoneMonitor() : TimeZoneMonitor = getKoin().get()
-
-    @Provides
-    fun providesAnalyticsHelper() : AnalyticsHelper = getKoin().get()
 
     @Provides
     fun providesUserNewsResourceRepository() : UserNewsResourceRepository = getKoin().get()
 
+    @Provides
+    fun providesTopicsRepository() : TopicsRepository = getKoin().get()
+
+    @Provides
+    fun providesNewsRepository() : NewsRepository = getKoin().get()
+
+    @Provides
+    fun providesSearchContentsRepository() : SearchContentsRepository = getKoin().get()
+
+    @Provides
+    fun providesAnalyticsHelper() : AnalyticsHelper = getKoin().get()
+
 }
-
-@Module(includes = [DataBridgeModule::class])
-@InstallIn(SingletonComponent::class)
-abstract class DataModule {
-
-    @Binds
-    internal abstract fun bindsTopicRepository(
-        topicsRepository: OfflineFirstTopicsRepository,
-    ): TopicsRepository
-
-    @Binds
-    internal abstract fun bindsNewsResourceRepository(
-        newsRepository: OfflineFirstNewsRepository,
-    ): NewsRepository
-
-    @Binds
-    internal abstract fun bindsUserDataRepository(
-        userDataRepository: OfflineFirstUserDataRepository,
-    ): UserDataRepository
-
-    @Binds
-    internal abstract fun bindsRecentSearchRepository(
-        recentSearchRepository: DefaultRecentSearchRepository,
-    ): RecentSearchRepository
-
-    @Binds
-    internal abstract fun bindsSearchContentsRepository(
-        searchContentsRepository: DefaultSearchContentsRepository,
-    ): SearchContentsRepository
-
-//    @Binds
-//    internal abstract fun bindsNetworkMonitor(
-//        networkMonitor: ConnectivityManagerNetworkMonitor,
-//    ): NetworkMonitor
-
-//    @Binds
-//    internal abstract fun binds(impl: TimeZoneBroadcastMonitor): TimeZoneMonitor
-}
+//
+//@Module(includes = [DataBridgeModule::class])
+//@InstallIn(SingletonComponent::class)
+//abstract class DataModule {
+//
+////    @Binds
+////    internal abstract fun bindsTopicRepository(
+////        topicsRepository: OfflineFirstTopicsRepository,
+////    ): TopicsRepository
+////
+////    @Binds
+////    internal abstract fun bindsNewsResourceRepository(
+////        newsRepository: OfflineFirstNewsRepository,
+////    ): NewsRepository
+////
+////    @Binds
+////    internal abstract fun bindsUserDataRepository(
+////        userDataRepository: OfflineFirstUserDataRepository,
+////    ): UserDataRepository
+////
+////    @Binds
+////    internal abstract fun bindsRecentSearchRepository(
+////        recentSearchRepository: DefaultRecentSearchRepository,
+////    ): RecentSearchRepository
+////
+////    @Binds
+////    internal abstract fun bindsSearchContentsRepository(
+////        searchContentsRepository: DefaultSearchContentsRepository,
+////    ): SearchContentsRepository
+//
+////    @Binds
+////    internal abstract fun bindsNetworkMonitor(
+////        networkMonitor: ConnectivityManagerNetworkMonitor,
+////    ): NetworkMonitor
+//
+////    @Binds
+////    internal abstract fun binds(impl: TimeZoneBroadcastMonitor): TimeZoneMonitor
+//}

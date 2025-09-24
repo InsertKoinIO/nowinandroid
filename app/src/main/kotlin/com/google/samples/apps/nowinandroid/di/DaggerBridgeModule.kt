@@ -34,12 +34,8 @@ import org.koin.core.scope.Scope
 @InstallIn(SingletonComponent::class)
 @EntryPoint
 interface DaggerBridge {
-    fun userDataRepository(): UserDataRepository
-    fun syncManager(): SyncManager
-    fun recentSearchRepository() : RecentSearchRepository
-    fun searchContentsRepository(): SearchContentsRepository
-    fun topicsRepository(): TopicsRepository
     fun imageLoader(): ImageLoader
+    fun syncManager(): SyncManager
 }
 
 // only Factory to not keep instance in Koin of Dagger's instance
@@ -48,22 +44,10 @@ interface DaggerBridge {
 class DaggerBridgeModule {
 
     @Factory
-    fun userDataRepository(scope : Scope) = daggerBridge(scope).userDataRepository()
+    fun imageLoader(scope : Scope) = daggerBridge(scope).imageLoader()
 
     @Factory
     fun syncManager(scope : Scope) = daggerBridge(scope).syncManager()
-
-    @Factory
-    fun searchContentsRepository(scope : Scope) = daggerBridge(scope).searchContentsRepository()
-
-    @Factory
-    fun recentSearchRepository(scope : Scope) = daggerBridge(scope).recentSearchRepository()
-
-    @Factory
-    fun topicsRepository(scope : Scope) = daggerBridge(scope).topicsRepository()
-
-    @Factory
-    fun imageLoader(scope : Scope) = daggerBridge(scope).imageLoader()
 
     private fun daggerBridge(scope: Scope): DaggerBridge = scope.dagger<DaggerBridge>()
 }
