@@ -31,11 +31,11 @@ import kotlin.reflect.KClass
 /**
  * An entry point to retrieve the [HiltWorkerFactory] at runtime
  */
-@EntryPoint
-@InstallIn(SingletonComponent::class)
-interface HiltWorkerFactoryEntryPoint {
-    fun hiltWorkerFactory(): HiltWorkerFactory
-}
+//@EntryPoint
+//@InstallIn(SingletonComponent::class)
+//interface HiltWorkerFactoryEntryPoint {
+//    fun hiltWorkerFactory(): HiltWorkerFactory
+//}
 
 private const val WORKER_CLASS_NAME = "RouterWorkerDelegateClassName"
 
@@ -57,24 +57,24 @@ internal fun KClass<out CoroutineWorker>.delegatedData() =
  * In other words, it allows for custom workers in a library module without having to own
  * configuration of the WorkManager singleton.
  */
-class DelegatingWorker(
-    appContext: Context,
-    workerParams: WorkerParameters,
-) : CoroutineWorker(appContext, workerParams) {
-
-    private val workerClassName =
-        workerParams.inputData.getString(WORKER_CLASS_NAME) ?: ""
-
-    private val delegateWorker =
-        EntryPointAccessors.fromApplication<HiltWorkerFactoryEntryPoint>(appContext)
-            .hiltWorkerFactory()
-            .createWorker(appContext, workerClassName, workerParams)
-            as? CoroutineWorker
-            ?: throw IllegalArgumentException("Unable to find appropriate worker")
-
-    override suspend fun getForegroundInfo(): ForegroundInfo =
-        delegateWorker.getForegroundInfo()
-
-    override suspend fun doWork(): Result =
-        delegateWorker.doWork()
-}
+//class DelegatingWorker(
+//    appContext: Context,
+//    workerParams: WorkerParameters,
+//) : CoroutineWorker(appContext, workerParams) {
+//
+//    private val workerClassName =
+//        workerParams.inputData.getString(WORKER_CLASS_NAME) ?: ""
+//
+//    private val delegateWorker =
+//        EntryPointAccessors.fromApplication<HiltWorkerFactoryEntryPoint>(appContext)
+//            .hiltWorkerFactory()
+//            .createWorker(appContext, workerClassName, workerParams)
+//            as? CoroutineWorker
+//            ?: throw IllegalArgumentException("Unable to find appropriate worker")
+//
+//    override suspend fun getForegroundInfo(): ForegroundInfo =
+//        delegateWorker.getForegroundInfo()
+//
+//    override suspend fun doWork(): Result =
+//        delegateWorker.doWork()
+//}

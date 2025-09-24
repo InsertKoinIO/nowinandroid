@@ -17,7 +17,6 @@
 package com.google.samples.apps.nowinandroid.sync.workers
 
 import android.content.Context
-import androidx.hilt.work.HiltWorker
 import androidx.tracing.traceAsync
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
@@ -36,26 +35,26 @@ import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.IO
 import com.google.samples.apps.nowinandroid.sync.initializers.SyncConstraints
 import com.google.samples.apps.nowinandroid.sync.initializers.syncForegroundInfo
 import com.google.samples.apps.nowinandroid.sync.status.SyncSubscriber
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import org.koin.android.annotation.KoinWorker
+import org.koin.core.annotation.Named
 
 /**
  * Syncs the data layer by delegating to the appropriate repository instances with
  * sync functionality.
  */
-@HiltWorker
-internal class SyncWorker @AssistedInject constructor(
-    @Assisted private val appContext: Context,
-    @Assisted workerParams: WorkerParameters,
+@KoinWorker
+internal class SyncWorker(
+    private val appContext: Context,
+    workerParams: WorkerParameters,
     private val niaPreferences: NiaPreferencesDataSource,
     private val topicRepository: TopicsRepository,
     private val newsRepository: NewsRepository,
     private val searchContentsRepository: SearchContentsRepository,
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+    @Named("Dispatcher_IO") private val ioDispatcher: CoroutineDispatcher,
     private val analyticsHelper: AnalyticsHelper,
     private val syncSubscriber: SyncSubscriber,
 ) : CoroutineWorker(appContext, workerParams), Synchronizer {
@@ -97,7 +96,7 @@ internal class SyncWorker @AssistedInject constructor(
         /**
          * Expedited one time work to sync data on app startup
          */
-        fun startUpSyncWork() = OneTimeWorkRequestBuilder<DelegatingWorker>()
+        fun startUpSyncWork() = OneTimeWorkRequestBuilder<SyncWorker>()
             .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
             .setConstraints(SyncConstraints)
             .setInputData(SyncWorker::class.delegatedData())

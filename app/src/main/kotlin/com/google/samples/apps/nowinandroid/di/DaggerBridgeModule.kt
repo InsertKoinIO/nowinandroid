@@ -35,7 +35,6 @@ import org.koin.core.scope.Scope
 @EntryPoint
 interface DaggerBridge {
     fun imageLoader(): ImageLoader
-    fun syncManager(): SyncManager
 }
 
 // only Factory to not keep instance in Koin of Dagger's instance
@@ -45,9 +44,6 @@ class DaggerBridgeModule {
 
     @Factory
     fun imageLoader(scope : Scope) = daggerBridge(scope).imageLoader()
-
-    @Factory
-    fun syncManager(scope : Scope) = daggerBridge(scope).syncManager()
 
     private fun daggerBridge(scope: Scope): DaggerBridge = scope.dagger<DaggerBridge>()
 }

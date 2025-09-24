@@ -27,7 +27,11 @@ android {
 }
 
 dependencies {
-    ksp(libs.hilt.ext.compiler)
+//    ksp(libs.hilt.ext.compiler)
+
+//    implementation(libs.koin.dagger)
+    implementation(libs.koin.androidx.worker)
+    ksp(libs.koin.ksp.compiler)
 
     implementation(libs.androidx.tracing.ktx)
     implementation(libs.androidx.work.ktx)

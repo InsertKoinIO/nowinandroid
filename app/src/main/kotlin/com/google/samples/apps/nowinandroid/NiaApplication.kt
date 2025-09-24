@@ -29,6 +29,8 @@ import dagger.hilt.android.HiltAndroidApp
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.ksp.generated.*
 
@@ -47,7 +49,9 @@ class NiaApplication : Application(), ImageLoaderFactory {
         NiaKoinApplication.startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@NiaApplication)
+            workManagerFactory()
         }
+
         // Dagger check here
         super.onCreate()
 

@@ -155,6 +155,7 @@ turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine
 # Koin
 koin-core = {group = "io.insert-koin", name = "koin-core", version.ref = "koin"}
 koin-android = {group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
+koin-androidx-worker = {group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin"}
 koin-dagger = {group = "io.insert-koin", name = "koin-dagger-bridge", version.ref = "koin"}
 koin-compose-viewmodel = {group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin"}
 # Koin Annotations
