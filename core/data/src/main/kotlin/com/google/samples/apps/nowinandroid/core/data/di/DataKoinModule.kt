@@ -16,16 +16,8 @@
 
 package com.google.samples.apps.nowinandroid.core.data.di
 
-import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsHelper
-import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsKoinModule
-import com.google.samples.apps.nowinandroid.core.database.dao.NewsResourceDao
-import com.google.samples.apps.nowinandroid.core.database.dao.NewsResourceFtsDao
-import com.google.samples.apps.nowinandroid.core.database.dao.RecentSearchQueryDao
-import com.google.samples.apps.nowinandroid.core.database.dao.TopicDao
-import com.google.samples.apps.nowinandroid.core.database.dao.TopicFtsDao
 import com.google.samples.apps.nowinandroid.core.datastore.NiaPreferencesDataSource
 import com.google.samples.apps.nowinandroid.core.network.NiaNetworkDataSource
-import com.google.samples.apps.nowinandroid.core.network.di.CoroutineScopesKoinModule
 import com.google.samples.apps.nowinandroid.core.notifications.Notifier
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -41,41 +33,15 @@ import org.koin.core.scope.Scope
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 interface DataModuleBridge {
-    fun recentSearchQueryDao(): RecentSearchQueryDao
-    fun newsResourceDao(): NewsResourceDao
-    fun newsResourceFtsDao(): NewsResourceFtsDao
-    fun topicDao(): TopicDao
-    fun topicFtsDao(): TopicFtsDao
     fun niaPreferencesDataSource(): NiaPreferencesDataSource
     fun network(): NiaNetworkDataSource
     fun notifier(): Notifier
-//    fun analyticsHelper(): AnalyticsHelper
 }
 
-@Module(includes = [CoroutineScopesKoinModule::class, AnalyticsKoinModule::class])
+@Module
 @Configuration
 @ComponentScan("com.google.samples.apps.nowinandroid.core.data")
 class DataKoinModule {
-
-    @Factory
-    fun recentSearchQueryDao(scope: Scope): RecentSearchQueryDao =
-        scope.dagger<DataModuleBridge>().recentSearchQueryDao()
-
-    @Factory
-    fun newsResourceDao(scope: Scope): NewsResourceDao =
-        scope.dagger<DataModuleBridge>().newsResourceDao()
-
-    @Factory
-    fun newsResourceFtsDao(scope: Scope): NewsResourceFtsDao =
-        scope.dagger<DataModuleBridge>().newsResourceFtsDao()
-
-    @Factory
-    fun topicDao(scope: Scope): TopicDao =
-        scope.dagger<DataModuleBridge>().topicDao()
-
-    @Factory
-    fun topicFtsDao(scope: Scope): TopicFtsDao =
-        scope.dagger<DataModuleBridge>().topicFtsDao()
 
     @Factory
     fun niaPreferencesDataSource(scope: Scope): NiaPreferencesDataSource =
@@ -88,8 +54,4 @@ class DataKoinModule {
     @Factory
     fun notifier(scope: Scope): Notifier =
         scope.dagger<DataModuleBridge>().notifier()
-
-//    @Factory
-//    fun analyticsHelper(scope: Scope): AnalyticsHelper =
-//        scope.dagger<DataModuleBridge>().analyticsHelper()
 }

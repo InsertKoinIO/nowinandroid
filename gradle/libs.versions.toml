@@ -59,7 +59,7 @@ room = "2.7.2"
 truth = "1.4.4"
 turbine = "1.2.0"
 koin = "4.1.2-Beta1"
-koin-annotations = "2.2.0-RC3"
+koin-annotations = "2.2.0-RC4"
 
 [bundles]
 androidx-compose-ui-test = ["androidx-compose-ui-test", "androidx-compose-ui-testManifest"]

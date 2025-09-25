@@ -18,7 +18,7 @@ plugins {
     alias(libs.plugins.nowinandroid.android.library)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
     alias(libs.plugins.nowinandroid.android.room)
-    alias(libs.plugins.nowinandroid.hilt)
+//    alias(libs.plugins.nowinandroid.hilt)
 }
 
 android {
@@ -27,6 +27,9 @@ android {
 
 dependencies {
     api(projects.core.model)
+    implementation(libs.koin.core)
+    implementation(libs.koin.annotations)
+    ksp(libs.koin.ksp.compiler)
 
     implementation(libs.kotlinx.datetime)
 
