@@ -22,22 +22,20 @@ import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy.Builder
 import coil.ImageLoader
 import coil.ImageLoaderFactory
-import com.google.samples.apps.nowinandroid.di.NiaKoinApplication
 import com.google.samples.apps.nowinandroid.sync.initializers.Sync
 import com.google.samples.apps.nowinandroid.util.ProfileVerifierLogger
-import dagger.hilt.android.HiltAndroidApp
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
-import org.koin.core.context.startKoin
+import org.koin.core.annotation.KoinApplication
 import org.koin.core.logger.Level
 import org.koin.ksp.generated.*
 
 /**
  * [Application] class for NiA
  */
-@HiltAndroidApp
+@KoinApplication
 class NiaApplication : Application(), ImageLoaderFactory {
 
     private val imageLoader: ImageLoader by inject()
@@ -46,7 +44,7 @@ class NiaApplication : Application(), ImageLoaderFactory {
 
     override fun onCreate() {
         // Need Koin to start before
-        NiaKoinApplication.startKoin {
+        startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@NiaApplication)
             workManagerFactory()

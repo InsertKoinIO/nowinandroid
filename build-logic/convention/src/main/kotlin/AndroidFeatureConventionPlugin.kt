@@ -27,8 +27,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             apply(plugin = "nowinandroid.android.library")
-            apply(plugin = "nowinandroid.hilt")
             apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
+            apply(plugin = "com.google.devtools.ksp")
 
             extensions.configure<LibraryExtension> {
                 testOptions.animationsDisabled = true

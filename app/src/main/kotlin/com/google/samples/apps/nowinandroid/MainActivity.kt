@@ -54,11 +54,11 @@ import org.koin.android.ext.android.inject
 import org.koin.android.scope.AndroidScopeComponent
 import org.koin.androidx.scope.activityScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.annotation.KoinApplication
 import org.koin.core.parameter.parametersOf
 import org.koin.core.scope.Scope
 import javax.inject.Inject
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity(), AndroidScopeComponent {
 
     // Koin scope
