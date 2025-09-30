@@ -39,7 +39,7 @@ import javax.inject.Inject
 class DemoNiaNetworkDataSource @Inject constructor(
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     private val networkJson: Json,
-    private val assets: DemoAssetManager = JvmUnitTestDemoAssetManager,
+    private val assets: DemoAssetManager,// = JvmUnitTestDemoAssetManager,
 ) : NiaNetworkDataSource {
 
     override suspend fun getTopics(ids: List<String>?): List<NetworkTopic> =

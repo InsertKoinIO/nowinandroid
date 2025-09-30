@@ -13,29 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    alias(libs.plugins.nowinandroid.android.library)
-    alias(libs.plugins.nowinandroid.hilt)
-    alias(libs.plugins.ksp)
-}
 
-android {
-    namespace = "com.google.samples.apps.nowinandroid.core.notifications"
-}
+package com.google.samples.apps.nowinandroid.core.notifications
 
-dependencies {
-    api(projects.core.model)
+import org.koin.core.annotation.Configuration
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Module
 
-    implementation(libs.koin.core)
-    implementation(libs.javax.inject)
-    ksp(libs.koin.ksp.compiler)
+@Module
+@Configuration
+class NotificationsKoinModule {
 
-    implementation(projects.core.common)
-
-    compileOnly(platform(libs.androidx.compose.bom))
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
-    arg("KOIN_LOG_TIMES","true")
+    @Factory
+    fun notifier() : Notifier = NoOpNotifier()
 }

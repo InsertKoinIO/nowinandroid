@@ -27,7 +27,6 @@ android {
 
 dependencies {
     api(projects.core.common)
-    api(libs.koin.dagger)
     ksp(libs.koin.ksp.compiler)
 
     api(projects.core.database)

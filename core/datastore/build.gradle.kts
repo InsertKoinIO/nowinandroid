@@ -17,7 +17,7 @@
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
-    alias(libs.plugins.nowinandroid.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -32,8 +32,17 @@ dependencies {
     api(projects.core.datastoreProto)
     api(projects.core.model)
 
+    implementation(libs.javax.inject)
+    ksp(libs.koin.ksp.compiler)
+    implementation(libs.koin.android)
+
     implementation(projects.core.common)
 
     testImplementation(projects.core.datastoreTest)
     testImplementation(libs.kotlinx.coroutines.test)
+}
+
+ksp {
+    arg("KOIN_CONFIG_CHECK","true")
+    arg("KOIN_LOG_TIMES","true")
 }

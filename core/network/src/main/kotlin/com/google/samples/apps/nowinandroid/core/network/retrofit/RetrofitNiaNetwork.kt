@@ -74,7 +74,7 @@ private data class NetworkResponse<T>(
 @Singleton
 internal class RetrofitNiaNetwork @Inject constructor(
     networkJson: Json,
-    okhttpCallFactory: dagger.Lazy<Call.Factory>,
+    okhttpCallFactory: Lazy<Call.Factory>,
 ) : NiaNetworkDataSource {
 
     private val networkApi = trace("RetrofitNiaNetwork") {
@@ -82,7 +82,7 @@ internal class RetrofitNiaNetwork @Inject constructor(
             .baseUrl(NIA_BASE_URL)
             // We use callFactory lambda here with dagger.Lazy<Call.Factory>
             // to prevent initializing OkHttp on the main thread.
-            .callFactory { okhttpCallFactory.get().newCall(it) }
+            .callFactory { okhttpCallFactory.value.newCall(it) }
             .addConverterFactory(
                 networkJson.asConverterFactory("application/json".toMediaType()),
             )

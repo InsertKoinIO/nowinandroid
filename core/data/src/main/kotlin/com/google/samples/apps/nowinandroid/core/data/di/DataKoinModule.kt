@@ -16,42 +16,12 @@
 
 package com.google.samples.apps.nowinandroid.core.data.di
 
-import com.google.samples.apps.nowinandroid.core.datastore.NiaPreferencesDataSource
-import com.google.samples.apps.nowinandroid.core.network.NiaNetworkDataSource
-import com.google.samples.apps.nowinandroid.core.notifications.Notifier
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import org.koin.android.dagger.dagger
+import com.google.samples.apps.nowinandroid.core.notifications.NotificationsKoinModule
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Configuration
-import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
-import org.koin.core.scope.Scope
 
-// bridge Dagger to Koin for DataKoinModule
-@EntryPoint
-@InstallIn(SingletonComponent::class)
-interface DataModuleBridge {
-    fun niaPreferencesDataSource(): NiaPreferencesDataSource
-    fun network(): NiaNetworkDataSource
-    fun notifier(): Notifier
-}
-
-@Module
+@Module(includes = [NotificationsKoinModule::class])
 @Configuration
 @ComponentScan("com.google.samples.apps.nowinandroid.core.data")
-class DataKoinModule {
-
-    @Factory
-    fun niaPreferencesDataSource(scope: Scope): NiaPreferencesDataSource =
-        scope.dagger<DataModuleBridge>().niaPreferencesDataSource()
-
-    @Factory
-    fun network(scope: Scope): NiaNetworkDataSource =
-        scope.dagger<DataModuleBridge>().network()
-
-    @Factory
-    fun notifier(scope: Scope): Notifier =
-        scope.dagger<DataModuleBridge>().notifier()
-}
+class DataKoinModule

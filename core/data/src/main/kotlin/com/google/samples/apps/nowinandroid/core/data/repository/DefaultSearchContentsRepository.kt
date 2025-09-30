@@ -24,6 +24,8 @@ import com.google.samples.apps.nowinandroid.core.database.model.PopulatedNewsRes
 import com.google.samples.apps.nowinandroid.core.database.model.asExternalModel
 import com.google.samples.apps.nowinandroid.core.database.model.asFtsEntity
 import com.google.samples.apps.nowinandroid.core.model.data.SearchResult
+import com.google.samples.apps.nowinandroid.core.network.Dispatcher
+import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.IO
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -33,8 +35,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
-import javax.inject.Inject
-import javax.inject.Named
 
 @Factory
 internal class DefaultSearchContentsRepository(
@@ -42,7 +42,7 @@ internal class DefaultSearchContentsRepository(
     private val newsResourceFtsDao: NewsResourceFtsDao,
     private val topicDao: TopicDao,
     private val topicFtsDao: TopicFtsDao,
-    @Named("Dispatcher_IO") private val ioDispatcher: CoroutineDispatcher,
+    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
 ) : SearchContentsRepository {
 
     override suspend fun populateFtsData() {

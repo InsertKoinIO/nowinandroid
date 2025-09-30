@@ -37,27 +37,27 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.koin.core.component.KoinComponent
 
-@Module
-@InstallIn(SingletonComponent::class)
-object DataBridgeModule : KoinComponent {
-
-
-    @Provides
-    fun providesUserNewsResourceRepository() : UserNewsResourceRepository = getKoin().get()
-
-    @Provides
-    fun providesTopicsRepository() : TopicsRepository = getKoin().get()
-
-    @Provides
-    fun providesNewsRepository() : NewsRepository = getKoin().get()
-
-    @Provides
-    fun providesSearchContentsRepository() : SearchContentsRepository = getKoin().get()
-
-    @Provides
-    fun providesAnalyticsHelper() : AnalyticsHelper = getKoin().get()
-
-}
+//@Module
+//@InstallIn(SingletonComponent::class)
+//object DataBridgeModule : KoinComponent {
+//
+//
+//    @Provides
+//    fun providesUserNewsResourceRepository() : UserNewsResourceRepository = getKoin().get()
+//
+//    @Provides
+//    fun providesTopicsRepository() : TopicsRepository = getKoin().get()
+//
+//    @Provides
+//    fun providesNewsRepository() : NewsRepository = getKoin().get()
+//
+//    @Provides
+//    fun providesSearchContentsRepository() : SearchContentsRepository = getKoin().get()
+//
+//    @Provides
+//    fun providesAnalyticsHelper() : AnalyticsHelper = getKoin().get()
+//
+//}
 //
 //@Module(includes = [DataBridgeModule::class])
 //@InstallIn(SingletonComponent::class)

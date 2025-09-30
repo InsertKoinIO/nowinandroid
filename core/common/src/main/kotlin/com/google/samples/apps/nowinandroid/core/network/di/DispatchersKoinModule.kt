@@ -16,11 +16,13 @@
 
 package com.google.samples.apps.nowinandroid.core.network.di
 
+import com.google.samples.apps.nowinandroid.core.network.Dispatcher
+import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers
+import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.IO
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.annotation.Configuration
 import org.koin.core.annotation.Module
-import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
 /**
@@ -31,10 +33,10 @@ import org.koin.core.annotation.Single
 object DispatchersKoinModule {
 
     @Single
-    @Named("Dispatcher_IO")
+    @Dispatcher(IO)
     fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     @Single
-    @Named("Dispatcher_Default")
+    @Dispatcher(NiaDispatchers.Default)
     fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
 }

@@ -16,12 +16,13 @@
 
 package com.google.samples.apps.nowinandroid.core.network.di
 
+import com.google.samples.apps.nowinandroid.core.network.Dispatcher
+import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.core.annotation.Configuration
 import org.koin.core.annotation.Module
-import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
 @Module(includes = [DispatchersKoinModule::class])
@@ -30,6 +31,6 @@ class CoroutineScopesKoinModule {
 
     @Single
     fun providesCoroutineScope(
-        @Named("Dispatcher_Default") dispatcher: CoroutineDispatcher,
+        @Dispatcher(NiaDispatchers.Default) dispatcher: CoroutineDispatcher,
     ): CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 }

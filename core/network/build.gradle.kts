@@ -22,6 +22,7 @@ plugins {
     alias(libs.plugins.nowinandroid.android.library)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
     alias(libs.plugins.nowinandroid.hilt)
+    alias(libs.plugins.ksp)
     id("kotlinx-serialization")
 }
 
@@ -37,6 +38,9 @@ dependencies {
     api(libs.kotlinx.datetime)
     api(projects.core.common)
     api(projects.core.model)
+
+    ksp(libs.koin.ksp.compiler)
+    implementation(libs.koin.core)
 
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.svg)
