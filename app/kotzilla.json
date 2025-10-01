@@ -1,0 +1,11 @@
+{
+  "sdkVersion": "1.2.2",
+  "keys": [
+    {
+      "appId": "",
+      "applicationPackageName": "com.google.samples.apps.nowinandroid.demo.debug",
+      "keyId": "",
+      "apiKey": ""
+    }
+  ]
+}
