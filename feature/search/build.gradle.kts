@@ -38,7 +38,7 @@ dependencies {
 }
 
 ksp {
-    arg("KOIN_CONFIG_CHECK","false")
+    arg("KOIN_CONFIG_CHECK","true")
     arg("KOIN_LOG_TIMES","true")
 }
 
