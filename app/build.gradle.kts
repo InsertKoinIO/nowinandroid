@@ -21,7 +21,8 @@ plugins {
     alias(libs.plugins.nowinandroid.android.application.flavors)
     alias(libs.plugins.nowinandroid.android.application.jacoco)
     alias(libs.plugins.nowinandroid.android.application.firebase)
-    alias(libs.plugins.nowinandroid.hilt)
+    alias(libs.plugins.ksp)
+//    alias(libs.plugins.nowinandroid.hilt)
 //    alias(libs.plugins.google.osslicenses)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.roborazzi)
@@ -91,7 +92,7 @@ dependencies {
     implementation(libs.androidx.compose.runtime.tracing)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.hilt.navigation.compose)
+//    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.profileinstaller)
@@ -101,12 +102,12 @@ dependencies {
     implementation(libs.coil.kt)
     implementation(libs.kotlinx.serialization.json)
 
-    ksp(libs.hilt.compiler)
+//    ksp(libs.hilt.compiler)
 
     debugImplementation(libs.androidx.compose.ui.testManifest)
-    debugImplementation(projects.uiTestHiltManifest)
+//    debugImplementation(projects.uiTestHiltManifest)
 
-    kspTest(libs.hilt.compiler)
+//    kspTest(libs.hilt.compiler)
 
     implementation(libs.koin.core)
     implementation(libs.koin.compose.viewmodel)
@@ -117,7 +118,7 @@ dependencies {
     testImplementation(projects.core.dataTest)
     testImplementation(projects.core.datastoreTest)
     testImplementation(libs.hilt.android.testing)
-    testImplementation(projects.sync.syncTest)
+//    testImplementation(projects.sync.syncTest)
     testImplementation(libs.kotlin.test)
 
     testDemoImplementation(libs.androidx.navigation.testing)

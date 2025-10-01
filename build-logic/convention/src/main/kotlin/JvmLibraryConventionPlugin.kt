@@ -26,6 +26,7 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
         with(target) {
             apply(plugin = "org.jetbrains.kotlin.jvm")
             apply(plugin = "nowinandroid.android.lint")
+            apply(plugin = "com.google.devtools.ksp")
 
             configureKotlinJvm()
             dependencies {

@@ -33,7 +33,7 @@ import javax.inject.Singleton
 
 @Module
 @Configuration
-object NetworkKoinModule {
+class NetworkKoinModule {
 
     @Singleton
     fun providesNetworkJson(): Json = Json {

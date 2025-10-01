@@ -15,11 +15,12 @@
  */
 plugins {
     alias(libs.plugins.nowinandroid.jvm.library)
-    alias(libs.plugins.nowinandroid.hilt)
+//    alias(libs.plugins.nowinandroid.hilt)
 }
 
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
+    api(libs.javax.inject)
     api(libs.koin.core)
     api(libs.koin.annotations)
     ksp(libs.koin.ksp.compiler)

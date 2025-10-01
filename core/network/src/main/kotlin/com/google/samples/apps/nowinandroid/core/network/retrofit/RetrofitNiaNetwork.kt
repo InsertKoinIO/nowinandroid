@@ -72,7 +72,7 @@ private data class NetworkResponse<T>(
  * [Retrofit] backed [NiaNetworkDataSource]
  */
 @Singleton
-internal class RetrofitNiaNetwork @Inject constructor(
+internal class RetrofitNiaNetwork(
     networkJson: Json,
     okhttpCallFactory: Lazy<Call.Factory>,
 ) : NiaNetworkDataSource {

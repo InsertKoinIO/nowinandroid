@@ -90,10 +90,10 @@ gradlePlugin {
             id = libs.plugins.nowinandroid.android.test.get().pluginId
             implementationClass = "AndroidTestConventionPlugin"
         }
-        register("hilt") {
-            id = libs.plugins.nowinandroid.hilt.get().pluginId
-            implementationClass = "HiltConventionPlugin"
-        }
+//        register("hilt") {
+//            id = libs.plugins.nowinandroid.hilt.get().pluginId
+//            implementationClass = "HiltConventionPlugin"
+//        }
         register("androidRoom") {
             id = libs.plugins.nowinandroid.android.room.get().pluginId
             implementationClass = "AndroidRoomConventionPlugin"

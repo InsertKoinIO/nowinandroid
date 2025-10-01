@@ -15,9 +15,13 @@
  */
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
-    alias(libs.plugins.nowinandroid.hilt)
+//    alias(libs.plugins.nowinandroid.hilt)
 }
 
 android {
     namespace = "com.google.samples.apps.nowinandroid.uitesthiltmanifest"
+}
+
+dependencies {
+    implementation(libs.koin.android)
 }

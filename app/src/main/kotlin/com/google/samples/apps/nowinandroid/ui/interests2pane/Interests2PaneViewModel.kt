@@ -20,13 +20,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.toRoute
 import com.google.samples.apps.nowinandroid.feature.interests.navigation.InterestsRoute
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
+import org.koin.android.annotation.KoinViewModel
 import javax.inject.Inject
 
 const val TOPIC_ID_KEY = "selectedTopicId"
 
-@HiltViewModel
+@KoinViewModel
 class Interests2PaneViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {

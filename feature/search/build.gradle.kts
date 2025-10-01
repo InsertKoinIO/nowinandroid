@@ -37,3 +37,8 @@ dependencies {
     androidTestImplementation(projects.core.testing)
 }
 
+ksp {
+    arg("KOIN_CONFIG_CHECK","false")
+    arg("KOIN_LOG_TIMES","true")
+}
+

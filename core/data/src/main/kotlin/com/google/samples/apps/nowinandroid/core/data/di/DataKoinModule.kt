@@ -16,12 +16,11 @@
 
 package com.google.samples.apps.nowinandroid.core.data.di
 
-import com.google.samples.apps.nowinandroid.core.notifications.NotificationsKoinModule
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Configuration
 import org.koin.core.annotation.Module
 
-@Module(includes = [NotificationsKoinModule::class])
+@Module
 @Configuration
 @ComponentScan("com.google.samples.apps.nowinandroid.core.data")
 class DataKoinModule

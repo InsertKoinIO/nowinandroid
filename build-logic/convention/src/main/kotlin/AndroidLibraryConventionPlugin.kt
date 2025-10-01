@@ -34,6 +34,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             apply(plugin = "com.android.library")
             apply(plugin = "org.jetbrains.kotlin.android")
             apply(plugin = "nowinandroid.android.lint")
+            apply(plugin = "com.google.devtools.ksp")
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)

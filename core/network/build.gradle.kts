@@ -21,7 +21,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
-    alias(libs.plugins.nowinandroid.hilt)
+//    alias(libs.plugins.nowinandroid.hilt)
     alias(libs.plugins.ksp)
     id("kotlinx-serialization")
 }
@@ -66,4 +66,9 @@ androidComponents {
             BuildConfigField(type = "String", value = """"$value"""", comment = null)
         })
     }
+}
+
+ksp {
+    arg("KOIN_CONFIG_CHECK","false")
+    arg("KOIN_LOG_TIMES","true")
 }
