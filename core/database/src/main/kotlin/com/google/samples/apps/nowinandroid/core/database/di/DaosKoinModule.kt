@@ -23,34 +23,34 @@ import com.google.samples.apps.nowinandroid.core.database.dao.RecentSearchQueryD
 import com.google.samples.apps.nowinandroid.core.database.dao.TopicDao
 import com.google.samples.apps.nowinandroid.core.database.dao.TopicFtsDao
 import org.koin.core.annotation.Configuration
-import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
+import org.koin.core.annotation.Single
 
 @Module(includes = [DatabaseKoinModule::class])
 @Configuration
 class DaosKoinModule {
 
-    @Factory // formally Provides in Hilt version
+    @Single // formally Provides in Hilt version
     fun providesTopicsDao(
         database: NiaDatabase,
     ): TopicDao = database.topicDao()
 
-    @Factory // formally Provides in Hilt version
+    @Single // formally Provides in Hilt version
     fun providesNewsResourceDao(
         database: NiaDatabase,
     ): NewsResourceDao = database.newsResourceDao()
 
-    @Factory // formally Provides in Hilt version
+    @Single // formally Provides in Hilt version
     fun providesTopicFtsDao(
         database: NiaDatabase,
     ): TopicFtsDao = database.topicFtsDao()
 
-    @Factory // formally Provides in Hilt version
+    @Single // formally Provides in Hilt version
     fun providesNewsResourceFtsDao(
         database: NiaDatabase,
     ): NewsResourceFtsDao = database.newsResourceFtsDao()
 
-    @Factory // formally Provides in Hilt version
+    @Single // formally Provides in Hilt version
     fun providesRecentSearchQueryDao(
         database: NiaDatabase,
     ): RecentSearchQueryDao = database.recentSearchQueryDao()

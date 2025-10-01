@@ -35,8 +35,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
-internal class DefaultSearchContentsRepository @Inject constructor(
+@Singleton
+internal class DefaultSearchContentsRepository(
     private val newsResourceDao: NewsResourceDao,
     private val newsResourceFtsDao: NewsResourceFtsDao,
     private val topicDao: TopicDao,

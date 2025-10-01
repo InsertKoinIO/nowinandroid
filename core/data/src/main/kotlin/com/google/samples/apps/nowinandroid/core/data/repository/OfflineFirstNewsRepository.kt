@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
 // Heuristic value to optimize for serialization and deserialization cost on client and server
 // for each news resource batch.
@@ -45,7 +46,8 @@ private const val SYNC_BATCH_SIZE = 40
  * Disk storage backed implementation of the [NewsRepository].
  * Reads are exclusively from local storage to support offline access.
  */
-internal class OfflineFirstNewsRepository @Inject constructor(
+@Singleton
+internal class OfflineFirstNewsRepository(
     private val niaPreferencesDataSource: NiaPreferencesDataSource,
     private val newsResourceDao: NewsResourceDao,
     private val topicDao: TopicDao,

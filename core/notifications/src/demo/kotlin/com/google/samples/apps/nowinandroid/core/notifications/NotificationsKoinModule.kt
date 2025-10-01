@@ -17,13 +17,13 @@
 package com.google.samples.apps.nowinandroid.core.notifications
 
 import org.koin.core.annotation.Configuration
-import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
+import javax.inject.Singleton
 
 @Module
 @Configuration
 class NotificationsKoinModule {
 
-    @Factory
+    @Singleton
     fun notifier() : Notifier = NoOpNotifier()
 }

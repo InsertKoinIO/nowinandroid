@@ -24,8 +24,10 @@ import com.google.samples.apps.nowinandroid.core.model.data.ThemeBrand
 import com.google.samples.apps.nowinandroid.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
-internal class OfflineFirstUserDataRepository @Inject constructor(
+@Singleton
+internal class OfflineFirstUserDataRepository(
     private val niaPreferencesDataSource: NiaPreferencesDataSource,
     private val analyticsHelper: AnalyticsHelper,
 ) : UserDataRepository {

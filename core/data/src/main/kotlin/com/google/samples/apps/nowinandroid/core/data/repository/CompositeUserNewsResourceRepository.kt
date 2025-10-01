@@ -25,12 +25,14 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Implements a [UserNewsResourceRepository] by combining a [NewsRepository] with a
  * [UserDataRepository].
  */
-class CompositeUserNewsResourceRepository @Inject constructor(
+@Singleton
+class CompositeUserNewsResourceRepository(
     val newsRepository: NewsRepository,
     val userDataRepository: UserDataRepository,
 ) : UserNewsResourceRepository {

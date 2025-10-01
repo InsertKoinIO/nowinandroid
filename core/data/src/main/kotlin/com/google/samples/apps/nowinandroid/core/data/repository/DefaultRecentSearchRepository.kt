@@ -24,8 +24,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import javax.inject.Inject
+import javax.inject.Singleton
 
-internal class DefaultRecentSearchRepository @Inject constructor(
+@Singleton
+internal class DefaultRecentSearchRepository(
     private val recentSearchQueryDao: RecentSearchQueryDao,
 ) : RecentSearchRepository {
     override suspend fun insertOrReplaceRecentSearch(searchQuery: String) {
