@@ -30,27 +30,27 @@ import org.koin.core.annotation.Module
 @Configuration
 class DaosKoinModule {
 
-    @Factory
+    @Factory // formally Provides in Hilt version
     fun providesTopicsDao(
         database: NiaDatabase,
     ): TopicDao = database.topicDao()
 
-    @Factory
+    @Factory // formally Provides in Hilt version
     fun providesNewsResourceDao(
         database: NiaDatabase,
     ): NewsResourceDao = database.newsResourceDao()
 
-    @Factory
+    @Factory // formally Provides in Hilt version
     fun providesTopicFtsDao(
         database: NiaDatabase,
     ): TopicFtsDao = database.topicFtsDao()
 
-    @Factory
+    @Factory // formally Provides in Hilt version
     fun providesNewsResourceFtsDao(
         database: NiaDatabase,
     ): NewsResourceFtsDao = database.newsResourceFtsDao()
 
-    @Factory
+    @Factory // formally Provides in Hilt version
     fun providesRecentSearchQueryDao(
         database: NiaDatabase,
     ): RecentSearchQueryDao = database.recentSearchQueryDao()

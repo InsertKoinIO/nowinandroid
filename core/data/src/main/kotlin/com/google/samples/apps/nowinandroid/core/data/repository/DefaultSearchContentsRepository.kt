@@ -34,10 +34,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
-import org.koin.core.annotation.Factory
+import javax.inject.Inject
 
-@Factory
-internal class DefaultSearchContentsRepository(
+internal class DefaultSearchContentsRepository @Inject constructor(
     private val newsResourceDao: NewsResourceDao,
     private val newsResourceFtsDao: NewsResourceFtsDao,
     private val topicDao: TopicDao,

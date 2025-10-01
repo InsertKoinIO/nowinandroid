@@ -60,6 +60,7 @@ truth = "1.4.4"
 turbine = "1.2.0"
 koin = "4.1.2-Beta1"
 koin-annotations = "2.2.0-RC4"
+kotzilla = "1.2.2"
 
 [bundles]
 androidx-compose-ui-test = ["androidx-compose-ui-test", "androidx-compose-ui-testManifest"]
@@ -160,7 +161,9 @@ koin-compose-viewmodel = {group = "io.insert-koin", name = "koin-compose-viewmod
 # Koin Annotations
 koin-annotations = {module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations"}
 koin-ksp-compiler = {module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-annotations"}
-
+# Kotzilla
+kotzilla-sdk = {module = "io.kotzilla:kotzilla-sdk-compose", version.ref = "kotzilla"}
+kotzilla-core = {module = "io.kotzilla:kotzilla-core", version.ref = "kotzilla"}
 
 # Dependencies of the included build-logic
 android-gradleApiPlugin = { group = "com.android.tools.build", name = "gradle-api", version.ref = "androidGradlePlugin" }
@@ -192,6 +195,7 @@ google-osslicenses = { id = "com.google.android.gms.oss-licenses-plugin", versio
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 room = { id = "androidx.room", version.ref = "room" }
+kotzilla = { id  = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
 
 # Plugins defined by this project
 nowinandroid-android-application = { id = "nowinandroid.android.application" }

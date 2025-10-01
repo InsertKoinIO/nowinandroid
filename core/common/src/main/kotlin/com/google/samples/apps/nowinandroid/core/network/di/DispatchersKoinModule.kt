@@ -22,8 +22,8 @@ import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.IO
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.annotation.Configuration
+import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
-import org.koin.core.annotation.Single
 
 /**
  * For now using @Named qualifier manual bridge
@@ -32,11 +32,11 @@ import org.koin.core.annotation.Single
 @Configuration
 object DispatchersKoinModule {
 
-    @Single
+    @Factory // formally Provides in Hilt version
     @Dispatcher(IO)
     fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 
-    @Single
+    @Factory // formally Provides in Hilt version
     @Dispatcher(NiaDispatchers.Default)
     fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
 }

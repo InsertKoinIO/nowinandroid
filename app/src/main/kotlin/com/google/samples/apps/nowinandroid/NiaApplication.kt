@@ -24,6 +24,7 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import com.google.samples.apps.nowinandroid.sync.initializers.Sync
 import com.google.samples.apps.nowinandroid.util.ProfileVerifierLogger
+import io.kotzilla.sdk.analytics.koin.analytics
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -43,11 +44,18 @@ class NiaApplication : Application(), ImageLoaderFactory {
     private val profileVerifierLogger: ProfileVerifierLogger by inject()
 
     override fun onCreate() {
-        // Need Koin to start before
+
+        // Need Koin to start before Hilt
         startKoin {
-            androidLogger(Level.DEBUG)
             androidContext(this@NiaApplication)
             workManagerFactory()
+
+            analytics {
+                onConfig {
+                    refreshRate = 15_000L
+                    useDebugLogs = true
+                }
+            }
         }
 
         // Dagger check here

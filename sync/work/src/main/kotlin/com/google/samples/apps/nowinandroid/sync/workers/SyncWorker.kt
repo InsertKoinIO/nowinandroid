@@ -35,6 +35,7 @@ import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.IO
 import com.google.samples.apps.nowinandroid.sync.initializers.SyncConstraints
 import com.google.samples.apps.nowinandroid.sync.initializers.syncForegroundInfo
 import com.google.samples.apps.nowinandroid.sync.status.SyncSubscriber
+import io.kotzilla.sdk.KotzillaCore
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -62,7 +63,7 @@ class SyncWorker(
         appContext.syncForegroundInfo()
 
     override suspend fun doWork(): Result = withContext(ioDispatcher) {
-        traceAsync("Sync", 0) {
+        KotzillaCore.getDefaultInstance().suspendTrace ("Sync") {
             analyticsHelper.logSyncStarted()
 
             syncSubscriber.subscribe()

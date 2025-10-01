@@ -27,6 +27,7 @@ plugins {
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotzilla)
 }
 
 android {
@@ -114,6 +115,7 @@ dependencies {
     implementation(libs.koin.androidx.worker)
     implementation(libs.koin.annotations)
     ksp(libs.koin.ksp.compiler)
+    implementation(libs.kotzilla.sdk)
 
     testImplementation(projects.core.dataTest)
     testImplementation(projects.core.datastoreTest)
@@ -153,4 +155,10 @@ dependencyGuard {
 
 ksp {
     arg("KOIN_CONFIG_CHECK","true")
+}
+
+
+kotzilla {
+    // Compose Navigation
+    composeInstrumentation = true
 }

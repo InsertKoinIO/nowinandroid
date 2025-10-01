@@ -31,6 +31,7 @@ dependencies {
 
 //    implementation(libs.koin.dagger)
     implementation(libs.koin.androidx.worker)
+    implementation(libs.kotzilla.core)
     ksp(libs.koin.ksp.compiler)
 
     implementation(libs.androidx.tracing.ktx)
