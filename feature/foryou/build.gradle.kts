@@ -19,6 +19,7 @@ plugins {
     alias(libs.plugins.nowinandroid.android.library.compose)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
     alias(libs.plugins.roborazzi)
+    alias(libs.plugins.allOpen)
 }
 
 android {
@@ -35,6 +36,7 @@ dependencies {
 
     implementation(libs.koin.compose.viewmodel)
     ksp(libs.koin.ksp.compiler)
+    implementation(libs.kotzilla.core)
 
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.robolectric)
@@ -43,6 +45,10 @@ dependencies {
 
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
     androidTestImplementation(projects.core.testing)
+}
+
+allOpen {
+    annotation("org.koin.core.annotation.Monitor")
 }
 
 ksp {

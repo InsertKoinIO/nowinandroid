@@ -58,8 +58,8 @@ roborazzi = "1.39.0"
 room = "2.7.2"
 truth = "1.4.4"
 turbine = "1.2.0"
-koin = "4.1.2-Beta1"
-koin-annotations = "2.2.0-RC4"
+koin = "4.1.1"
+koin-annotations = "2.2.0"
 kotzilla = "1.2.2"
 
 [bundles]
@@ -196,6 +196,7 @@ protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 room = { id = "androidx.room", version.ref = "room" }
 kotzilla = { id  = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
+allOpen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }
 
 # Plugins defined by this project
 nowinandroid-android-application = { id = "nowinandroid.android.application" }

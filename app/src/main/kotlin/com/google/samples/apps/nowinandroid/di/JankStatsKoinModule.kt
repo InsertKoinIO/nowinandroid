@@ -20,6 +20,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.metrics.performance.JankStats
 import androidx.metrics.performance.JankStats.OnFrameListener
+import io.kotzilla.sdk.KotzillaSDK
 import org.koin.android.annotation.ActivityScope
 import org.koin.core.annotation.Configuration
 import org.koin.core.annotation.Module
@@ -37,5 +38,6 @@ fun providesOnFrameListener(): OnFrameListener = OnFrameListener { frameData ->
     if (frameData.isJank) {
         // We're currently logging this but would better report it to a backend.
         Log.v("NiA Jank", frameData.toString())
+        KotzillaSDK.log("NiA Jank - $frameData")
     }
 }
