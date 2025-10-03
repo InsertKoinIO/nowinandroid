@@ -442,10 +442,197 @@ object CoroutineScopesKoinModule {
     ): CoroutineScope = SupervisorJob() + dispatcher)
 }
 ```
+---
+
+## 6. Dagger to Koin Bridge: Progressive Migration Strategy
+
+Before fully migrating to Koin, the project used the Dagger Bridge feature from Koin 4.1.2 to enable a progressive migration—allowing Dagger and Koin to coexist while gradually moving components.
+
+### The Bridge Pattern: Accessing Dagger from Koin
+
+Koin Annotations 2.2 provides `@EntryPoint` integration to access Dagger-managed dependencies from Koin.
+
+**Core Pattern - DataModuleBridge:**
+
+```kotlin
+// core/data/.../DataKoinModule.kt
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface DataModuleBridge {
+    fun recentSearchQueryDao(): RecentSearchQueryDao
+    fun newsResourceDao(): NewsResourceDao
+    fun newsResourceFtsDao(): NewsResourceFtsDao
+    fun topicDao(): TopicDao
+    fun topicFtsDao(): TopicFtsDao
+    fun niaPreferencesDataSource(): NiaPreferencesDataSource
+    fun network(): NiaNetworkDataSource
+    fun notifier(): Notifier
+}
+
+@Module(includes = [CoroutineScopesKoinModule::class, AnalyticsKoinModule::class])
+@Configuration
+@ComponentScan("com.google.samples.apps.nowinandroid.core.data")
+class DataKoinModule {
+
+    @Factory
+    fun recentSearchQueryDao(scope: Scope): RecentSearchQueryDao =
+        scope.dagger<DataModuleBridge>().recentSearchQueryDao()
+
+    @Factory
+    fun newsResourceDao(scope: Scope): NewsResourceDao =
+        scope.dagger<DataModuleBridge>().newsResourceDao()
+
+    @Factory
+    fun newsResourceFtsDao(scope: Scope): NewsResourceFtsDao =
+        scope.dagger<DataModuleBridge>().newsResourceFtsDao()
+
+    @Factory
+    fun topicDao(scope: Scope): TopicDao =
+        scope.dagger<DataModuleBridge>().topicDao()
+
+    @Factory
+    fun topicFtsDao(scope: Scope): TopicFtsDao =
+        scope.dagger<DataModuleBridge>().topicFtsDao()
+
+    @Factory
+    fun niaPreferencesDataSource(scope: Scope): NiaPreferencesDataSource =
+        scope.dagger<DataModuleBridge>().niaPreferencesDataSource()
+
+    @Factory
+    fun network(scope: Scope): NiaNetworkDataSource =
+        scope.dagger<DataModuleBridge>().network()
+
+    @Factory
+    fun notifier(scope: Scope): Notifier =
+        scope.dagger<DataModuleBridge>().notifier()
+}
+```
+
+The `scope.dagger<DataModuleBridge>()` extension retrieves Dagger's `@EntryPoint`, allowing Koin to inject Dagger-managed dependencies.
+
+### Bridge Pattern Benefits
+
+**Factory Scope for Dagger Dependencies:**
+
+```kotlin
+@Factory  // Not @Single - to avoid keeping Dagger instances in Koin
+fun imageLoader(scope: Scope) = daggerBridge(scope).imageLoader()
+
+@Factory
+fun syncManager(scope: Scope) = daggerBridge(scope).syncManager()
+
+private fun daggerBridge(scope: Scope): DaggerBridge = scope.dagger<DaggerBridge>()
+```
+
+Using `@Factory` instead of `@Single` ensures Koin doesn't cache Dagger-managed singletons, preventing dual lifecycle management.
+
+### Core Infrastructure Bridges
+
+**Dispatchers and Coroutine Scopes:**
+
+```kotlin
+// core/common/.../DispatchersKoinModule.kt
+@Module
+@Configuration
+object DispatchersKoinModule {
+
+    @Single
+    @Named("Dispatcher_IO")
+    fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @Single
+    @Named("Dispatcher_Default")
+    fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+}
+
+// core/common/.../CoroutineScopesKoinModule.kt
+@Module(includes = [DispatchersKoinModule::class])
+@Configuration
+class CoroutineScopesKoinModule {
+
+    @Single
+    fun providesCoroutineScope(
+        @Named("Dispatcher_Default") dispatcher: CoroutineDispatcher,
+    ): CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
+}
+```
+
+This allowed core infrastructure to be migrated first while keeping data layer dependencies in Dagger temporarily.
+
+### Progressive Migration Steps (Commits 4e71ac5..122cb2b1)
+
+1. **9e0b5711** - Bridge Core Coroutines/Scopes/Dispatchers
+   Migrated foundational infrastructure to Koin while preserving Dagger data layer.
+
+2. **dbe94482** - Bridge data module
+   Created `DataModuleBridge` to access DAOs and DataSources from Dagger.
+
+3. **e8416cf6** - Use dagger bridge from Koin 4.1.2
+   Enabled `scope.dagger<T>()` extension for EntryPoint access.
+
+4. **a9343287** - Bridge DataKoinModule for UserNewsResourceRepository
+   Allowed Koin-managed repositories to depend on Dagger-managed DAOs.
+
+5. **f72eb363** - Prepare central bridge module
+   Created `DaggerBridgeModule` for app-level dependencies like `ImageLoader` and `SyncManager`.
+
+6. **b7d9f4a9** - Migrate all ViewModel to Koin
+   Moved 8 ViewModels from `@HiltViewModel` to `@KoinViewModel` while dependencies remained in Dagger.
+
+7. **0f266ea5** - Scan/migrate UseCase injection into Koin
+   Migrated 3 domain use cases with `@Inject` constructors using `@ComponentScan`.
+
+8. **122cb2b1** - Move all repositories - update bridges
+   Final migration step: repositories moved to Koin, bridge functions updated.
+
+### App-Level Bridge: DaggerBridgeModule
+
+```kotlin
+// app/.../DaggerBridgeModule.kt
+@InstallIn(SingletonComponent::class)
+@EntryPoint
+interface DaggerBridge {
+    fun imageLoader(): ImageLoader
+    fun syncManager(): SyncManager
+}
+
+@Module
+@Configuration
+class DaggerBridgeModule {
+
+    @Factory
+    fun imageLoader(scope: Scope) = daggerBridge(scope).imageLoader()
+
+    @Factory
+    fun syncManager(scope: Scope) = daggerBridge(scope).syncManager()
+
+    private fun daggerBridge(scope: Scope): DaggerBridge = scope.dagger<DaggerBridge>()
+}
+```
+
+This bridged remaining Dagger-only components (like Coil's `ImageLoader` and `SyncManager`) into Koin.
+
+### Migration Benefits
+
+- ✅ **Zero downtime** - Dagger and Koin coexist during migration
+- ✅ **Progressive rollout** - Migrate module-by-module without breaking builds
+- ✅ **Risk mitigation** - Rollback to Dagger if issues arise
+- ✅ **Team velocity** - Developers can migrate features independently
+- ✅ **Reduced testing burden** - Test each module migration separately
+
+### Key Pattern: Named Qualifiers for Manual Bridging
+
+```kotlin
+@Single
+@Named("Dispatcher_IO")
+fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
+```
+
+For now, `@Named` qualifiers provide manual bridging between Dagger's and Koin's dependency graphs, ensuring correct dispatcher injection across the migration boundary.
 
 ---
 
-## 6. @Monitor Annotation - Performance Tracing on ForYouViewModel
+## 7. @Monitor Annotation - Performance Tracing on ForYouViewModel
 
 The `@Monitor` annotation automatically traces all ViewModel methods for performance analysis with zero instrumentation code.
 
@@ -610,7 +797,7 @@ Zero instrumentation code required—just the `@Monitor` annotation.
 
 ---
 
-## 7. Kotzilla SDK Integration
+## 8. Kotzilla SDK Integration
 
 Performance monitoring integrated throughout the app with real-time analytics.
 
