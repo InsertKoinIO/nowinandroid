@@ -44,25 +44,19 @@ class NiaApplication : Application(), ImageLoaderFactory {
     private val profileVerifierLogger: ProfileVerifierLogger by inject()
 
     override fun onCreate() {
-
         // Need Koin to start before Hilt
         startKoin {
             androidContext(this@NiaApplication)
+            androidLogger(Level.DEBUG)
             workManagerFactory()
 
-            analytics {
-                onConfig {
-                    refreshRate = 15_000L
-                    useDebugLogs = true
-                }
-            }
+            //TODO Activate Kotzilla
+//            analytics()
         }
 
         // Dagger check here
         super.onCreate()
-
         setStrictModePolicy()
-
 
         // Initialize Sync; the system responsible for keeping data in the app up to date.
         Sync.initialize(context = this)

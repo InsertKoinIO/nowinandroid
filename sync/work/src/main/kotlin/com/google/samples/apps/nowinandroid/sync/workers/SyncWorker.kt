@@ -63,7 +63,10 @@ class SyncWorker(
         appContext.syncForegroundInfo()
 
     override suspend fun doWork(): Result = withContext(ioDispatcher) {
-        KotzillaCore.getDefaultInstance().suspendTrace ("Sync") {
+
+        //TODO Kotzilla tracing here
+        //KotzillaCore.getDefaultInstance().suspendTrace ("Sync") {
+        traceAsync ("Sync",0) {
             analyticsHelper.logSyncStarted()
 
             syncSubscriber.subscribe()

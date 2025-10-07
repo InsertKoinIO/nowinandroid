@@ -21,6 +21,50 @@ This makes it an ideal showcase for Koin Annotations 2.2's enterprise-scale feat
 
 ---
 
+## Kotzilla SDK Setup
+
+This project integrates the **Kotzilla SDK** for production monitoring, performance tracing, and analytics.
+
+### Prerequisites: Configure Your API Key
+
+Before running the app, you need to replace the default `kotzilla.json` file with your own API credentials.
+
+**Location:** `app/kotzilla.json`
+
+**Setup steps:**
+
+1. Sign up at [Kotzilla Platform](https://kotzilla.io) and create a new project
+2. Generate your API credentials (appId, keyId, apiKey)
+3. Update `app/kotzilla.json` with your credentials
+4. Uncomment the Kotzilla plugin and Kotzilla section, in `app/build.gradle.kts`:
+
+```kotlin
+plugins {
+    // ... other plugins
+    alias(libs.plugins.kotzilla)  // Uncomment this line
+}
+
+// Uncomment this to track Compose Navigation
+kotzilla {
+    // Compose Navigation
+    composeInstrumentation = true
+}
+```
+
+5. Enable analytics in `NiaApplication.kt`:
+
+```kotlin
+startKoin {
+    androidContext(this@NiaApplication)
+    workManagerFactory()
+
+    // Uncomment to activate Kotzilla analytics
+    analytics()
+}
+```
+
+---
+
 ## 1. JSR-330 Compatibility: Seamless Hilt Migration
 
 The migration leverages JSR-330 annotations for minimal code changes, preserving the original Hilt patterns.
@@ -444,7 +488,7 @@ object CoroutineScopesKoinModule {
     @Singleton
     fun providesCoroutineScope(
         @Dispatcher(NiaDispatchers.Default) dispatcher: CoroutineDispatcher,
-    ): CoroutineScope = SupervisorJob() + dispatcher)
+    ): CoroutineScope = SupervisorJob() + dispatcher
 }
 ```
 ---
@@ -988,3 +1032,58 @@ Koin Annotations 2.2 successfully migrated Google's Now in Android from Hilt wit
 - **Type safety** - Compile-time verification caught all dependency issues
 
 The migration took **~2 hours total** and resulted in cleaner, more maintainable code with built-in performance monitoring capabilities.
+
+---
+
+## Using Kotzilla Tracing
+
+This project demonstrates three types of Kotzilla tracing for production monitoring.
+
+### 1. @Monitor Annotation - Automatic Method Tracing
+
+The `ForYouViewModel` uses `@Monitor` to automatically trace all public methods:
+
+```kotlin
+@Monitor
+@KoinViewModel
+class ForYouViewModel(...) : ViewModel() {
+
+    fun updateTopicSelection(topicId: String, isChecked: Boolean) { ...}
+
+    fun updateNewsResourceSaved(newsResourceId: String, isChecked: Boolean) { ...}
+
+    fun setNewsResourceViewed(newsResourceId: String, viewed: Boolean) { ...}
+
+    fun onDeepLinkOpened(newsResourceId: String) { ...}
+
+    fun dismissOnboarding() { ...}
+}
+```
+
+All five methods are automatically traced with built-in monitoring.
+
+### 2. Manual Tracing - ViewModel Creation
+
+The `MainActivity` traces ViewModel instantiation time:
+
+```kotlin
+private val viewModel: MainActivityViewModel by
+    KotzillaSDK.trace("MainActivityViewModel") {
+        viewModel<MainActivityViewModel>()
+    }
+```
+
+This measures how long it takes to create and inject the ViewModel and its dependencies.
+
+### 3. Event Logging - Jank Monitoring
+
+Performance jank events are logged to Kotzilla for UI performance analysis:
+
+```kotlin
+fun providesOnFrameListener(): OnFrameListener = OnFrameListener { frameData ->
+    if (frameData.isJank) {
+        Log.v("NiA Jank", frameData.toString())
+        KotzillaSDK.log("NiA Jank - $frameData")  // Send to Kotzilla Platform
+    }
+}
+```

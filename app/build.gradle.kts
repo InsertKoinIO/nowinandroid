@@ -27,7 +27,9 @@ plugins {
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.kotzilla)
+
+    //TODO Activate Kotzilla
+//    alias(libs.plugins.kotzilla)
 }
 
 android {
@@ -158,7 +160,8 @@ ksp {
 }
 
 
-kotzilla {
-    // Compose Navigation
-    composeInstrumentation = true
-}
+//TODO Activate Kotzilla
+//kotzilla {
+//    // Compose Navigation
+//    composeInstrumentation = true
+//}
