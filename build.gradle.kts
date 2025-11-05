@@ -38,7 +38,8 @@ plugins {
     alias(libs.plugins.roborazzi) apply false
 //    alias(libs.plugins.google.osslicenses) apply false
     alias(libs.plugins.room) apply false
+    alias(libs.plugins.nowinandroid.root)
     alias(libs.plugins.kotzilla) apply false
     alias(libs.plugins.allOpen) apply false
-    alias(libs.plugins.module.graph) apply true // Plugin applied to allow module graph generation
+//    alias(libs.plugins.module.graph) apply true // Plugin applied to allow module graph generation
 }
