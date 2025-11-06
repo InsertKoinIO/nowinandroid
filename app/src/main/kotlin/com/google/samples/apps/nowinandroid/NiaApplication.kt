@@ -44,17 +44,15 @@ class NiaApplication : Application(), ImageLoaderFactory {
     private val profileVerifierLogger: ProfileVerifierLogger by inject()
 
     override fun onCreate() {
-        // Need Koin to start before Hilt
+        // Start Koin
         startKoin {
             androidContext(this@NiaApplication)
-            androidLogger(Level.DEBUG)
             workManagerFactory()
 
             //TODO Activate Kotzilla
 //            analytics()
         }
 
-        // Dagger check here
         super.onCreate()
         setStrictModePolicy()
 
