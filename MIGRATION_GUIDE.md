@@ -49,15 +49,15 @@ fun jankStats(activity: ComponentActivity): JankStats
 
 Koin ties the instance to the Activity lifecycle automatically. When the Activity dies, the instance is cleaned up. No leaks, no manual management.
 
-### KSP-Based DSL Generation
+### KSP Generation & Compile Safety
 
-Koin Annotations uses KSP to generate Koin DSL code from your annotations at compile time. This gives you compile-time safety - missing dependencies fail the build with clear error messages, not at runtime.
+Koin Annotations uses KSP to consolidate annotations metadata and generate Koin DSL code at compile time. This gives you compile-time safety - missing dependencies fail the build with clear error messages, not at runtime.
 
 It's worth noting that Koin itself has never used reflection. The annotations provide a faster, more scalable workflow on top of Koin's existing DSL. You get the developer experience of annotations with the performance of generated code.
 
 ### Version 2.3 Update
 
-Koin Annotations 2.3 primarily extends KSP compatibility to support the latest KSP versions and Kotlin compiler updates. The core features from 2.2 remain the foundation for enterprise migration scenarios like this one.
+Koin Annotations 2.3.0 works with KSP 2.3.1, bringing compatibility with the latest Kotlin compiler and KSP versions. The core features from 2.2 remain the foundation for enterprise migration scenarios like this one.
 
 ---
 
@@ -103,9 +103,9 @@ Step 2: Access from Koin
 @Module
 @Configuration
 class DataKoinModule {
-    @Factory
-    fun newsResourceDao(scope: Scope): NewsResourceDao =
-        scope.dagger<DataModuleBridge>().newsResourceDao()
+   @Factory
+   fun newsResourceDao(scope: Scope): NewsResourceDao =
+      scope.dagger<DataModuleBridge>().newsResourceDao()
 }
 ```
 
@@ -129,10 +129,10 @@ The Hilt version:
 ```kotlin
 @HiltAndroidApp
 class NiaApplication : Application(), ImageLoaderFactory {
-    override fun onCreate() {
-        super.onCreate()
-        // Hilt handles everything automatically
-    }
+   override fun onCreate() {
+      super.onCreate()
+      // Hilt handles everything automatically
+   }
 }
 ```
 
@@ -141,22 +141,22 @@ After migration:
 @KoinApplication
 class NiaApplication : Application(), ImageLoaderFactory {
 
-    private val imageLoader: ImageLoader by inject()
-    private val profileVerifierLogger: ProfileVerifierLogger by inject()
+   private val imageLoader: ImageLoader by inject()
+   private val profileVerifierLogger: ProfileVerifierLogger by inject()
 
-    override fun onCreate() {
-        startKoin {
-            androidContext(this@NiaApplication)
-            workManagerFactory()
-        }
+   override fun onCreate() {
+      startKoin {
+         androidContext(this@NiaApplication)
+         workManagerFactory()
+      }
 
-        super.onCreate()
+      super.onCreate()
 
-        Sync.initialize(context = this)
-        profileVerifierLogger()
-    }
+      Sync.initialize(context = this)
+      profileVerifierLogger()
+   }
 
-    override fun newImageLoader(): ImageLoader = imageLoader
+   override fun newImageLoader(): ImageLoader = imageLoader
 }
 ```
 
@@ -164,11 +164,11 @@ A few things to note here:
 
 1. `@KoinApplication` replaces `@HiltAndroidApp`. This annotation triggers KSP to scan for all `@Configuration` modules in your project.
 
-2. `startKoin` must be called before `super.onCreate()`. This ensures Koin is ready before Android's Application lifecycle kicks in.
+2. `startKoin` is called in the first lines of `onCreate()`. If you're doing a progressive migration with both Hilt and Koin, call it before Hilt initialization to help with colocation.
 
 3. `workManagerFactory()` integrates Koin with WorkManager, so your Workers can use dependency injection.
 
-4. Dependencies like `imageLoader` are injected using `by inject()`. This is lazy injection - the instance is created only when you first access the property.
+4. Dependencies like `imageLoader` are injected using `by inject()`. This is field injection - the instance is created lazily when you first access the property.
 
 At this point, the app won't build yet because we haven't created any Koin modules. But the foundation is there.
 
@@ -188,16 +188,16 @@ The module:
 @Configuration
 class JankStatsKoinModule {
 
-    @ActivityScope
-    fun jankStats(activity: ComponentActivity): JankStats =
-        JankStats.createAndTrack(activity.window, providesOnFrameListener())
+   @ActivityScope
+   fun jankStats(activity: ComponentActivity): JankStats =
+      JankStats.createAndTrack(activity.window, providesOnFrameListener())
 }
 
 fun providesOnFrameListener(): OnFrameListener = OnFrameListener { frameData ->
-    if (frameData.isJank) {
-        Log.v("NiA Jank", frameData.toString())
-        KotzillaSDK.log("NiA Jank - $frameData")
-    }
+   if (frameData.isJank) {
+      Log.v("NiA Jank", frameData.toString())
+      KotzillaSDK.log("NiA Jank - $frameData")
+   }
 }
 ```
 
@@ -207,23 +207,23 @@ Using it in MainActivity:
 ```kotlin
 class MainActivity : ComponentActivity(), AndroidScopeComponent {
 
-    override val scope: Scope by activityScope()
+   override val scope: Scope by activityScope()
 
-    private val lazyStats: JankStats by inject()
-    private val networkMonitor: NetworkMonitor by inject()
-    private val timeZoneMonitor: TimeZoneMonitor by inject()
-    private val analyticsHelper: AnalyticsHelper by inject()
-    private val viewModel: MainActivityViewModel by viewModel()
+   private val lazyStats: JankStats by inject()
+   private val networkMonitor: NetworkMonitor by inject()
+   private val timeZoneMonitor: TimeZoneMonitor by inject()
+   private val analyticsHelper: AnalyticsHelper by inject()
+   private val viewModel: MainActivityViewModel by viewModel()
 
-    override fun onResume() {
-        super.onResume()
-        lazyStats.isTrackingEnabled = true
-    }
+   override fun onResume() {
+      super.onResume()
+      lazyStats.isTrackingEnabled = true
+   }
 
-    override fun onPause() {
-        super.onPause()
-        lazyStats.isTrackingEnabled = false
-    }
+   override fun onPause() {
+      super.onPause()
+      lazyStats.isTrackingEnabled = false
+   }
 }
 ```
 
@@ -250,8 +250,8 @@ The app uses a custom `@Qualifier` annotation to distinguish between IO and Defa
 annotation class Dispatcher(val niaDispatcher: NiaDispatchers)
 
 enum class NiaDispatchers {
-    Default,
-    IO,
+   Default,
+   IO,
 }
 ```
 
@@ -263,13 +263,13 @@ The Koin module:
 @Configuration
 object DispatchersKoinModule {
 
-    @Singleton
-    @Dispatcher(IO)
-    fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
+   @Singleton
+   @Dispatcher(IO)
+   fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 
-    @Singleton
-    @Dispatcher(NiaDispatchers.Default)
-    fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+   @Singleton
+   @Dispatcher(NiaDispatchers.Default)
+   fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
 }
 ```
 
@@ -287,14 +287,40 @@ Coroutine Scopes:
 @Configuration
 object CoroutineScopesKoinModule {
 
-    @Singleton
-    fun providesCoroutineScope(
-        @Dispatcher(NiaDispatchers.Default) dispatcher: CoroutineDispatcher,
-    ): CoroutineScope = SupervisorJob() + dispatcher
+   @Singleton
+   fun providesCoroutineScope(
+      @Dispatcher(NiaDispatchers.Default) dispatcher: CoroutineDispatcher,
+   ): CoroutineScope = SupervisorJob() + dispatcher
 }
 ```
 
 Notice how the `@Dispatcher(NiaDispatchers.Default)` parameter works seamlessly. Koin resolves the qualified dependency just like Hilt did.
+
+### Bidirectional Bridge: Dagger Consuming Koin Dependencies
+
+During progressive migration, you might need Dagger components to consume dependencies that have already been migrated to Koin. The bridge works in both directions.
+
+For Dagger to access Koin components, create a Hilt module that retrieves instances from the Koin container:
+
+```kotlin
+@Module
+@InstallIn(SingletonComponent::class)
+object DispatchersHiltModule {
+
+    @Provides
+    fun providesCoroutineScope(): CoroutineScope = KoinPlatform.getKoin().get()
+}
+```
+
+This pattern uses `KoinPlatform.getKoin()` to access the Koin container and retrieve instances. Now Dagger-managed components can depend on the CoroutineScope that is defined in Koin.
+
+Why this matters during migration:
+- You can migrate infrastructure first (like Dispatchers) to Koin
+- Existing Hilt components continue working, pulling from Koin
+- No need to keep duplicate definitions in both frameworks
+- Clean migration path: Koin becomes the source of truth layer by layer
+
+The key is that the bridge is temporary. Once you've migrated all dependent components, you remove these bridge modules entirely.
 
 Git commit: `9e0b5711 - Bridge Core Coroutines/Scopes/Dispatchers`
 
@@ -304,16 +330,18 @@ Git commit: `9e0b5711 - Bridge Core Coroutines/Scopes/Dispatchers`
 
 This is where the migration gets interesting. We migrated all 8 ViewModels before touching repositories or use cases. Why? Because ViewModels are the entry point to your features. If they work, you know dependency resolution is working correctly.
 
+At this stage, we're still bridging all ViewModel dependencies (repositories, use cases) from Dagger. The ViewModels themselves move to Koin, but their dependencies remain in Dagger temporarily.
+
 The change is minimal. Replace `@HiltViewModel` with `@KoinViewModel` and remove `@Inject` from the constructor:
 
 Before (Hilt):
 ```kotlin
 @HiltViewModel
 class BookmarksViewModel @Inject constructor(
-    private val userDataRepository: UserDataRepository,
-    userNewsResourceRepository: UserNewsResourceRepository,
+   private val userDataRepository: UserDataRepository,
+   userNewsResourceRepository: UserNewsResourceRepository,
 ) : ViewModel() {
-    // implementation
+   // implementation
 }
 ```
 
@@ -321,10 +349,10 @@ After (Koin):
 ```kotlin
 @KoinViewModel
 class BookmarksViewModel(
-    private val userDataRepository: UserDataRepository,
-    userNewsResourceRepository: UserNewsResourceRepository,
+   private val userDataRepository: UserDataRepository,
+   userNewsResourceRepository: UserNewsResourceRepository,
 ) : ViewModel() {
-    // implementation unchanged
+   // implementation unchanged
 }
 ```
 
@@ -335,20 +363,20 @@ SearchViewModel is the most complex ViewModel in the app. It has 7 dependencies 
 ```kotlin
 @KoinViewModel
 class SearchViewModel(
-    getSearchContentsUseCase: GetSearchContentsUseCase,
-    recentSearchQueriesUseCase: GetRecentSearchQueriesUseCase,
-    private val searchContentsRepository: SearchContentsRepository,
-    private val recentSearchRepository: RecentSearchRepository,
-    private val userDataRepository: UserDataRepository,
-    private val savedStateHandle: SavedStateHandle,
-    private val analyticsHelper: AnalyticsHelper,
+   getSearchContentsUseCase: GetSearchContentsUseCase,
+   recentSearchQueriesUseCase: GetRecentSearchQueriesUseCase,
+   private val searchContentsRepository: SearchContentsRepository,
+   private val recentSearchRepository: RecentSearchRepository,
+   private val userDataRepository: UserDataRepository,
+   private val savedStateHandle: SavedStateHandle,
+   private val analyticsHelper: AnalyticsHelper,
 ) : ViewModel() {
 
-    val searchQuery = savedStateHandle.getStateFlow(
-        key = SEARCH_QUERY,
-        initialValue = ""
-    )
-    // ... rest of implementation
+   val searchQuery = savedStateHandle.getStateFlow(
+      key = SEARCH_QUERY,
+      initialValue = ""
+   )
+   // ... rest of implementation
 }
 ```
 
@@ -363,9 +391,9 @@ Instead of manually declaring each ViewModel, we use `@ComponentScan`:
 @ComponentScan("com.google.samples.apps.nowinandroid.util", "com.google.samples.apps.nowinandroid.ui")
 @Configuration
 class AppModule {
-    @KoinViewModel
-    fun mainActivityViewModel(userDataRepository: UserDataRepository) =
-        MainActivityViewModel(userDataRepository)
+   @KoinViewModel
+   fun mainActivityViewModel(userDataRepository: UserDataRepository) =
+      MainActivityViewModel(userDataRepository)
 }
 
 @Module
@@ -400,26 +428,26 @@ The good news: these don't need to change at all. Koin's JSR-330 support means e
 GetFollowableTopicsUseCase:
 ```kotlin
 class GetFollowableTopicsUseCase @Inject constructor(
-    private val topicsRepository: TopicsRepository,
-    private val userDataRepository: UserDataRepository,
+   private val topicsRepository: TopicsRepository,
+   private val userDataRepository: UserDataRepository,
 ) {
-    operator fun invoke(sortBy: TopicSortField = NONE): Flow<List<FollowableTopic>> =
-        combine(
-            userDataRepository.userData,
-            topicsRepository.getTopics(),
-        ) { userData, topics ->
-            topics.map { topic ->
-                FollowableTopic(
-                    topic = topic,
-                    isFollowed = topic.id in userData.followedTopics,
-                )
-            }.let { followedTopics ->
-                when (sortBy) {
-                    NAME -> followedTopics.sortedBy { it.topic.name }
-                    else -> followedTopics
-                }
+   operator fun invoke(sortBy: TopicSortField = NONE): Flow<List<FollowableTopic>> =
+      combine(
+         userDataRepository.userData,
+         topicsRepository.getTopics(),
+      ) { userData, topics ->
+         topics.map { topic ->
+            FollowableTopic(
+               topic = topic,
+               isFollowed = topic.id in userData.followedTopics,
+            )
+         }.let { followedTopics ->
+            when (sortBy) {
+               NAME -> followedTopics.sortedBy { it.topic.name }
+               else -> followedTopics
             }
-        }
+         }
+      }
 }
 ```
 
@@ -448,18 +476,18 @@ OfflineFirstUserDataRepository:
 ```kotlin
 @Singleton
 internal class OfflineFirstUserDataRepository(
-    private val niaPreferencesDataSource: NiaPreferencesDataSource,
-    private val analyticsHelper: AnalyticsHelper,
+   private val niaPreferencesDataSource: NiaPreferencesDataSource,
+   private val analyticsHelper: AnalyticsHelper,
 ) : UserDataRepository {
 
-    override val userData: Flow<UserData> = niaPreferencesDataSource.userData
+   override val userData: Flow<UserData> = niaPreferencesDataSource.userData
 
-    override suspend fun setTopicIdFollowed(followedTopicId: String, followed: Boolean) {
-        niaPreferencesDataSource.setTopicIdFollowed(followedTopicId, followed)
-        analyticsHelper.logTopicFollowToggled(followedTopicId, followed)
-    }
+   override suspend fun setTopicIdFollowed(followedTopicId: String, followed: Boolean) {
+      niaPreferencesDataSource.setTopicIdFollowed(followedTopicId, followed)
+      analyticsHelper.logTopicFollowToggled(followedTopicId, followed)
+   }
 
-    // ... other methods
+   // ... other methods
 }
 ```
 
@@ -479,13 +507,13 @@ Some repositories need the IO dispatcher for database operations:
 ```kotlin
 @Singleton
 internal class DefaultSearchContentsRepository(
-    private val newsResourceDao: NewsResourceDao,
-    private val newsResourceFtsDao: NewsResourceFtsDao,
-    private val topicDao: TopicDao,
-    private val topicFtsDao: TopicFtsDao,
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+   private val newsResourceDao: NewsResourceDao,
+   private val newsResourceFtsDao: NewsResourceFtsDao,
+   private val topicDao: TopicDao,
+   private val topicFtsDao: TopicFtsDao,
+   @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
 ) : SearchContentsRepository {
-    // implementation
+   // implementation
 }
 ```
 
@@ -505,13 +533,13 @@ Database module:
 @Configuration
 class DatabaseKoinModule {
 
-    @Single
-    fun providesNiaDatabase(context: Context): NiaDatabase =
-        Room.databaseBuilder(
-            context,
-            NiaDatabase::class.java,
-            "nia-database",
-        ).build()
+   @Single
+   fun providesNiaDatabase(context: Context): NiaDatabase =
+      Room.databaseBuilder(
+         context,
+         NiaDatabase::class.java,
+         "nia-database",
+      ).build()
 }
 ```
 
@@ -522,25 +550,25 @@ DAOs require a different approach because they're extracted from the database in
 @Configuration
 class DaosKoinModule {
 
-    @Single
-    fun providesTopicsDao(database: NiaDatabase): TopicDao =
-        database.topicDao()
+   @Single
+   fun providesTopicsDao(database: NiaDatabase): TopicDao =
+      database.topicDao()
 
-    @Single
-    fun providesNewsResourceDao(database: NiaDatabase): NewsResourceDao =
-        database.newsResourceDao()
+   @Single
+   fun providesNewsResourceDao(database: NiaDatabase): NewsResourceDao =
+      database.newsResourceDao()
 
-    @Single
-    fun providesTopicFtsDao(database: NiaDatabase): TopicFtsDao =
-        database.topicFtsDao()
+   @Single
+   fun providesTopicFtsDao(database: NiaDatabase): TopicFtsDao =
+      database.topicFtsDao()
 
-    @Single
-    fun providesNewsResourceFtsDao(database: NiaDatabase): NewsResourceFtsDao =
-        database.newsResourceFtsDao()
+   @Single
+   fun providesNewsResourceFtsDao(database: NiaDatabase): NewsResourceFtsDao =
+      database.newsResourceFtsDao()
 
-    @Single
-    fun providesRecentSearchQueryDao(database: NiaDatabase): RecentSearchQueryDao =
-        database.recentSearchQueryDao()
+   @Single
+   fun providesRecentSearchQueryDao(database: NiaDatabase): RecentSearchQueryDao =
+      database.recentSearchQueryDao()
 }
 ```
 
@@ -636,21 +664,21 @@ In each module's `build.gradle.kts`:
 
 ```kotlin
 plugins {
-    // ... other plugins
-    alias(libs.plugins.ksp)
+   // ... other plugins
+   alias(libs.plugins.ksp)
 }
 
 dependencies {
-    implementation(libs.koin.android)
-    implementation(libs.koin.compose.viewmodel)
-    implementation(libs.koin.annotations)
-    ksp(libs.koin.ksp.compiler)
+   implementation(libs.koin.android)
+   implementation(libs.koin.compose.viewmodel)
+   implementation(libs.koin.annotations)
+   ksp(libs.koin.ksp.compiler)
 
-    // Keep JSR-330 for @Inject, @Singleton, @Qualifier
-    implementation(libs.javax.inject)
+   // Keep JSR-330 for @Inject, @Singleton, @Qualifier
+   implementation(libs.javax.inject)
 
-    // For progressive migration (remove after migration complete)
-    implementation("io.insert-koin:koin-androidx-dagger:$koin_version")
+   // For progressive migration (remove after migration complete)
+   implementation("io.insert-koin:koin-androidx-dagger:$koin_version")
 }
 ```
 
@@ -834,6 +862,12 @@ This allowed a very specific migration sequence:
 
 At each step, the app built and ran. We could test incrementally, catching issues early rather than discovering them after migrating everything.
 
+### Compile Safety & Debugging
+
+The compile-time safety from KSP generation is crucial during migration. When a dependency is missing, the build fails with a clear error message telling you exactly what's not declared. This helps you track whether a dependency should come from Koin or Dagger during the transition.
+
+The generated code is also easy to inspect. You can check the generated Koin modules to verify components are registered in the correct module. This visibility makes debugging much faster - you're not guessing where things went wrong.
+
 ### Why This Matters for Large Teams
 
 In a real company scenario, this approach is crucial:
@@ -848,29 +882,19 @@ For Now in Android specifically, this was overkill - one person migrating in 2 h
 
 ---
 
-## What We Learned
+## Wrapping Up
 
 JSR-330 compatibility is the killer feature. The fact that you can keep your `@Inject` constructors, `@Singleton` annotations, and custom qualifiers means the migration is mostly mechanical. You're changing configuration, not business logic.
 
 `@ComponentScan` scales really well. Instead of manually registering 8 ViewModels, 3 use cases, and 6 repositories, we scan packages and let Koin discover them. Adding a new component is as simple as annotating it - no module updates required.
 
-Compile-time generation works. We had zero runtime crashes related to missing dependencies. If something was misconfigured, the build failed with a clear error message. This is a massive improvement over earlier versions of Koin.
+Compile-time generation and safety work. We had zero runtime crashes related to missing dependencies. If something was misconfigured, the build failed with a clear error message pointing to the exact problem.
 
 Activity scopes are cleaner than expected. The `@ActivityScope` pattern for JankStats is simpler than Hilt's custom scopes. It's just an annotation on the provider function and an interface on the Activity. Lifecycle management is automatic.
 
 Top-down migration is practical. Starting with the application entry point and working down through ViewModels to repositories means you can test the app at each step. You're not waiting until the entire migration is done to see if it works.
 
 The Dagger bridge enables low-risk migration. Being able to run both frameworks simultaneously is a game-changer for large apps. You can migrate layer by layer, merge to main after each step, and the app stays functional throughout. This isn't just a technical feature - it's a team coordination tool.
-
----
-
-## Performance Notes
-
-Build times didn't change significantly. KSP code generation is fast, and since Koin generates less code than Hilt (no component interfaces, no factories for every binding), the overall impact is minimal.
-
-Runtime performance is identical for singletons. Koin and Hilt both return the same cached instance. For scoped instances (like Activity-scoped JankStats), there's a small overhead for scope management, but it's negligible in practice.
-
-The app binary size decreased slightly after removing Hilt. Koin's runtime is smaller, and the generated code is more compact. We're talking about a few hundred KB difference on a ~50MB APK, so not a major factor.
 
 ---
 
@@ -882,10 +906,15 @@ If you're on Hilt and it's working fine, there's no urgent reason to switch. But
 - Frustrated with Hilt's complexity or build times
 - Building a multi-module app and want better organization
 - Looking for better testing ergonomics
+- Building a Kotlin Multiplatform (KMP) app and need cross-platform DI
 
-Then Koin Annotations 2.3 is worth considering. The JSR-330 compatibility means migration risk is low, and the compile-time safety addresses the main criticism of earlier Koin versions.
+Then Koin Annotations 2.3 is worth considering. The JSR-330 compatibility means migration risk is low, and the compile-time safety addresses the main criticism of earlier Koin versions. For KMP projects, Koin is the natural choice since Hilt doesn't support multiplatform.
 
 For Now in Android specifically, the migration took 2 hours and resulted in cleaner module organization. We removed boilerplate, improved discoverability with `@ComponentScan`, and simplified activity scoping. That's a win.
+
+## What's Next?
+
+This migration focused on dependency injection infrastructure. In a future article, we'll explore application architecture tracing with the Kotzilla platform - monitoring your app's performance in production, tracking dependency resolution timing, and identifying bottlenecks in real-world usage.
 
 ---
 
