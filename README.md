@@ -1,6 +1,6 @@
 ![](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hVKWuT24riZnx4VzDpQVJQ.png)
 
-Now in Android App - With Annotations 2.2
+Now in Android App - With Annotations
 ==================
 
 This is the migrated version of Now in Android app, but replacing Dagger Hilt with Koin.
