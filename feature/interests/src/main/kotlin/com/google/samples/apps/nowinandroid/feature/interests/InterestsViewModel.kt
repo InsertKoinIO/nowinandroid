@@ -34,7 +34,7 @@ import org.koin.android.annotation.KoinViewModel
 import javax.inject.Inject
 
 @KoinViewModel
-class InterestsViewModel @Inject constructor(
+class InterestsViewModel(
     private val savedStateHandle: SavedStateHandle,
     val userDataRepository: UserDataRepository,
     getFollowableTopics: GetFollowableTopicsUseCase,

@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
 
     private val userNewsResourceRepository: UserNewsResourceRepository by inject()
 
-    private val viewModel: MainActivityViewModel by KotzillaSDK.trace("MainActivityViewModel"){ viewModel<MainActivityViewModel>() }
+    private val viewModel: MainActivityViewModel by viewModel<MainActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()

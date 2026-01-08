@@ -29,14 +29,14 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 
     //TODO Activate Kotzilla
-//    alias(libs.plugins.kotzilla)
+    alias(libs.plugins.kotzilla)
 }
 
 android {
     defaultConfig {
         applicationId = "com.google.samples.apps.nowinandroid"
         versionCode = 8
-        versionName = "0.1.3-koin-conf" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+        versionName = "2.0.0-RC1-KA2.3-K4.2-beta2" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         // Custom test runner to set up Hilt dependency graph
         testInstrumentationRunner = "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
@@ -162,7 +162,11 @@ ksp {
 
 
 //TODO Activate Kotzilla
-//kotzilla {
-//    // Compose Navigation
-//    composeInstrumentation = true
-//}
+kotzilla {
+
+    site = "https://gateway-staging.kotzilla.io"
+    projectFile = "kotzilla-staging.json"
+
+    // Compose Navigation
+    composeInstrumentation = true
+}

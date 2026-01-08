@@ -24,8 +24,12 @@ pluginManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
-        mavenCentral()
+        maven {
+            name = "kotzilla"
+            url = uri("https://repository.kotzilla.io/repository/kotzilla-platform/")
+        }
         mavenLocal()
+        mavenCentral()
         gradlePluginPortal()
     }
 }
@@ -40,8 +44,12 @@ dependencyResolutionManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
-        mavenCentral()
+        maven {
+            name = "kotzilla"
+            url = uri("https://repository.kotzilla.io/repository/kotzilla-platform/")
+        }
         mavenLocal()
+        mavenCentral()
     }
 }
 rootProject.name = "nowinandroid"

@@ -25,12 +25,11 @@ import coil.ImageLoaderFactory
 import com.google.samples.apps.nowinandroid.sync.initializers.Sync
 import com.google.samples.apps.nowinandroid.util.ProfileVerifierLogger
 import io.kotzilla.sdk.analytics.koin.analytics
+import io.kotzilla.sdk.config.Environment
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.annotation.KoinApplication
-import org.koin.core.logger.Level
 import org.koin.ksp.generated.*
 
 /**
@@ -48,9 +47,12 @@ class NiaApplication : Application(), ImageLoaderFactory {
         startKoin {
             androidContext(this@NiaApplication)
             workManagerFactory()
-
-            //TODO Activate Kotzilla
-//            analytics()
+            analytics {
+                setEnvironment(Environment.Staging)
+                onConfig {
+                    useDebugLogs = true
+                }
+            }
         }
 
         super.onCreate()

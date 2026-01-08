@@ -38,6 +38,6 @@ fun providesOnFrameListener(): OnFrameListener = OnFrameListener { frameData ->
     if (frameData.isJank) {
         // We're currently logging this but would better report it to a backend.
         Log.v("NiA Jank", frameData.toString())
-        KotzillaSDK.log("NiA Jank - $frameData")
+//        KotzillaSDK.log("NiA Jank - $frameData")
     }
 }

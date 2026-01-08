@@ -1,0 +1,11 @@
+{
+  "sdkVersion": "1.4.1",
+  "keys": [
+    {
+      "appId": "85d1ea77-5eba-4048-b87a-6bc71dee15ff",
+      "applicationPackageName": "com.google.samples.apps.nowinandroid.demo.debug",
+      "keyId": "019b02f6-f082-717f-9fd0-d113ec6797f4",
+      "apiKey": "ktz-sdk-ba2BMlvYIjSZB2U_WEu8wBH4i0Nlkbr8ifmGIn7XOQI"
+    }
+  ]
+}
