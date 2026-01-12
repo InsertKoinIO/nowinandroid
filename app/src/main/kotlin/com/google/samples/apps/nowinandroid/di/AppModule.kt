@@ -18,7 +18,7 @@ package com.google.samples.apps.nowinandroid.di
 
 import com.google.samples.apps.nowinandroid.MainActivityViewModel
 import com.google.samples.apps.nowinandroid.core.data.repository.UserDataRepository
-import org.koin.android.annotation.KoinViewModel
+import org.koin.core.annotation.KoinViewModel
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Configuration
 import org.koin.core.annotation.Module

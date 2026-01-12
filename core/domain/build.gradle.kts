@@ -16,7 +16,7 @@
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.nowinandroid.koin)
 }
 
 android {
@@ -26,13 +26,9 @@ android {
 dependencies {
     api(projects.core.data)
     api(projects.core.model)
-    ksp(libs.koin.ksp.compiler)
+    // koin-annotations auto-injected by compiler plugin
 
     implementation(libs.javax.inject)
 
     testImplementation(projects.core.testing)
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
 }

@@ -16,7 +16,7 @@
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
-//    alias(libs.plugins.nowinandroid.hilt)
+    alias(libs.plugins.nowinandroid.koin)
     id("kotlinx-serialization")
 }
 
@@ -29,7 +29,7 @@ dependencies {
     api(projects.core.common)
 
     implementation(libs.koin.android)
-    ksp(libs.koin.ksp.compiler)
+    // koin-annotations auto-injected by compiler plugin
 
     api(projects.core.database)
     api(projects.core.datastore)
@@ -42,8 +42,4 @@ dependencies {
     testImplementation(libs.kotlinx.serialization.json)
     testImplementation(projects.core.datastoreTest)
     testImplementation(projects.core.testing)
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
 }

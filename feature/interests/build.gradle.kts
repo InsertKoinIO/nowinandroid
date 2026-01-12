@@ -18,6 +18,7 @@ plugins {
     alias(libs.plugins.nowinandroid.android.feature)
     alias(libs.plugins.nowinandroid.android.library.compose)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
+    alias(libs.plugins.nowinandroid.koin)
 }
 android {
     namespace = "com.google.samples.apps.nowinandroid.feature.interests"
@@ -28,15 +29,11 @@ dependencies {
     implementation(projects.core.domain)
 
     implementation(libs.koin.compose.viewmodel)
-    ksp(libs.koin.ksp.compiler)
+    // koin-annotations auto-injected by compiler plugin
 
     testImplementation(projects.core.testing)
     testImplementation(libs.robolectric)
 
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
     androidTestImplementation(projects.core.testing)
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
 }

@@ -16,8 +16,7 @@
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
     alias(libs.plugins.nowinandroid.android.library.compose)
-    alias(libs.plugins.ksp)
-//    alias(libs.plugins.nowinandroid.hilt)
+    alias(libs.plugins.nowinandroid.koin)
 }
 
 android {
@@ -27,14 +26,9 @@ android {
 dependencies {
     implementation(libs.androidx.compose.runtime)
     implementation(libs.koin.core)
-    implementation(libs.koin.annotations)
+    // koin-annotations auto-injected by compiler plugin
     implementation(libs.javax.inject)
-    ksp(libs.koin.ksp.compiler)
 
     prodImplementation(platform(libs.firebase.bom))
     prodImplementation(libs.firebase.analytics)
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
 }

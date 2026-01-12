@@ -18,8 +18,8 @@ plugins {
     alias(libs.plugins.nowinandroid.android.feature)
     alias(libs.plugins.nowinandroid.android.library.compose)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
+    alias(libs.plugins.nowinandroid.koin)
     alias(libs.plugins.roborazzi)
-    alias(libs.plugins.allOpen)
 }
 
 android {
@@ -35,7 +35,7 @@ dependencies {
     implementation(projects.core.notifications)
 
     implementation(libs.koin.compose.viewmodel)
-    ksp(libs.koin.ksp.compiler)
+    // koin-annotations auto-injected by compiler plugin
     implementation(libs.kotzilla.core)
 
     testImplementation(libs.hilt.android.testing)
@@ -45,12 +45,4 @@ dependencies {
 
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
     androidTestImplementation(projects.core.testing)
-}
-
-allOpen {
-    annotation("org.koin.core.annotation.Monitor")
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
 }

@@ -16,7 +16,7 @@
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
-//    alias(libs.plugins.nowinandroid.hilt)
+    alias(libs.plugins.nowinandroid.koin)
 }
 
 android {
@@ -27,12 +27,9 @@ android {
 }
 
 dependencies {
-//    ksp(libs.hilt.ext.compiler)
-
-//    implementation(libs.koin.dagger)
     implementation(libs.koin.androidx.worker)
     implementation(libs.kotzilla.core)
-    ksp(libs.koin.ksp.compiler)
+    // koin-annotations auto-injected by compiler plugin
 
     implementation(libs.androidx.tracing.ktx)
     implementation(libs.androidx.work.ktx)
@@ -48,9 +45,4 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.kotlinx.coroutines.guava)
     androidTestImplementation(projects.core.testing)
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
-    arg("KOIN_LOG_TIMES","true")
 }

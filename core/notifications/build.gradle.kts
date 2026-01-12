@@ -15,8 +15,7 @@
  */
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
-//    alias(libs.plugins.nowinandroid.hilt)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.nowinandroid.koin)
 }
 
 android {
@@ -28,13 +27,9 @@ dependencies {
 
     implementation(libs.koin.android)
     implementation(libs.javax.inject)
-    ksp(libs.koin.ksp.compiler)
+    // koin-annotations auto-injected by compiler plugin
 
     implementation(projects.core.common)
 
     compileOnly(platform(libs.androidx.compose.bom))
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
 }

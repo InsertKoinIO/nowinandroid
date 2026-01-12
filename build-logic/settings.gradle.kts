@@ -18,11 +18,13 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
+        mavenLocal()
     }
 }
 
 dependencyResolutionManagement {
     repositories {
+        mavenLocal()  // For Koin Compiler Plugin development
         google {
             content {
                 includeGroupByRegex("com\\.android.*")

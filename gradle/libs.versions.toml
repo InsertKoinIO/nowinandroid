@@ -2,7 +2,7 @@
 accompanist = "0.37.0"
 androidDesugarJdkLibs = "2.1.4"
 # AGP and tools should be updated together
-androidGradlePlugin = "8.13.0"
+androidGradlePlugin = "8.13.2"
 androidTools = "31.13.0"
 androidxActivity = "1.9.3"
 androidxAppCompat = "1.7.0"
@@ -42,11 +42,11 @@ hilt = "2.56"
 hiltExt = "1.2.0"
 jacoco = "0.8.12"
 junit4 = "4.13.2"
-kotlin = "2.2.20"
+kotlin = "2.3.20-Beta1"
 kotlinxCoroutines = "1.10.1"
 kotlinxDatetime = "0.6.1"
 kotlinxSerializationJson = "1.8.0"
-ksp = "2.3.2"
+ksp = "2.3.3"
 okhttp = "4.12.0"
 protobuf = "4.29.2"
 protobufPlugin = "0.9.4"
@@ -54,11 +54,11 @@ retrofit = "2.11.0"
 retrofitKotlinxSerializationJson = "1.0.0"
 robolectric = "4.16"
 roborazzi = "1.51.0"
-room = "2.7.2"
+room = "2.8.4"
 truth = "1.4.4"
 turbine = "1.2.0"
-koin = "4.2.0-beta2"
-koin-annotations = "2.3.1"
+koin = "4.2.0-beta3-plugin-rc4"
+koinCompilerPlugin = "0.1.31"
 kotzilla = "2.0.0-RC1"
 
 [bundles]
@@ -157,9 +157,8 @@ koin-core = {group = "io.insert-koin", name = "koin-core", version.ref = "koin"}
 koin-android = {group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
 koin-androidx-worker = {group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin"}
 koin-compose-viewmodel = {group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin"}
-# Koin Annotations
-koin-annotations = {module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations"}
-koin-ksp-compiler = {module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-annotations"}
+koin-annotations = {group = "io.insert-koin", name = "koin-annotations", version.ref = "koin"}
+# Koin Compiler Plugin (replaces KSP-based koin-annotations)
 # Kotzilla
 kotzilla-sdk = {module = "io.kotzilla:kotzilla-sdk-compose", version.ref = "kotzilla"}
 kotzilla-core = {module = "io.kotzilla:kotzilla-core", version.ref = "kotzilla"}
@@ -173,6 +172,7 @@ firebase-performance-gradlePlugin = { group = "com.google.firebase", name = "per
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+koin-compiler-gradlePlugin = { group = "io.insert-koin", name = "koin-gradle-plugin", version.ref = "koinCompilerPlugin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -193,6 +193,7 @@ google-osslicenses = { id = "com.google.android.gms.oss-licenses-plugin", versio
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 room = { id = "androidx.room", version.ref = "room" }
+koin-compiler = { id = "io.insert-koin.compiler.plugin", version.ref = "koinCompilerPlugin" }
 kotzilla = { id  = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
 allOpen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }
 
@@ -211,4 +212,5 @@ nowinandroid-android-room = { id = "nowinandroid.android.room" }
 nowinandroid-android-test = { id = "nowinandroid.android.test" }
 nowinandroid-hilt = { id = "nowinandroid.hilt" }
 nowinandroid-jvm-library = { id = "nowinandroid.jvm.library" }
+nowinandroid-koin = { id = "nowinandroid.koin" }
 nowinandroid-root = { id = "nowinandroid.root" }

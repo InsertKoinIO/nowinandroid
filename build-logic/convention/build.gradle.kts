@@ -45,6 +45,7 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
     compileOnly(libs.room.gradlePlugin)
+    compileOnly(libs.koin.compiler.gradlePlugin)
     implementation(libs.truth)
     lintChecks(libs.androidx.lint.gradle)
 }
@@ -113,6 +114,10 @@ gradlePlugin {
         register("jvmLibrary") {
             id = libs.plugins.nowinandroid.jvm.library.get().pluginId
             implementationClass = "JvmLibraryConventionPlugin"
+        }
+        register("koin") {
+            id = libs.plugins.nowinandroid.koin.get().pluginId
+            implementationClass = "KoinConventionPlugin"
         }
         register("root") {
             id = libs.plugins.nowinandroid.root.get().pluginId

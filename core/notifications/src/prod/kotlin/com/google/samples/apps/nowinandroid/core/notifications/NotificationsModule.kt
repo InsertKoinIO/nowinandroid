@@ -16,16 +16,14 @@
 
 package com.google.samples.apps.nowinandroid.core.notifications
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import org.koin.core.annotation.Configuration
+import org.koin.core.annotation.Module
+import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-internal abstract class NotificationsModule {
-    @Binds
-    abstract fun bindNotifier(
-        notifier: SystemTrayNotifier,
-    ): Notifier
+@Configuration
+class NotificationsKoinModule {
+
+    @Singleton
+    fun notifier(context : android.content.Context): Notifier = SystemTrayNotifier(context)
 }

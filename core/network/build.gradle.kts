@@ -21,8 +21,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
-//    alias(libs.plugins.nowinandroid.hilt)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.nowinandroid.koin)
     id("kotlinx-serialization")
 }
 
@@ -39,7 +38,7 @@ dependencies {
     api(projects.core.common)
     api(projects.core.model)
 
-    ksp(libs.koin.ksp.compiler)
+    // koin-annotations auto-injected by compiler plugin
     implementation(libs.koin.core)
 
     implementation(libs.coil.kt)
@@ -66,8 +65,4 @@ androidComponents {
             BuildConfigField(type = "String", value = """"$value"""", comment = null)
         })
     }
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
 }

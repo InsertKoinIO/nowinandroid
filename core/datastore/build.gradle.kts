@@ -17,7 +17,7 @@
 plugins {
     alias(libs.plugins.nowinandroid.android.library)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.nowinandroid.koin)
 }
 
 android {
@@ -33,15 +33,11 @@ dependencies {
     api(projects.core.model)
 
     implementation(libs.javax.inject)
-    ksp(libs.koin.ksp.compiler)
+    // koin-annotations auto-injected by compiler plugin
     implementation(libs.koin.android)
 
     implementation(projects.core.common)
 
     testImplementation(projects.core.datastoreTest)
     testImplementation(libs.kotlinx.coroutines.test)
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
 }

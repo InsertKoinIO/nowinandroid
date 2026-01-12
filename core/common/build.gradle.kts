@@ -15,19 +15,14 @@
  */
 plugins {
     alias(libs.plugins.nowinandroid.jvm.library)
-//    alias(libs.plugins.nowinandroid.hilt)
+    alias(libs.plugins.nowinandroid.koin)
 }
 
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
     api(libs.javax.inject)
     api(libs.koin.core)
-    api(libs.koin.annotations)
-    ksp(libs.koin.ksp.compiler)
+    // koin-annotations auto-injected by compiler plugin
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
 }

@@ -21,15 +21,15 @@ plugins {
     alias(libs.plugins.nowinandroid.android.application.flavors)
     alias(libs.plugins.nowinandroid.android.application.jacoco)
     alias(libs.plugins.nowinandroid.android.application.firebase)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.nowinandroid.koin)
 //    alias(libs.plugins.nowinandroid.hilt)
 //    alias(libs.plugins.google.osslicenses)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.kotlin.serialization)
 
-    //TODO Activate Kotzilla
-    alias(libs.plugins.kotzilla)
+    //TODO Activate Kotzilla - disabled due to Kotlin 2.3.20 compatibility
+//    alias(libs.plugins.kotzilla)
 }
 
 android {
@@ -116,8 +116,7 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.compose.viewmodel)
     implementation(libs.koin.androidx.worker)
-    implementation(libs.koin.annotations)
-    ksp(libs.koin.ksp.compiler)
+    // koin-annotations auto-injected by compiler plugin
     implementation(libs.kotzilla.sdk)
 
     testImplementation(projects.core.dataTest)
@@ -156,17 +155,14 @@ dependencyGuard {
     configuration("prodReleaseRuntimeClasspath")
 }
 
-ksp {
-    arg("KOIN_CONFIG_CHECK","true")
-}
 
 
-//TODO Activate Kotzilla
-kotzilla {
-
-    site = "https://gateway-staging.kotzilla.io"
-    projectFile = "kotzilla-staging.json"
-
-    // Compose Navigation
-    composeInstrumentation = true
-}
+//TODO Activate Kotzilla - disabled due to Kotlin 2.3.20 compatibility
+//kotzilla {
+//
+//    site = "https://gateway-staging.kotzilla.io"
+//    projectFile = "kotzilla-staging.json"
+//
+//    // Compose Navigation
+//    composeInstrumentation = true
+//}

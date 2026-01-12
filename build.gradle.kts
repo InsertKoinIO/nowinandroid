@@ -38,6 +38,7 @@ plugins {
     alias(libs.plugins.roborazzi) apply false
 //    alias(libs.plugins.google.osslicenses) apply false
     alias(libs.plugins.room) apply false
+    alias(libs.plugins.koin.compiler) apply false
     alias(libs.plugins.nowinandroid.root)
     alias(libs.plugins.kotzilla) apply false
     alias(libs.plugins.allOpen) apply false
