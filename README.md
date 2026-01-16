@@ -1,11 +1,11 @@
 ![](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hVKWuT24riZnx4VzDpQVJQ.png)
 
-Now in Android App - With Annotations 2.2
+Now in Android App - With Koin Compiler Plugin
 ==================
 
-This is the migrated version of Now in Android app, but replacing Dagger Hilt with Koin.
+This is the migrated version of Now in Android app, replacing Dagger Hilt with Koin using the **Koin Compiler Plugin**.
 
-Now in Android is Google's official modern Android application sample showcasing best practices. This Koin Annotations 2.2 port demonstrates how to migrate from Hilt while leveraging the latest features for enterprise-scale applications.
+Now in Android is Google's official modern Android application sample showcasing best practices. This port demonstrates how to migrate from Hilt using the Koin Compiler Plugin for enterprise-scale applications with automatic module discovery and simplified build configuration.
 
 ## Project Overview
 
@@ -17,7 +17,30 @@ Now in Android is a production-quality news app featuring:
 - WorkManager for background sync
 - Complex dependency graph with ~40 components across the app
 
-This makes it an ideal showcase for Koin Annotations 2.2's enterprise-scale features.
+This makes it an ideal showcase for Koin Compiler Plugin's enterprise-scale features.
+
+---
+
+## Koin Compiler Plugin Highlights
+
+The migration from Koin Annotations (KSP) to **Koin Compiler Plugin** provides significant improvements:
+
+| Aspect | Before (KSP) | After (Compiler Plugin) |
+|--------|--------------|-------------------------|
+| **Build config per module** | ~10 lines | 1 line |
+| **KSP dependencies** | 5+ per module | 0 |
+| **Generated files** | `build/generated/ksp/` | None |
+| **Module discovery** | Manual import `org.koin.ksp.generated.*` | Automatic via `startKoin<T>()` |
+| **ViewModel import** | `org.koin.android.annotation.KoinViewModel` | `org.koin.core.annotation.KoinViewModel` |
+
+### Key Benefits
+
+- **Simplified builds**: Convention plugin reduces each module to 1 line
+- **No KSP overhead**: Integrated directly into Kotlin compilation
+- **Cleaner codebase**: No generated files to manage
+- **Automatic discovery**: `startKoin<NiaApplication>` discovers all `@Configuration` modules
+
+See [MIGRATION_COMPILER_PLUGIN.md](MIGRATION_COMPILER_PLUGIN.md) for the complete migration guide.
 
 ---
 
@@ -54,7 +77,7 @@ kotzilla {
 5. Enable analytics in `NiaApplication.kt`:
 
 ```kotlin
-startKoin {
+startKoin<NiaApplication> {
     androidContext(this@NiaApplication)
     workManagerFactory()
 
@@ -226,8 +249,8 @@ class NiaApplication : Application(), ImageLoaderFactory {
     private val profileVerifierLogger: ProfileVerifierLogger by inject()
 
     override fun onCreate() {
-        // Koin starts first
-        startKoin {
+        // Koin starts first - uses startKoin<T> for automatic module discovery
+        startKoin<NiaApplication> {
             androidContext(this@NiaApplication)
             workManagerFactory()
 
@@ -248,6 +271,8 @@ class NiaApplication : Application(), ImageLoaderFactory {
     override fun newImageLoader(): ImageLoader = imageLoader
 }
 ```
+
+**Key:** `startKoin<NiaApplication>` enables automatic `@Configuration` module discovery—no need to manually list modules!
 
 **Result:** All 8 configuration modules are automatically discovered and loaded—no manual wiring!
 
@@ -493,13 +518,15 @@ object CoroutineScopesKoinModule {
 ```
 ---
 
-## 6. Dagger to Koin Bridge: Progressive Migration Strategy
+## 6. Dagger to Koin Bridge: Progressive Migration Strategy (Historical)
+
+> **Note:** This section documents the progressive migration strategy used during the initial Hilt to Koin migration. The bridge code has since been removed as the migration is complete.
 
 Before fully migrating to Koin, the project used the Dagger Bridge feature from Koin 4.1.2 to enable a progressive migration—allowing Dagger and Koin to coexist while gradually moving components.
 
 ### The Bridge Pattern: Accessing Dagger from Koin
 
-Koin Annotations 2.2 provides `@EntryPoint` integration to access Dagger-managed dependencies from Koin.
+Koin provides `@EntryPoint` integration to access Dagger-managed dependencies from Koin.
 
 **Core Pattern - DataModuleBridge:**
 
@@ -857,7 +884,8 @@ Performance monitoring integrated throughout the app with real-time analytics.
 class NiaApplication : Application() {
 
     override fun onCreate() {
-        startKoin {
+        // startKoin<T> enables automatic @Configuration module discovery
+        startKoin<NiaApplication> {
             androidContext(this@NiaApplication)
 
             // Kotzilla analytics configuration
@@ -909,7 +937,7 @@ All frame jank events are logged to Kotzilla for UI performance analysis.
 ### Project Structure
 
 - **30 Gradle modules** in multi-module architecture
-- **15 Koin modules** with `@Module` annotation
+- **17 modules** using Koin Compiler Plugin (1-line configuration each)
 - **8 configuration modules** auto-discovered with `@Configuration`
 - **~40 components** (Singletons, ViewModels, provider functions)
     - 8 ViewModels
@@ -928,9 +956,9 @@ All frame jank events are logged to Kotzilla for UI performance analysis.
 - Complex multi-module setup with manual includes
 - No built-in performance monitoring
 
-### After (Koin Annotations 2.2)
+### After (Koin Compiler Plugin)
 
-- ✅ 15 Koin modules with clean `@Module` annotation
+- ✅ 17 modules migrated with simplified build configuration
 - ✅ 8 configuration modules auto-discovered—no manual wiring
 - ✅ ~40 components resolved at compile-time
 - ✅ 8 ViewModels migrated with zero code changes
@@ -940,6 +968,9 @@ All frame jank events are logged to Kotzilla for UI performance analysis.
 - ✅ Activity scopes simplified with `@ActivityScope` archetype
 - ✅ Kotzilla monitoring integrated seamlessly
 - ✅ ComponentScan discovers components automatically
+- ✅ No KSP dependencies—integrated into Kotlin compilation
+- ✅ No generated files to manage—cleaner project structure
+- ✅ Convention plugin reduces per-module config to 1 line
 
 ### Code Changes
 
@@ -959,14 +990,23 @@ All frame jank events are logged to Kotzilla for UI performance analysis.
 
 ### Migration Effort
 
-**Total time: ~2 hours for 30 modules** (more or less 😁)
-
-Breakdown:
+**Phase 1: Hilt to Koin (KSP) - ~2 hours for 30 modules**
 
 - 30 min: Setup Koin Annotations dependencies
 - 30 min: Add `@Configuration` and `@KoinApplication`
 - 30 min: Replace module system
 - 30 min: Testing and verification
+
+**Phase 2: KSP to Compiler Plugin - ~1 hour for 17 modules**
+
+- 15 min: Create convention plugin
+- 5 min: Update libs.versions.toml
+- 20 min: Update module build.gradle.kts files
+- 10 min: Update ViewModel imports (`org.koin.android.annotation` → `org.koin.core.annotation`)
+- 5 min: Update NiaApplication.kt (`startKoin` → `startKoin<NiaApplication>`)
+- 15 min: Testing
+
+**Result: 546 fewer lines of code** (760 added, 1306 removed)
 
 **Zero breaking changes for:**
 
@@ -1005,7 +1045,7 @@ Breakdown:
 - Type-safe dependency resolution
 
 ### 6. Compile-time safety caught all missing dependencies
-- `KOIN_CONFIG_CHECK` enabled during migration
+- Compiler plugin validates at compile-time
 - Clear error messages for missing components
 - No runtime surprises
 
@@ -1023,15 +1063,17 @@ Breakdown:
 
 ## Conclusion
 
-Koin Annotations 2.2 successfully migrated Google's Now in Android from Hilt with:
+The Koin Compiler Plugin successfully migrated Google's Now in Android from Hilt with:
 
 - **Minimal code changes** - JSR-330 compatibility preserved existing patterns
 - **Improved organization** - Configuration-based modules scaled across 30 Gradle modules
 - **Enhanced observability** - `@Monitor` annotation enabled production tracing
 - **Faster setup** - ComponentScan eliminated manual declarations
 - **Type safety** - Compile-time verification caught all dependency issues
+- **Simplified builds** - No KSP dependencies, integrated into Kotlin compilation
+- **Cleaner codebase** - No generated files, automatic module discovery via `startKoin<T>()`
 
-The migration took **~2 hours total** and resulted in cleaner, more maintainable code with built-in performance monitoring capabilities.
+The initial Hilt to Koin migration took **~2 hours**, and the subsequent migration from KSP to Compiler Plugin took **~1 hour** for 17 modules. See [MIGRATION_COMPILER_PLUGIN.md](MIGRATION_COMPILER_PLUGIN.md) for detailed migration steps.
 
 ---
 
