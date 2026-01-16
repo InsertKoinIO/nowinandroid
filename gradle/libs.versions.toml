@@ -57,8 +57,8 @@ roborazzi = "1.51.0"
 room = "2.8.4"
 truth = "1.4.4"
 turbine = "1.2.0"
-koin = "4.2.0-beta3-plugin-rc5"
-koinCompilerPlugin = "0.1.38"
+koin = "4.2.0-beta3"
+koinCompilerPlugin = "0.2.1"
 kotzilla = "2.0.0-RC1"
 
 [bundles]
@@ -172,7 +172,7 @@ firebase-performance-gradlePlugin = { group = "com.google.firebase", name = "per
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
-koin-compiler-gradlePlugin = { group = "io.insert-koin", name = "koin-gradle-plugin", version.ref = "koinCompilerPlugin" }
+koin-compiler-gradlePlugin = { group = "io.insert-koin", name = "koin-compiler-gradle-plugin", version.ref = "koinCompilerPlugin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
