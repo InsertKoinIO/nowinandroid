@@ -57,8 +57,8 @@ roborazzi = "1.51.0"
 room = "2.8.4"
 truth = "1.4.4"
 turbine = "1.2.0"
-koin = "4.2.0-beta3"
-koinCompilerPlugin = "0.2.4"
+koin = "4.2.0-beta4"
+koinCompilerPlugin = "0.2.8"
 kotzilla = "2.0.0-RC1"
 
 [bundles]
