@@ -3,7 +3,7 @@
 Now in Android App - With Koin Compiler Plugin
 ==================
 
-This is the migrated version of Now in Android app, replacing Dagger Hilt with Koin using the **Koin Compiler Plugin**.
+This is the migrated version of Now in Android app, replacing Dagger Hilt with Koin using the **Koin Compiler Plugin 0.3.0** and **Koin 4.2.0-RC1**.
 
 Now in Android is Google's official modern Android application sample showcasing best practices. This port demonstrates how to migrate from Hilt using the Koin Compiler Plugin for enterprise-scale applications with automatic module discovery and simplified build configuration.
 
@@ -23,7 +23,7 @@ This makes it an ideal showcase for Koin Compiler Plugin's enterprise-scale feat
 
 ## Koin Compiler Plugin Highlights
 
-The migration from Koin Annotations (KSP) to **Koin Compiler Plugin** provides significant improvements:
+The migration from Koin Annotations (KSP) to **Koin Compiler Plugin 0.3.0** provides significant improvements:
 
 | Aspect | Before (KSP) | After (Compiler Plugin) |
 |--------|--------------|-------------------------|
@@ -32,13 +32,24 @@ The migration from Koin Annotations (KSP) to **Koin Compiler Plugin** provides s
 | **Generated files** | `build/generated/ksp/` | None |
 | **Module discovery** | Manual import `org.koin.ksp.generated.*` | Automatic via `startKoin<T>()` |
 | **ViewModel import** | `org.koin.android.annotation.KoinViewModel` | `org.koin.core.annotation.KoinViewModel` |
+| **Kotlin Compiler** | K1 (via KSP) | K2 native integration |
 
 ### Key Benefits
 
 - **Simplified builds**: Convention plugin reduces each module to 1 line
-- **No KSP overhead**: Integrated directly into Kotlin compilation
+- **No KSP overhead**: Integrated directly into Kotlin K2 compilation
 - **Cleaner codebase**: No generated files to manage
 - **Automatic discovery**: `startKoin<NiaApplication>` discovers all `@Configuration` modules
+- **Full KMP support**: JVM, JS, WASM, iOS, macOS, watchOS, tvOS, Linux, Windows
+- **DSL transformations**: Reified type syntax `single<T>()` and constructor reference `create(::T)`
+
+### New in 0.3.0
+
+- Top-level function annotations with `@ComponentScan`
+- Type-based qualifiers with `@Qualifier(Type::class)`
+- `@PropertyValue` for default property values
+- `koinConfiguration<T>()` and `withConfiguration<T>()` DSL functions
+- Configurable `dslSafetyChecks` option
 
 See [MIGRATION_COMPILER_PLUGIN.md](MIGRATION_COMPILER_PLUGIN.md) for the complete migration guide.
 
@@ -155,6 +166,26 @@ internal class TimeZoneBroadcastMonitor(
 ) : TimeZoneMonitor
 ```
 
+### Type-Based Qualifiers (New in 0.3.0)
+
+In addition to JSR-330 `@Named`, Koin 0.3.0 adds `@Qualifier` for type-based qualification:
+
+```kotlin
+// Define using type qualifier
+@Singleton
+@Qualifier(ProductionApi::class)
+fun prodApi(): ApiClient = ApiClient("https://api.prod.com")
+
+@Singleton
+@Qualifier(StagingApi::class)
+fun stagingApi(): ApiClient = ApiClient("https://api.staging.com")
+
+// Inject with type qualifier
+class MyService(
+    @Qualifier(ProductionApi::class) private val api: ApiClient
+)
+```
+
 **NetworkMonitor with IO Dispatcher:**
 
 ```kotlin
@@ -202,6 +233,18 @@ class DataKoinModule
 ```
 
 Scans the entire `core.data` package for components—no manual declarations needed.
+
+### ComponentScan Glob Patterns (New in 0.3.0)
+
+ComponentScan now supports advanced glob patterns:
+
+```kotlin
+@ComponentScan("com.example.service")       // Exact package + subpackages
+@ComponentScan("com.example.**")            // Subpackages only (not root)
+@ComponentScan("com.example**")             // Package + all subpackages
+@ComponentScan("com.example.*.service")     // Single-level wildcard
+@ComponentScan("com.**.service.*data")      // Complex patterns
+```
 
 ### Network Module with ComponentScan
 
@@ -275,6 +318,30 @@ class NiaApplication : Application(), ImageLoaderFactory {
 **Key:** `startKoin<NiaApplication>` enables automatic `@Configuration` module discovery—no need to manually list modules!
 
 **Result:** All 8 configuration modules are automatically discovered and loaded—no manual wiring!
+
+### Named Configurations (New in 0.3.0)
+
+Modules can belong to multiple named configurations for environment-specific loading:
+
+```kotlin
+// Production-only module
+@Module
+@Configuration("prod")
+class ProductionModule
+
+// Available in both prod and test
+@Module
+@Configuration("prod", "test")
+class SharedModule
+
+// Application with specific configuration
+@KoinApplication(configurations = ["prod"])
+class ProdApp
+
+// Or load multiple configurations
+@KoinApplication(configurations = ["prod", "analytics"])
+class FullApp
+```
 
 ### Module Structure
 
@@ -515,6 +582,22 @@ object CoroutineScopesKoinModule {
         @Dispatcher(NiaDispatchers.Default) dispatcher: CoroutineDispatcher,
     ): CoroutineScope = SupervisorJob() + dispatcher
 }
+```
+
+### Top-Level Function Definitions (New in 0.3.0)
+
+Definition annotations now work on top-level functions, discovered by `@ComponentScan`:
+
+```kotlin
+// core/common/.../Dispatchers.kt
+@Singleton
+@Dispatcher(IO)
+fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+// Discovered automatically by ComponentScan
+@Module
+@ComponentScan("com.google.samples.apps.nowinandroid.core.common")
+class CommonModule
 ```
 ---
 
@@ -997,7 +1080,7 @@ All frame jank events are logged to Kotzilla for UI performance analysis.
 - 30 min: Replace module system
 - 30 min: Testing and verification
 
-**Phase 2: KSP to Compiler Plugin - ~1 hour for 17 modules**
+**Phase 2: KSP to Compiler Plugin 0.3.0 - ~1 hour for 17 modules**
 
 - 15 min: Create convention plugin
 - 5 min: Update libs.versions.toml
@@ -1014,6 +1097,50 @@ All frame jank events are logged to Kotzilla for UI performance analysis.
 - All `@Singleton` classes
 - All custom `@Qualifier` annotations
 - All ViewModels
+
+---
+
+## 9. DSL Transformations (Compiler Plugin Feature)
+
+The Koin Compiler Plugin transforms reified type syntax at compile time for better performance and type safety.
+
+### Supported Transformations
+
+| Input (Developer writes) | Output (Plugin generates) |
+|--------------------------|---------------------------|
+| `single<T>()` | `buildSingle(T::class, null) { scope, params -> T(...) }` |
+| `factory<T>()` | `buildFactory(T::class, null) { scope, params -> T(...) }` |
+| `viewModel<T>()` | `buildViewModel(T::class, null) { scope, params -> T(...) }` |
+| `worker<T>()` | `buildWorker(T::class, null) { scope, params -> T(...) }` |
+| `scoped<T>()` | `buildScoped(T::class, null) { scope, params -> T(...) }` |
+| `create(::T)` | `T(scope.get(), scope.get(), ...)` |
+
+### Example: Constructor Reference
+
+```kotlin
+// You write:
+val myModule = module {
+    single { create(::MyService) }
+    factory { create(::MyRepository) }
+}
+
+// Plugin transforms to:
+val myModule = module {
+    buildSingle(MyService::class, null) { scope, _ ->
+        MyService(scope.get(), scope.get())  // Auto-resolved dependencies
+    }
+    buildFactory(MyRepository::class, null) { scope, _ ->
+        MyRepository(scope.get())
+    }
+}
+```
+
+### Benefits
+
+- **Type-safe**: No reflection at runtime
+- **Faster startup**: Pre-computed dependency resolution
+- **Better IDE support**: Full autocomplete and refactoring support
+- **No generated files**: Transformation happens during compilation
 
 ---
 
@@ -1063,15 +1190,16 @@ All frame jank events are logged to Kotzilla for UI performance analysis.
 
 ## Conclusion
 
-The Koin Compiler Plugin successfully migrated Google's Now in Android from Hilt with:
+The Koin Compiler Plugin 0.3.0 successfully migrated Google's Now in Android from Hilt with:
 
 - **Minimal code changes** - JSR-330 compatibility preserved existing patterns
 - **Improved organization** - Configuration-based modules scaled across 30 Gradle modules
 - **Enhanced observability** - `@Monitor` annotation enabled production tracing
 - **Faster setup** - ComponentScan eliminated manual declarations
 - **Type safety** - Compile-time verification caught all dependency issues
-- **Simplified builds** - No KSP dependencies, integrated into Kotlin compilation
+- **Simplified builds** - No KSP dependencies, integrated into Kotlin K2 compilation
 - **Cleaner codebase** - No generated files, automatic module discovery via `startKoin<T>()`
+- **Full KMP support** - Same annotations work across all Kotlin targets
 
 The initial Hilt to Koin migration took **~2 hours**, and the subsequent migration from KSP to Compiler Plugin took **~1 hour** for 17 modules. See [MIGRATION_COMPILER_PLUGIN.md](MIGRATION_COMPILER_PLUGIN.md) for detailed migration steps.
 

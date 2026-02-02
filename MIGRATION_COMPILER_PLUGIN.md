@@ -1,6 +1,6 @@
 # Case Study: Now in Android Migration
 
-Migration of the [Now in Android](https://github.com/android/nowinandroid) app from **Koin Annotations 2.3 (KSP)** to **Koin Compiler Plugin 0.2.1**.
+Migration of the [Now in Android](https://github.com/android/nowinandroid) app from **Koin Annotations 2.3 (KSP)** to **Koin Compiler Plugin 0.3.0**.
 
 ## Overview
 
@@ -11,7 +11,7 @@ Migration of the [Now in Android](https://github.com/android/nowinandroid) app f
 | **Build config per module** | ~10 lines | 1 line | **-90%** |
 | **KSP dependencies** | 5+ per module | 0 | Eliminated |
 | **Kotlin version** | 2.2.20 | 2.3.20-Beta1 | Upgraded |
-| **Koin version** | 4.2.0-beta2 | 4.2.0-beta3 | Upgraded |
+| **Koin version** | 4.2.0-beta2 | 4.2.0-RC1 | Upgraded |
 
 ## Build Configuration Changes
 
@@ -54,9 +54,10 @@ class KoinConventionPlugin : Plugin<Project> {
             // Apply Koin Compiler Plugin (replaces KSP)
             pluginManager.apply("io.insert-koin.compiler.plugin")
 
-            // Configure logging
+            // Configure compiler plugin options
             extensions.configure<KoinGradleExtension> {
-                userLogs.set(true)
+                userLogs.set(true)        // Log component detection and DSL interceptions - default false
+                debugLogs.set(false)      // Internal plugin debug logs (verbose) - default false
             }
 
             // koin-annotations auto-injected by plugin
@@ -68,13 +69,21 @@ class KoinConventionPlugin : Plugin<Project> {
 }
 ```
 
+**Configuration Options:**
+
+| Option | Default | Purpose |
+|--------|---------|---------|
+| `userLogs` | `false` | Log component detection and DSL interceptions |
+| `debugLogs` | `false` | Internal plugin debug logs for troubleshooting |
+| `dslSafetyChecks` | `true` | Validate `create()` is the only instruction in lambda |
+
 ## Dependency Changes
 
 ### libs.versions.toml
 
 ```diff
 - koin-annotations = "2.3.1"
-+ koinCompilerPlugin = "0.2.1"
++ koinCompilerPlugin = "0.3.0"
 
 - koin-annotations = {module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations"}
 - koin-ksp-compiler = {module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-annotations"}
@@ -85,7 +94,7 @@ class KoinConventionPlugin : Plugin<Project> {
 + koin-compiler = { id = "io.insert-koin.compiler.plugin", version.ref = "koinCompilerPlugin" }
 ```
 
-**Key change:** `koin-annotations` version now follows `koin` version (4.2.0-beta3), not a separate version.
+**Key change:** `koin-annotations` version now follows `koin` version (4.2.0-RC1), not a separate version.
 
 ## Code Changes
 
@@ -208,6 +217,20 @@ With `@Configuration` annotation and `startKoin<App>()`:
 - No need to manually wire modules in Application class
 - Cross-module discovery works automatically
 
+### 6. Full Kotlin Multiplatform Support
+
+The compiler plugin supports all Kotlin targets:
+- JVM, JS, WASM
+- iOS, macOS, watchOS, tvOS
+- Linux, Windows
+
+### 7. DSL Transformations
+
+Reified type syntax is transformed at compile time:
+- `single<T>()` → Pre-computed singleton definition
+- `factory<T>()` → Pre-computed factory definition
+- `create(::T)` → Constructor reference with auto-resolved dependencies
+
 ## Migration Effort
 
 | Task | Effort |
@@ -220,15 +243,35 @@ With `@Configuration` annotation and `startKoin<App>()`:
 | Testing | 15 minutes |
 | **Total** | **~1 hour** |
 
+## New Features in 0.3.0
+
+The Koin Compiler Plugin 0.3.0 includes several enhancements:
+
+| Feature | Description |
+|---------|-------------|
+| **Top-level functions** | Definition annotations work on top-level functions |
+| **Type qualifiers** | `@Qualifier(Type::class)` for type-based qualification |
+| **Property defaults** | `@PropertyValue("default")` for property fallbacks |
+| **Configuration DSL** | `koinConfiguration<T>()` and `withConfiguration<T>()` |
+| **DSL safety checks** | Configurable validation of `create()` usage |
+| **ComponentScan globs** | Advanced pattern matching for package scanning |
+
 ## Conclusion
 
-The migration from Koin Annotations (KSP) to Koin Compiler Plugin resulted in:
+The migration from Koin Annotations (KSP) to Koin Compiler Plugin 0.3.0 resulted in:
 
 1. **546 fewer lines of code** across the project
 2. **90% reduction** in per-module build configuration
 3. **Simplified dependency management** - no KSP dependencies
 4. **Cleaner codebase** - no generated files to manage
-5. **Better IDE support** - native Kotlin compiler integration
+5. **Better IDE support** - native Kotlin K2 compiler integration
 6. **Automatic module discovery** - via `@Configuration` and `startKoin<T>()`
+7. **Full KMP support** - JVM, JS, WASM, iOS, macOS, watchOS, tvOS, Linux, Windows
 
-The migration took approximately **1 hour** for a project with 17 modules, demonstrating the straightforward upgrade path from KSP to the compiler plugin.
+The migration took approximately **1 hour** for a project with 17 modules, demonstrating the straightforward upgrade path from KSP to the Koin Compiler Plugin 0.3.0.
+
+## Requirements
+
+- **Kotlin**: 2.3.x+ (K2 compiler)
+- **Koin**: 4.2.0-RC1+
+- **Gradle**: 8.x+
