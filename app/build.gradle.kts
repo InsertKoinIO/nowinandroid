@@ -117,7 +117,7 @@ dependencies {
     implementation(libs.koin.compose.viewmodel)
     implementation(libs.koin.androidx.worker)
     // koin-annotations auto-injected by compiler plugin
-    implementation(libs.kotzilla.sdk)
+//    implementation(libs.kotzilla.sdk)
 
     testImplementation(projects.core.dataTest)
     testImplementation(projects.core.datastoreTest)

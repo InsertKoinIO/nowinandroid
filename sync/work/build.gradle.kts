@@ -28,7 +28,7 @@ android {
 
 dependencies {
     implementation(libs.koin.androidx.worker)
-    implementation(libs.kotzilla.core)
+//    implementation(libs.kotzilla.core)
     // koin-annotations auto-injected by compiler plugin
 
     implementation(libs.androidx.tracing.ktx)

@@ -42,7 +42,6 @@ import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination
 import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination.BOOKMARKS
 import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination.FOR_YOU
 import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination.INTERESTS
-import io.kotzilla.sdk.KotzillaSDK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

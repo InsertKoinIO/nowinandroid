@@ -30,7 +30,7 @@ import javax.inject.Singleton
  */
 @Module
 @Configuration
-object DispatchersKoinModule {
+class DispatchersKoinModule {
 
     @Singleton // formally Provides in Hilt version
     @Dispatcher(IO)

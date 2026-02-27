@@ -21,11 +21,12 @@ import androidx.room.Room
 import com.google.samples.apps.nowinandroid.core.database.NiaDatabase
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
+import org.koin.core.annotation.Singleton
 
 @Module
 internal object DatabaseKoinModule {
 
-    @Single
+    @Singleton
     fun providesNiaDatabase(
         context: Context,
     ): NiaDatabase = Room.databaseBuilder(

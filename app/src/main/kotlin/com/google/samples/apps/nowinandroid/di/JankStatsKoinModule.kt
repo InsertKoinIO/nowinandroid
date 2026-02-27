@@ -20,7 +20,6 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.metrics.performance.JankStats
 import androidx.metrics.performance.JankStats.OnFrameListener
-import io.kotzilla.sdk.KotzillaSDK
 import org.koin.android.annotation.ActivityScope
 import org.koin.core.annotation.Configuration
 import org.koin.core.annotation.Module
