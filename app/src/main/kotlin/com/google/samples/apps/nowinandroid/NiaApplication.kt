@@ -24,15 +24,11 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import com.google.samples.apps.nowinandroid.sync.initializers.Sync
 import com.google.samples.apps.nowinandroid.util.ProfileVerifierLogger
-// Kotzilla analytics disabled - uncomment when Kotzilla is re-enabled
-// import io.kotzilla.sdk.analytics.koin.analytics
-// import io.kotzilla.sdk.config.Environment
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.annotation.KoinApplication
-import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.plugin.module.dsl.startKoin
 
@@ -54,6 +50,9 @@ class NiaApplication : Application(), ImageLoaderFactory {
             androidLogger(Level.DEBUG)
             androidContext(this@NiaApplication)
             workManagerFactory()
+
+            //TODO Activate Kotzilla Monitoring
+//            monitoring()
         }
 
         super.onCreate()

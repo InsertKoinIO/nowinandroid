@@ -1,0 +1,16 @@
+{
+  "keys": [
+    {
+      "appId": "1234",
+      "applicationPackageName": "com.google.samples.apps.nowinandroid.demo.debug",
+      "keyId": "1234",
+      "apiKey": "1234"
+    },
+    {
+      "appId": "1234",
+      "applicationPackageName": "com.google.samples.apps.nowinandroid.demo",
+      "keyId": "1234",
+      "apiKey": "1234"
+    }
+  ]
+}

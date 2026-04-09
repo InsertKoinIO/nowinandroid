@@ -36,7 +36,6 @@ dependencies {
 
     implementation(libs.koin.compose.viewmodel)
     // koin-annotations auto-injected by compiler plugin
-//    implementation(libs.kotzilla.core)
 
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.robolectric)
@@ -47,6 +46,6 @@ dependencies {
     androidTestImplementation(projects.core.testing)
 }
 
-koinCompiler {
-    userLogs = true
-}
+//koinCompiler {
+//    userLogs = true
+//}

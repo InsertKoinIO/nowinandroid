@@ -40,8 +40,8 @@ class KoinConventionPlugin : Plugin<Project> {
 
             // Configure Koin Compiler Plugin logging
             extensions.configure<KoinGradleExtension> {
-                userLogs.set(true)   // Log component detection and DSL interceptions
-                debugLogs.set(true)  // Log detailed information about generated code and processing
+                userLogs.set(false)   // Log component detection and DSL interceptions
+                debugLogs.set(false)  // Log detailed information about generated code and processing
             }
 
             // Add koin-annotations dependency for @Module, @Configuration, @ComponentScan, etc.

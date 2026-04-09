@@ -20,7 +20,7 @@ androidxLifecycle = "2.8.7"
 androidxLintGradle = "1.0.0-alpha03"
 androidxMacroBenchmark = "1.3.4"
 androidxMetrics = "1.0.0-beta01"
-androidxNavigation = "2.8.5"
+androidxNavigation = "2.9.6"
 androidxProfileinstaller = "1.4.1"
 androidxTestCore = "1.7.0-rc01"
 androidxTestExt = "1.3.0-rc01"
@@ -57,9 +57,9 @@ roborazzi = "1.51.0"
 room = "2.8.4"
 truth = "1.4.4"
 turbine = "1.2.0"
-koin = "4.2.0"
-koinCompilerPlugin = "0.4.1"
-#kotzilla = "2.0.6"
+koin = "4.2.1"
+koin-plugin = "1.0.0-RC1"
+kotzilla = "2.1.3"
 
 [bundles]
 androidx-compose-ui-test = ["androidx-compose-ui-test", "androidx-compose-ui-testManifest"]
@@ -160,8 +160,7 @@ koin-compose-viewmodel = {group = "io.insert-koin", name = "koin-compose-viewmod
 koin-annotations = {group = "io.insert-koin", name = "koin-annotations", version.ref = "koin"}
 # Koin Compiler Plugin (replaces KSP-based koin-annotations)
 # Kotzilla
-#kotzilla-sdk = {module = "io.kotzilla:kotzilla-sdk-compose", version.ref = "kotzilla"}
-#kotzilla-core = {module = "io.kotzilla:kotzilla-core", version.ref = "kotzilla"}
+kotzilla-sdk = {module = "io.kotzilla:kotzilla-sdk-compose", version.ref = "kotzilla"}
 
 # Dependencies of the included build-logic
 android-gradleApiPlugin = { group = "com.android.tools.build", name = "gradle-api", version.ref = "androidGradlePlugin" }
@@ -172,7 +171,7 @@ firebase-performance-gradlePlugin = { group = "com.google.firebase", name = "per
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
-koin-compiler-gradlePlugin = { group = "io.insert-koin", name = "koin-compiler-gradle-plugin", version.ref = "koinCompilerPlugin" }
+koin-compiler-gradlePlugin = { group = "io.insert-koin", name = "koin-compiler-gradle-plugin", version.ref = "koin-plugin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -193,8 +192,8 @@ google-osslicenses = { id = "com.google.android.gms.oss-licenses-plugin", versio
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 room = { id = "androidx.room", version.ref = "room" }
-koin-compiler = { id = "io.insert-koin.compiler.plugin", version.ref = "koinCompilerPlugin" }
-#kotzilla = { id  = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
+koin-compiler = { id = "io.insert-koin.compiler.plugin", version.ref = "koin-plugin" }
+kotzilla = { id  = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
 
 # Plugins defined by this project
 nowinandroid-android-application = { id = "nowinandroid.android.application" }

@@ -27,8 +27,6 @@ plugins {
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.kotlin.serialization)
-
-    //TODO Activate Kotzilla - disabled due to Kotlin 2.3.20 compatibility
 //    alias(libs.plugins.kotzilla)
 }
 
@@ -36,7 +34,7 @@ android {
     defaultConfig {
         applicationId = "com.google.samples.apps.nowinandroid"
         versionCode = 8
-        versionName = "2.0.0-RC1-KA2.3-K4.2-beta2" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+        versionName = "1.0-KCP-1.0.0-RC1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         // Custom test runner to set up Hilt dependency graph
         testInstrumentationRunner = "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
@@ -60,6 +58,10 @@ android {
             // Ensure Baseline Profile is fresh for release builds.
             baselineProfile.automaticGenerationDuringBuild = true
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     packaging {
@@ -117,7 +119,7 @@ dependencies {
     implementation(libs.koin.compose.viewmodel)
     implementation(libs.koin.androidx.worker)
     // koin-annotations auto-injected by compiler plugin
-//    implementation(libs.kotzilla.sdk)
+    implementation(libs.kotzilla.sdk)
 
     testImplementation(projects.core.dataTest)
     testImplementation(projects.core.datastoreTest)
@@ -154,15 +156,3 @@ baselineProfile {
 dependencyGuard {
     configuration("prodReleaseRuntimeClasspath")
 }
-
-
-
-//TODO Activate Kotzilla - disabled due to Kotlin 2.3.20 compatibility
-//kotzilla {
-//
-//    site = "https://gateway-staging.kotzilla.io"
-//    projectFile = "kotzilla-staging.json"
-//
-//    // Compose Navigation
-//    composeInstrumentation = true
-//}
