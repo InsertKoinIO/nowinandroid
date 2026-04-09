@@ -3,7 +3,7 @@
 Now in Android App - With Koin Compiler Plugin
 ==================
 
-This is the migrated version of Now in Android app, replacing Dagger Hilt with Koin using the **Koin Compiler Plugin 0.3.0** and **Koin 4.2.0-RC1**.
+This is the migrated version of Now in Android app, replacing Dagger Hilt with Koin using the **Koin Compiler Plugin 1.0.0-RC1** and **Koin 4.2.1**.
 
 Now in Android is Google's official modern Android application sample showcasing best practices. This port demonstrates how to migrate from Hilt using the Koin Compiler Plugin for enterprise-scale applications with automatic module discovery and simplified build configuration.
 
@@ -23,7 +23,7 @@ This makes it an ideal showcase for Koin Compiler Plugin's enterprise-scale feat
 
 ## Koin Compiler Plugin Highlights
 
-The migration from Koin Annotations (KSP) to **Koin Compiler Plugin 0.3.0** provides significant improvements:
+The migration from Koin Annotations (KSP) to **Koin Compiler Plugin 1.0.0-RC1** provides significant improvements:
 
 | Aspect | Before (KSP) | After (Compiler Plugin) |
 |--------|--------------|-------------------------|
@@ -43,7 +43,7 @@ The migration from Koin Annotations (KSP) to **Koin Compiler Plugin 0.3.0** prov
 - **Full KMP support**: JVM, JS, WASM, iOS, macOS, watchOS, tvOS, Linux, Windows
 - **DSL transformations**: Reified type syntax `single<T>()` and constructor reference `create(::T)`
 
-### New in 0.3.0
+### New in 1.0.0-RC1
 
 - Top-level function annotations with `@ComponentScan`
 - Type-based qualifiers with `@Qualifier(Type::class)`
@@ -166,9 +166,9 @@ internal class TimeZoneBroadcastMonitor(
 ) : TimeZoneMonitor
 ```
 
-### Type-Based Qualifiers (New in 0.3.0)
+### Type-Based Qualifiers (New in 1.0.0-RC1)
 
-In addition to JSR-330 `@Named`, Koin 0.3.0 adds `@Qualifier` for type-based qualification:
+In addition to JSR-330 `@Named`, Koin 1.0.0-RC1 adds `@Qualifier` for type-based qualification:
 
 ```kotlin
 // Define using type qualifier
@@ -234,7 +234,7 @@ class DataKoinModule
 
 Scans the entire `core.data` package for components—no manual declarations needed.
 
-### ComponentScan Glob Patterns (New in 0.3.0)
+### ComponentScan Glob Patterns (New in 1.0.0-RC1)
 
 ComponentScan now supports advanced glob patterns:
 
@@ -319,7 +319,7 @@ class NiaApplication : Application(), ImageLoaderFactory {
 
 **Result:** All 8 configuration modules are automatically discovered and loaded—no manual wiring!
 
-### Named Configurations (New in 0.3.0)
+### Named Configurations (New in 1.0.0-RC1)
 
 Modules can belong to multiple named configurations for environment-specific loading:
 
@@ -584,7 +584,7 @@ object CoroutineScopesKoinModule {
 }
 ```
 
-### Top-Level Function Definitions (New in 0.3.0)
+### Top-Level Function Definitions (New in 1.0.0-RC1)
 
 Definition annotations now work on top-level functions, discovered by `@ComponentScan`:
 
@@ -1080,7 +1080,7 @@ All frame jank events are logged to Kotzilla for UI performance analysis.
 - 30 min: Replace module system
 - 30 min: Testing and verification
 
-**Phase 2: KSP to Compiler Plugin 0.3.0 - ~1 hour for 17 modules**
+**Phase 2: KSP to Compiler Plugin 1.0.0-RC1 - ~1 hour for 17 modules**
 
 - 15 min: Create convention plugin
 - 5 min: Update libs.versions.toml
@@ -1190,7 +1190,7 @@ val myModule = module {
 
 ## Conclusion
 
-The Koin Compiler Plugin 0.3.0 successfully migrated Google's Now in Android from Hilt with:
+The Koin Compiler Plugin 1.0.0-RC1 successfully migrated Google's Now in Android from Hilt with:
 
 - **Minimal code changes** - JSR-330 compatibility preserved existing patterns
 - **Improved organization** - Configuration-based modules scaled across 30 Gradle modules
