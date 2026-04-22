@@ -58,7 +58,7 @@ room = "2.8.4"
 truth = "1.4.4"
 turbine = "1.2.0"
 koin = "4.2.1"
-koin-plugin = "1.0.0-RC1"
+koin-plugin = "1.0.0-RC2"
 kotzilla = "2.1.3"
 
 [bundles]
